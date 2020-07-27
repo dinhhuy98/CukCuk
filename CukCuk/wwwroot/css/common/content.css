@@ -1,0 +1,13 @@
+﻿.content{
+    width:calc(100% - 230px);
+    height: calc(100% - 16px);
+    padding: 8px;
+}
+    
+    .content .content-header{
+        height:40px;
+    }
+
+    .content .content-body{
+        height:calc(100% - 40px);
+    }

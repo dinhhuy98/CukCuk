@@ -5,6 +5,13 @@
     <title>Danh mục khách hàng</title>
     <link href="/css/common/main.css" rel="stylesheet" />
     <link href="/css/common/header.css" rel="stylesheet" />
+    <link href="/css/common/container.css" rel="stylesheet" />
+    <link href="/css/common/menu.css" rel="stylesheet" />
+    <link href="/css/common/content.css" rel="stylesheet" />
+    <link href="/css/common/toolbar.css" rel="stylesheet" />
+    <link href="/css/common/button.css" rel="stylesheet" />
+    <link href="/css/common/grid.css" rel="stylesheet" />
+    <link href="/css/common/dialog.css" rel="stylesheet" />
 </head>
 <body>
     <div class="header">
@@ -29,13 +36,164 @@
             </div>
             <div class="menu-account">
                 <div class="avatar"></div>
-                <div></div>
+                <div class="user-menu">Nguyen Dinh Huy</div>
             </div>
         </div>
     </div>
     <div class="container">
-        <div class="menu bg-primary"></div>
-        <div class="content"></div>
+        <div class="menu bg-primary">
+            <div class="menu-item">
+                <div class="menu-item-icon icon-home"></div>
+                <div class="menu-item-text">Tổng quan</div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-item-icon icon-report"></div>
+                <div class="menu-item-text">Báo cáo</div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-item-icon icon-sale"></div>
+                <div class="menu-item-text">Bán hàng</div>
+            </div>
+            <div class="menu-item item-active">
+                <div class="menu-item-icon icon-directory "></div>
+                <div class="menu-item-text">Danh mục</div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-item-icon icon-money"></div>
+                <div class="menu-item-text">Quỹ tiền mặt</div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-item-icon icon-discount"></div>
+                <div class="menu-item-text">Khuyến mại</div>
+            </div>
+        </div>
+        <!--Content-->
+        <div class="content">
+            <div class="content-header">Danh mục > Khách hàng</div>
+            <div class="content-body">
+                <!--Toolbar-->
+                <div class="toolbar">
+                    <button id="btnAdd">
+                        <div class="btn-icon btn-icon-add"></div>
+                        <div class="btn-text">Thêm</div>
+                    </button>
+                    <button id="btnDuplicate">
+                        <div class="btn-icon btn-icon-duplicate"></div>
+                        <div class="btn-text">Nhân bản</div>
+                    </button>
+                    <button id="btnAdd">
+                        <div class="btn-icon btn-icon-edit"></div>
+                        <div class="btn-text">Sửa</div>
+                    </button>
+                    <button id="btnAdd">
+                        <div class="btn-icon btn-icon-delete"></div>
+                        <div class="btn-text">Xóa</div>
+                    </button>
+                    <button id="btnAdd">
+                        <div class="btn-icon btn-icon-refresh"></div>
+                        <div class="btn-text">Nạp</div>
+                    </button>
+                </div>
+                <!--Grid-->
+                <div class="grid">
+                    <table id="tbListCustomer" width="100%" border="1">
+                        <thead>
+                            <tr>
+                                <th width="100px">Mã khách hàng</th>
+                                <th>Tên khách hàng</th>
+                                <th width="100px">Ngày sinh</th>
+                                <th>Số điện thoại</th>
+                                <th>Số tiền nợ</th>
+                                <th width="100px">Là thành viên 5Food</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>KH0001</td>
+                                <td>Nguyễn Đình Huy</td>
+                                <td class="align-center">17/10/1998</td>
+                                <td>8967382648</td>
+                                <td class="align-right">100000</td>
+                                <td class="align-center"><input type="checkbox" checked /></td>
+                            </tr>
+
+                            <tr>
+                                <td>KH0002</td>
+                                <td>Nguyễn Van A</td>
+                                <td class="align-center">17/10/2000</td>
+                                <td>8967566648</td>
+                                <td class="align-right">1000000</td>
+                                <td class="align-center"><input type="checkbox"  /></td>
+                            </tr>
+
+
+                            <tr>
+                                <td>KH0002</td>
+                                <td>Nguyễn Thi C</td>
+                                <td class="align-center">17/10/1996</td>
+                                <td>8967382433</td>
+                                <td class="align-right">500000</td>
+                                <td class="align-center"><input type="checkbox" checked /></td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Form dialog-->
+    <div id="frmDialogDetail" class="form-dialog" style="display:block">
+        <div class="dialog-modal"></div>
+        <div class="dialog">
+            <div class="dialog-titlebar">
+                <div class="title">Khách hàng</div>
+                <div id="btnCloseHeader" class="btn-close">x</div>
+            </div>
+            <div class="dialog-body">
+                <div class="row">
+                    <label>Mã khách hàng</label>
+                    <input type="text" id="txtCustomerCode" />
+                </div>
+                <div class="row">
+                    <label>Tên khách hàng</label>
+                    <input type="text" id="txtCustomerName" />
+                </div>
+                <div class="row">
+                    <label>Ngày sinh</label>
+                    <input type="date" id="dtBirthday" />
+                </div>
+                <div class="row">
+                    <label>Số điện thoại</label>
+                    <input type="text" id="txtMobile" />
+                </div>
+                <div class="row">
+                    <label>Số tiền nợ</label>
+                    <input type="text" id="txtDebitAmount" />
+                </div>
+                <div class="row">
+                    <label>Là thành viên 5Food</label>
+                    <input type="checkbox" id="ckIs5FoodMember" />
+                </div>
+      
+            </div>
+            <div class="dialog-footer">
+                <div class="footer-right">
+                    <button id="btnSave">
+                        <div >dddd</div>
+                        <div >Thêm</div>
+                    </button>
+                    <button id="btnSaveAndAdd"><span class="dialog-footer-icon icon-save-add"></span>Cất & Thêm</button>
+                    <button id="btnClose"><span class="dialog-footer-icon icon-close"></span>Đóng</button>
+                </div>
+                <div class="footer-left">
+                    <button id="btnHelp">Giúp</button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
