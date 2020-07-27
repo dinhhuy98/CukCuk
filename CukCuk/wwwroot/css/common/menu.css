@@ -1,0 +1,63 @@
+﻿.menu {
+    width: 230px;
+    height: 100%;
+    color:white;
+}
+
+    .menu .menu-item{
+        display:flex;
+        width: calc(100% - 18px);
+        height:40px;
+        background-color:#0973b9;
+        align-items:center;
+        padding-left:18px;
+        border-top:1px solid #178ad6;
+        border-bottom:1px solid #03578e;
+        cursor:pointer;
+    }
+
+        .menu .menu-item:hover {
+            background-color: #178ad6
+        }
+
+    .menu .menu-item-icon{
+        width:20px;
+        height:20px;
+        background-image: url('/content/images/iconMenu.png');
+    }
+
+    .menu .menu-item-text{
+        margin-left:10px;
+        line-height:40px;
+    }
+
+    .menu .item-active {
+        background-color: #0199fc;
+    }
+
+    /*Icon position
+    tool get position: spritecow.com
+    */
+    .menu .icon-home{
+        background-position:-5px -5px;
+    }
+
+    .menu .icon-report {
+        background-position: -3px -194px;
+    }
+
+    .menu .icon-sale {
+        background-position: -7px -81px;
+    }
+
+    .menu .icon-directory {
+        background-position: -3px -160px;
+    }
+
+    .menu .icon-money {
+        background-position: -3px -81px;
+    }
+
+    .menu .icon-discount {
+        background-position: -3px -117px;
+    }
