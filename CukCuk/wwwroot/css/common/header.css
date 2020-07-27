@@ -1,0 +1,87 @@
+﻿.header{
+    display:flex;
+    position:relative;
+    width:100%;
+    min-width:1024px;
+    height:55px;
+    background-color:#0973b9 !important;
+}
+    .header .header-left{
+        display:flex;
+        position:relative;
+        height:100%;
+        width:50%;
+        
+    }
+
+    .header .header-right {
+        position: relative;
+        height: 100%;
+        width: 50%;
+        padding-right: 10px;
+        background-color: black;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .header .header-logo{
+        display:flex;
+        width:212px;
+        height:100%;
+        align-items:center;
+        padding-left:18px;
+    }
+        
+        .header .header-logo .icon-left-header{
+            width:20px;
+            height:20px;
+            background-image: url('/content/images/icon-left-header.png');
+        }    
+
+        .header .header-logo .logo{
+            margin-left:10px;
+            width:120px;
+            height:28px;
+            background-image:url('/content/images/logo-text.png');
+            background-repeat:no-repeat;
+            background-position:0px center;
+        }
+
+    .header .select-restaurant{
+       /*  width:50px;*/
+         height:100%;
+         line-height:55px;
+    }
+
+    .header select {
+        height: 30px;
+        width: 200px;
+        border: none;
+        padding-left: 8px;
+        padding-right: 10px;
+        outline: none;
+        color: #ffffff;
+        background-color: #005082;
+        background-image: url(/content/images/button/default-small-arrow.png);
+        background-repeat: no-repeat;
+        background-position: 180px 8px;
+        -webkit-appearance: none;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow:ellipsis;
+    }
+
+    .header .select-language{
+        width:200px;
+        height:100%;
+        line-height:55px;
+        
+    }
+
+    .header .menu-account{
+        width:250px;
+        height:100%;
+        background-color:orange;
+    }
+    
+    

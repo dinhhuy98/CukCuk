@@ -1,0 +1,15 @@
+﻿body {
+    margin:0px;
+    font-size:13px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.bg-primary{
+    background-color:#0973b9;
+}
+.align-center{
+    text-align: center;
+}
+.align-right{
+    text-align:right;
+}
