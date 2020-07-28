@@ -77,19 +77,19 @@
                         <div class="btn-icon btn-icon-add"></div>
                         <div class="btn-text">Thêm</div>
                     </button>
-                    <button id="btnDuplicate">
+                    <button id="btnDuplicate" disabled>
                         <div class="btn-icon btn-icon-duplicate"></div>
                         <div class="btn-text">Nhân bản</div>
                     </button>
-                    <button id="btnAdd">
+                    <button id="btnEdit">
                         <div class="btn-icon btn-icon-edit"></div>
                         <div class="btn-text">Sửa</div>
                     </button>
-                    <button id="btnAdd">
+                    <button id="btnDelete">
                         <div class="btn-icon btn-icon-delete"></div>
                         <div class="btn-text">Xóa</div>
                     </button>
-                    <button id="btnAdd">
+                    <button id="btnRefresh">
                         <div class="btn-icon btn-icon-refresh"></div>
                         <div class="btn-text">Nạp</div>
                     </button>
@@ -109,35 +109,6 @@
                         </thead>
                         <tbody>
 
-                            <tr>
-                                <td>KH0001</td>
-                                <td>Nguyễn Đình Huy</td>
-                                <td class="align-center">17/10/1998</td>
-                                <td>8967382648</td>
-                                <td class="align-right">100000</td>
-                                <td class="align-center"><input type="checkbox" checked /></td>
-                            </tr>
-
-                            <tr>
-                                <td>KH0002</td>
-                                <td>Nguyễn Van A</td>
-                                <td class="align-center">17/10/2000</td>
-                                <td>8967566648</td>
-                                <td class="align-right">1000000</td>
-                                <td class="align-center"><input type="checkbox" /></td>
-                            </tr>
-
-
-                            <tr>
-                                <td>KH0002</td>
-                                <td>Nguyễn Thi C</td>
-                                <td class="align-center">17/10/1996</td>
-                                <td>8967382433</td>
-                                <td class="align-right">500000</td>
-                                <td class="align-center"><input type="checkbox" checked /></td>
-                            </tr>
-
-
                         </tbody>
                     </table>
                 </div>
@@ -146,7 +117,7 @@
     </div>
 
     <!--Form dialog-->
-    <div id="frmDialogDetail" class="form-dialog" style="display:block">
+    <div id="frmDialogDetail" class="form-dialog" style="display:none">
         <div class="dialog-modal"></div>
         <div class="dialog">
             <div class="dialog-titlebar">
@@ -184,7 +155,7 @@
                 <div class="footer-right">
                     <button id="btnSave">
                         <div class="btn-icon btn-icon-save"></div>
-                        <div class="btn-text">Thêm</div>
+                        <div class="btn-text">Cất</div>
                     </button>
                     <button id="btnSaveAndAdd">
                         <div class="btn-icon btn-icon-save-add"></div>
@@ -192,7 +163,7 @@
                     </button>
                     <button id="btnClose">
                         <div class="btn-icon btn-icon-close"></div>
-                        <div class="btn-text">Đóng</div>
+                        <div class="btn-text">Hủy bỏ</div>
                     </button>
                 </div>
                 <div class="footer-left">

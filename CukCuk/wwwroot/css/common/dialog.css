@@ -93,5 +93,9 @@
         display: flex;
         align-items: center;
         outline: none;
-        margin:auto 2px;
+        margin: auto 2px;
+        border-radius: unset;
+        border-color: grey;
+        border-width:1px;
+        padding:4px 12px;
     }
