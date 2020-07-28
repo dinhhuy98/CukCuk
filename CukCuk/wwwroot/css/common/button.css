@@ -19,6 +19,18 @@
     button .btn-icon.btn-icon-refresh {
         background-position: -1px -2586px;
     }
+    button .btn-icon.btn-icon-save {
+        background-position: -1px -768px;
+    }
+    button .btn-icon.btn-icon-save-add {
+        background-position: -1px -737px;
+    }
+    button .btn-icon.btn-icon-close {
+        background-position: 0px -1952px;
+    }
+    button .btn-icon.btn-icon-help {
+        background-position: 0px -1600px;
+    }
 
     button .btn-text{
         margin-left:4px;

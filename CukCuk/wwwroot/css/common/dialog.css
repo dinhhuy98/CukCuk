@@ -86,11 +86,12 @@
     .dialog .dialog-footer .footer-right{
         position:absolute;
         right:8px;
+        display:flex;
     }
 
     .dialog .dialog-footer button {
         display: flex;
         align-items: center;
         outline: none;
-
+        margin:auto 2px;
     }
