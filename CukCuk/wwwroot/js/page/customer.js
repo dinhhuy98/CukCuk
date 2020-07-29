@@ -23,20 +23,33 @@ class CustomerJS {
         try {
             $('table#tbListCustomer tbody').empty();
             //Lay du lieu ve
-            var data = fakeData;
-            //Doc du lieu va ren du lieu tung khach hang voi HTML
-            $.each(data, function (index, item) {
-                var customerInfoHTML = `<tr>
+           
+            $.ajax({
+                url: "/api/v1/customers",
+                method: "GET",
+                data: {},
+                dataType: "json",
+                contentType:"application/json",
+
+            }).done(function (response) {
+                //Doc du lieu va ren du lieu tung khach hang voi HTML
+                $.each(response, function (index, item) {
+                    var customerInfoHTML = `<tr>
                                 <td>`+ item['CustomerCode'] + `</td>
                                 <td>`+ item['CustomerName'] + `</td>
-                                <td class="align-center">`+ commonJS.formatDate(item['Birthday']) + `</td>
-                                <td>`+ item['PhoneNumber'] + `</td>
-                                <td class="align-right">`+ commonJS.formatMoney(item['DebitAmount']) + `</td>
-                                <td class="align-center">`+ commonJS.buildCheckBoxByValue(item['Is5FoodMember']) + `</td>
+                                <td>`+ item['CompanyName'] + `</td>
+                                <td>`+ item['CustomerTaxCode'] + `</td>
+                                <td>`+ item['CustomerAddress'] + `</td>
+                                <td>`+ item['CustomerTel'] + `</td>
+                                <td>`+ item['CustomerEmail'] + `</td>
                             </tr>`;
-                $('table#tbListCustomer tbody').append(customerInfoHTML);
+                    $('table#tbListCustomer tbody').append(customerInfoHTML);
+                })
+                console.log("load data successful");
+            }).fail(function (response) {
+                console.log("error");
             })
-            console.log("load data successful");
+  
         } catch (e) {
             console.log(e);
         }
@@ -56,13 +69,19 @@ class CustomerJS {
         $('#btnDelete').on('click', { formMode: Enum.FormMode.Delete }, this.toolbarItemOnClick.bind(this));
         $('#btnRefresh').on('click', { formMode: Enum.FormMode.Refresh }, this.toolbarItemOnClick.bind(this));
 
+        //gán sự kiện cho các button đóng của form
+        $('#btnClose').click(this.btnCloseOnClick);
+        $('#btnCloseHeader').click(this.btnCloseHeaderOnClick);
+
     }
+
 
     /**
      * Thuc hien gan cac su kien cho cac thanh phan trong toolbar
      * CreatedBy:NDHuy (28/07/2020)
      * */
     toolbarItemOnClick(sender) {
+        console.log(sender);
         try {
             var formMode = sender.data.formMode;
             switch (formMode) {
@@ -121,26 +140,43 @@ class CustomerJS {
      * */
     saveData(sender) {
         //lay du lieu duoc nhap tu cac input
-        var customerCode = $('#txtCustomerCode').val(),
-            customerName = $('#txtCustomerName').val(),
-            birthday = $('#dtBirthday').val(),
-            mobile = $('#txtMobile').val(),
-            debitAmount = $('#txtDebitAmount').val(),
-            is5Food = $('#ckIs5FoodMember').is(":checked");
-        //tu cac du lieu lay duoc, build thanh object khach hang
         var customer = {
-            CustomerCode: customerCode,
-            CustomerName: customerName,
-            Birthday: new Date(birthday),
-            PhoneNumber: mobile,
-            DebitAmount: debitAmount,
-            Is5FoodMember: is5Food
+            "CustomerCode": $('#txtCustomerCode').val(),
+            "CustomerName": $('#txtCustomerName').val(),
+            "MemberCardNo": $('#txtMemberCardNo').val(),
+            "CustomerGroup": $('#txtCustomerGroup').val(),
+            "CustomerTel": $('#txtCustomerTel').val(),
+            "Birthday": $('#dtBirthday').val(),
+            "CompanyName": $('#txtCompanyName').val(),
+            "CustomerTaxCode": $('#txtCustomerTaxCode').val(),
+            "CustomerEmail": $('#txtCustomerEmail').val(),
+            "CustomerAddress": $('#txtCustomerAddress').val(),
+            "Note": $('#txtNote').val(),
+            "Is5FoodMember": $('#ckIs5FoodMember').attr("checked") ? true : false
         };
+
+        var json = JSON.stringify(customer);
+        
         //kiem tra kieu form
         if (sender.data.formMode == Enum.FormMode.Add || sender.data.formMode == Enum.FormMode.SaveAndAdd) {
-            fakeData.push(customer);
-            //hien thi thong bao thanhcong/thatbai
-            alert("Cất thanh cong");
+            //gọi ajax gửi dữ liệu lên server
+            try {
+                $.ajax({
+                    url: "/api/v1/customers",
+                    method: "POST",
+                    data: json,
+                    dataType: "text",
+                    contentType: "application/json; charset=utf-8",
+                }).done(function (response) {
+                    //hien thi thong bao thanhcong/thatbai
+                    alert("Cất thanh cong");
+                }).fail(function (response) {
+                    console.log(response);
+                });
+            } catch (e) {
+                console.log(e);
+            }
+            
             if (sender.data.formMode == Enum.FormMode.SaveAndAdd) {
                 this.resetFormDialog();
             }
@@ -225,9 +261,7 @@ class CustomerJS {
      * CreatedBy:NDHuy (28/07/2020)
      * */
     setButtonEventDialog(formMode) {
-        $('#btnClose').click(this.btnCloseOnClick);
-        $('#btnCloseHeader').click(this.btnCloseHeaderOnClick);
-
+     
         //xoa su kien khoi button btnSaveAndAdd
         $('#btnSaveAndAdd').unbind();
         $('#btnSave').unbind();

@@ -101,10 +101,11 @@
                             <tr>
                                 <th width="100px">Mã khách hàng</th>
                                 <th>Tên khách hàng</th>
-                                <th width="100px">Ngày sinh</th>
+                                <th>Tên công ty</th>
+                                <th>Mã số thuế</th>
+                                <th>Địa chỉ</th>
                                 <th>Số điện thoại</th>
-                                <th>Số tiền nợ</th>
-                                <th width="100px">Là thành viên 5Food</th>
+                                <th>Email</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -126,24 +127,67 @@
             </div>
             <div class="dialog-body">
                 <div class="row">
-                    <label>Mã khách hàng</label>
-                    <input type="text" id="txtCustomerCode" />
+                    <div class="w-50">
+                        <label>Mã khách hàng</label>
+                        <input type="text" id="txtCustomerCode" />
+                    </div>
+                    <div class="w-50">
+                        <label>Tên khách hàng</label>
+                        <input type="text" id="txtCustomerName" />
+                    </div>
                 </div>
                 <div class="row">
-                    <label>Tên khách hàng</label>
-                    <input type="text" id="txtCustomerName" />
+                    <div class="w-50">
+                        <label>Mã thẻ thành viên</label>
+                        <input type="text" id="txtMemberCardNo" />
+                    </div>
                 </div>
                 <div class="row">
-                    <label>Ngày sinh</label>
-                    <input type="date" id="dtBirthday" />
+                    <div class="w-50">
+                        <label>Nhóm khách hàng</label>
+                        <input type="text" id="txtCustomerGroup" />
+                    </div>
                 </div>
                 <div class="row">
-                    <label>Số điện thoại</label>
-                    <input type="text" id="txtMobile" />
+                    <div class="w-50">
+                        <label>DT di động</label>
+                        <input type="text" id="txtCustomerTel" />
+                    </div>
                 </div>
                 <div class="row">
-                    <label>Số tiền nợ</label>
-                    <input type="text" id="txtDebitAmount" />
+                    <div class="w-50">
+                        <label>Ngày sinh</label>
+                        <input type="date" id="dtBirthday" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="w-100">
+                        <label>Tên công ty</label>
+                        <input type="text" id="txtCompanyName" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="w-50">
+                        <label>Mã số thuế</label>
+                        <input type="text" id="txtCustomerTaxCode" />
+                    </div>
+                    <div class="w-50">
+                        <label>Email</label>
+                        <input type="text" id="txtCustomerEmail" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="w-100">
+                        <label>Địa chỉ</label>
+                        <input type="text" id="txtCustomerAddress" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="w-100">
+                        <label>Ghi chú</label>
+                        <textarea id="txtNote" name="note" rows="2" cols="6"></textarea>
+                    </div>
                 </div>
                 <div class="row">
                     <label>Là thành viên 5Food</label>

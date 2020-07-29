@@ -14,7 +14,7 @@
 
 .dialog{
     position:fixed;
-    width:600px;
+    width:700px;
     height:400px;
     background-color:#ffffff;
     top:calc(50% - 200px);
@@ -53,17 +53,42 @@
         }
 
     .dialog .dialog-body{
-        width: 100%;
         padding: 8px;
     }
 
-.dialog-body label{
-    display:inline-block;
-    width:150px;
-}
 
 .dialog-body .row{
     margin: 4px;
+    display:flex;
+}
+
+    .dialog-body .row div {
+        display: flex;
+    }
+
+    .dialog-body .row label {
+        width: 130px;
+    }
+
+
+.dialog-body input[type="text"],textarea {
+    border-radius: unset;
+    border: 1px solid #ccc;
+    padding: 4px;
+    outline: none;
+}
+
+    .dialog-body .w-50 input[type="text"] {
+        width:190px;
+     
+    }
+
+    .dialog-body .w-100 input[type="text"],textarea {
+        width: 528px;
+    }
+
+.dialog-body input[type="text"]:focus, textarea:focus {
+    border: 1px solid #0072bc;
 }
 
 .dialog .dialog-footer{
@@ -99,3 +124,11 @@
         border-width:1px;
         padding:4px 12px;
     }
+
+.w-50{
+    width:50%;
+}
+
+.w-100 {
+    width: 100%;
+}
