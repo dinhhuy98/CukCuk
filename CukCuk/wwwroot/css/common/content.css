@@ -6,8 +6,20 @@
     
     .content .content-header{
         height:40px;
+        display:flex;
+        align-items:center;
     }
 
     .content .content-body{
         height:calc(100% - 40px);
+    }
+
+    .content .title-page-parent{
+        font-size:28px;
+        font-weight:bold;
+    }
+
+    .content .title-page-child {
+        font-size: 20px;
+        font-weight: bold;
     }

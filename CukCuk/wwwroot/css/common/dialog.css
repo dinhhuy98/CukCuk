@@ -58,12 +58,13 @@
 
 
 .dialog-body .row{
-    margin: 4px;
     display:flex;
+    margin-bottom:4px;
 }
 
     .dialog-body .row div {
         display: flex;
+      
     }
 
     .dialog-body .row label {
@@ -71,21 +72,21 @@
     }
 
 
-.dialog-body input[type="text"],textarea {
+.dialog-body input[type="text"], textarea, input[type="date"] {
     border-radius: unset;
     border: 1px solid #ccc;
     padding: 4px;
     outline: none;
 }
 
-    .dialog-body .w-50 input[type="text"] {
+    .dialog-body .w-50 input[type="text"],input[type="date"] {
         width:190px;
      
     }
 
-    .dialog-body .w-100 input[type="text"],textarea {
-        width: 528px;
-    }
+.dialog-body .w-100 input[type="text"], textarea {
+    width: 542px;
+}
 
 .dialog-body input[type="text"]:focus, textarea:focus {
     border: 1px solid #0072bc;
@@ -93,40 +94,44 @@
 
 .dialog .dialog-footer{
     display:flex;
+    justify-content:space-between;
     padding: 8px;
     position:absolute;
     bottom:0;
     left:0;
     right:0;
-    height:20px;
-    border: 1px solid #ccc;
-    background-color: aqua;
+    height:auto;
+    background-color: white;
 }
 
     .dialog .dialog-footer .footer-left{
-        position:absolute;
-        left:8px;
+        /*position:absolute;
+        left:8px;*/
     }
 
     .dialog .dialog-footer .footer-right{
-        position:absolute;
-        right:8px;
+       
         display:flex;
     }
 
     .dialog .dialog-footer button {
         display: flex;
         align-items: center;
+        background-color: white;
+        border: 1px solid #ccc;
         outline: none;
-        margin: auto 2px;
         border-radius: unset;
-        border-color: grey;
-        border-width:1px;
-        padding:4px 12px;
+        padding: 4px 12px;
     }
 
-.w-50{
-    width:50%;
+        .dialog .dialog-footer button:hover {
+            background-color: #0072bc;
+            color:white;
+            cursor:pointer;
+        }
+
+.w-50 {
+    width: 50%;
 }
 
 .w-100 {

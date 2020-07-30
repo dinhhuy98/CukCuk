@@ -69,7 +69,10 @@
         </div>
         <!--Content-->
         <div class="content">
-            <div class="content-header">Danh mục > Khách hàng</div>
+            <div class="content-header">
+                <div class="title-page-parent">Danh mục </div>
+                <div class="title-page-child">Khách hàng</div>
+            </div>
             <div class="content-body">
                 <!--Toolbar-->
                 <div class="toolbar">
@@ -106,6 +109,7 @@
                                 <th>Địa chỉ</th>
                                 <th>Số điện thoại</th>
                                 <th>Email</th>
+                                <th>Ngày sinh</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -126,36 +130,36 @@
                 <div id="btnCloseHeader" class="btn-close">x</div>
             </div>
             <div class="dialog-body">
-                <div class="row">
-                    <div class="w-50">
-                        <label>Mã khách hàng</label>
+                <div class="row ">
+                    <div class="w-50 pr-20p">
+                        <label>Mã khách hàng&nbsp;<span class="m-required">(*)</span></label>
                         <input type="text" id="txtCustomerCode" />
                     </div>
                     <div class="w-50">
-                        <label>Tên khách hàng</label>
+                        <label>Tên khách hàng&nbsp;<span class="m-required">(*)</span></label>
                         <input type="text" id="txtCustomerName" />
                     </div>
                 </div>
-                <div class="row">
-                    <div class="w-50">
+                <div class="row ">
+                    <div class="w-50 pr-20p">
                         <label>Mã thẻ thành viên</label>
                         <input type="text" id="txtMemberCardNo" />
                     </div>
                 </div>
-                <div class="row">
-                    <div class="w-50">
+                <div class="row ">
+                    <div class="w-50 pr-20p">
                         <label>Nhóm khách hàng</label>
                         <input type="text" id="txtCustomerGroup" />
                     </div>
                 </div>
-                <div class="row">
-                    <div class="w-50">
-                        <label>DT di động</label>
+                <div class="row ">
+                    <div class="w-50 pr-20p">
+                        <label>DT di động&nbsp;<span class="m-required">(*)</span></label>
                         <input type="text" id="txtCustomerTel" />
                     </div>
                 </div>
-                <div class="row">
-                    <div class="w-50">
+                <div class="row ">
+                    <div class="w-50 pr-20p">
                         <label>Ngày sinh</label>
                         <input type="date" id="dtBirthday" />
                     </div>
@@ -167,8 +171,8 @@
                         <input type="text" id="txtCompanyName" />
                     </div>
                 </div>
-                <div class="row">
-                    <div class="w-50">
+                <div class="row ">
+                    <div class="w-50 pr-20p">
                         <label>Mã số thuế</label>
                         <input type="text" id="txtCustomerTaxCode" />
                     </div>
@@ -196,12 +200,18 @@
 
             </div>
             <div class="dialog-footer">
+                <div class="footer-left">
+                    <button id="btnHelp">
+                        <div class="btn-icon btn-icon-help"></div>
+                        <div class="btn-text">Giúp</div>
+                    </button>
+                </div>
                 <div class="footer-right">
-                    <button id="btnSave">
+                    <button id="btnSave" class="mr-8p">
                         <div class="btn-icon btn-icon-save"></div>
                         <div class="btn-text">Cất</div>
                     </button>
-                    <button id="btnSaveAndAdd">
+                    <button id="btnSaveAndAdd" class="mr-8p">
                         <div class="btn-icon btn-icon-save-add"></div>
                         <div class="btn-text">Cất & Thêm</div>
                     </button>
@@ -210,12 +220,7 @@
                         <div class="btn-text">Hủy bỏ</div>
                     </button>
                 </div>
-                <div class="footer-left">
-                    <button id="btnHelp">
-                        <div class="btn-icon btn-icon-help"></div>
-                        <div class="btn-text">Giúp</div>
-                    </button>
-                </div>
+
             </div>
         </div>
     </div>

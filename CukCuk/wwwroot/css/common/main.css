@@ -13,3 +13,15 @@
 .align-right{
     text-align:right;
 }
+
+.m-required{
+    color:red;
+}
+
+.mr-8p{
+    margin-right:8px;
+}
+
+.pr-20p{
+    padding-right:20px;
+}

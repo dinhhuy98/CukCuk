@@ -42,8 +42,16 @@ class CustomerJS {
                                 <td>`+ item['CustomerAddress'] + `</td>
                                 <td>`+ item['CustomerTel'] + `</td>
                                 <td>`+ item['CustomerEmail'] + `</td>
+                                <td>`+ item['Birthday'] + `</td>
                             </tr>`;
-                    $('table#tbListCustomer tbody').append(customerInfoHTML);
+
+                    //tạo đối tương tr tương ứng với chuỗi customerInfoHTML
+                    var jQueryObject = $('<tr></tr>').html(customerInfoHTML).children();
+                    //thêm data cho tr
+                    jQueryObject.data("CustomerID", item['CustomerID']);
+                    $('table#tbListCustomer tbody').append(jQueryObject);
+                    //debugger;
+                    //console.log(item);
                 })
                 console.log("load data successful");
             }).fail(function (response) {
@@ -81,7 +89,7 @@ class CustomerJS {
      * CreatedBy:NDHuy (28/07/2020)
      * */
     toolbarItemOnClick(sender) {
-        console.log(sender);
+        
         try {
             var formMode = sender.data.formMode;
             switch (formMode) {
@@ -89,12 +97,13 @@ class CustomerJS {
                     this.showAddCustomerForm();
                     break;
                 case Enum.FormMode.Edit:
-                    var index = this.getIndexOfRowSelected();
-                    this.showEditCustomerForm(index);
+                    //goi ajax lấy khách hàng đang được chọn
+                    var customer = this.getCustomerSelected();
+                    this.showEditCustomerForm(customer);
                     break;
                 case Enum.FormMode.Delete:
-                    var index = this.getIndexOfRowSelected();
-                    this.deleteCustomer(index);
+                    var customer = this.getCustomerSelected();
+                    this.deleteCustomer(customer);
                     break;
                 case Enum.FormMode.Refresh:
                     this.refreshTable();
@@ -152,24 +161,28 @@ class CustomerJS {
             "CustomerEmail": $('#txtCustomerEmail').val(),
             "CustomerAddress": $('#txtCustomerAddress').val(),
             "Note": $('#txtNote').val(),
-            "Is5FoodMember": $('#ckIs5FoodMember').attr("checked") ? true : false
+            "Is5FoodMember": $('#ckIs5FoodMember').prop("checked") ? true : false
         };
 
         var json = JSON.stringify(customer);
-        
+        //debugger;
         //kiem tra kieu form
+        var me = this;
         if (sender.data.formMode == Enum.FormMode.Add || sender.data.formMode == Enum.FormMode.SaveAndAdd) {
             //gọi ajax gửi dữ liệu lên server
+            
             try {
                 $.ajax({
                     url: "/api/v1/customers",
                     method: "POST",
+                   
                     data: json,
                     dataType: "text",
                     contentType: "application/json; charset=utf-8",
                 }).done(function (response) {
                     //hien thi thong bao thanhcong/thatbai
                     alert("Cất thanh cong");
+                    me.loadData();
                 }).fail(function (response) {
                     console.log(response);
                 });
@@ -184,15 +197,31 @@ class CustomerJS {
                 $('#frmDialogDetail').hide();
         }
         else if (sender.data.formMode == Enum.FormMode.Edit) {
-            var index = this.getIndexOfRowSelected();
-            fakeData[index] = customer;
-            //hien thi thong bao thanhcong/thatbai
-            alert("Cập nhật thành công");
-            $('#frmDialogDetail').hide();
+            try {
+                $.ajax({
+                    url: "/api/v1/customers/" + sender.data.customerID,
+                    method: "PUT",
+
+                    data: json,
+                    dataType: "text",
+                    contentType: "application/json; charset=utf-8",
+                }).done(function (response) {
+                    //hien thi thong bao thanhcong/thatbai
+                    alert("Cập nhật thành công");
+                    me.loadData();
+                    $('#frmDialogDetail').hide();
+                    
+                }).fail(function (response) {
+                    console.log(response);
+                });
+            } catch (e) {
+                console.log(e);
+            }
+            
         }
 
         //load lai du lieu
-        this.loadData();
+        //this.loadData();
     }
 
     /**
@@ -209,33 +238,53 @@ class CustomerJS {
      * CreatedBy: NDHuy (28/07/2020)
      * @param {any} data
      */
-    showEditCustomerForm(index) {
-        //Lay ra khach hang duoc chon
-        var customer = fakeData[index];
-
+    showEditCustomerForm(customer) {
         //Do du lieu ra form
-        $('#txtCustomerCode').val(customer.CustomerCode);
-        $('#txtCustomerName').val(customer.CustomerName);
-        $('#dtBirthday').val(commonJS.formatDate(customer.Birthday));
-        $('#txtMobile').val(customer.PhoneNumber);
-        $('#txtDebitAmount').val(customer.DebitAmount);
-        $('#ckIs5FoodMember').removeAttr("checked");
-        if (customer.Is5FoodMember)
-            $('#ckIs5FoodMember').attr("checked", true);
+        $('#txtCustomerCode').val(customer['CustomerCode']),
+            $('#txtCustomerName').val(customer['CustomerName']),
+            $('#txtMemberCardNo').val(customer['MemberCardNo']),
+            $('#txtCustomerGroup').val(customer['CustomerGroup']),
+            $('#txtCustomerTel').val(customer['CustomerTel']),
+            $('#dtBirthday').val(commonJS.formatDate(new Date(customer['Birthday']))),
+            $('#txtCompanyName').val(customer['CompanyName']),
+            $('#txtCustomerTaxCode').val(customer['CustomerTaxCode']),
+            $('#txtCustomerEmail').val(customer['CustomerEmail']),
+            $('#txtCustomerAddress').val(customer['CustomerAddress']),
+            $('#txtNote').val(customer['Note']);
+        if (customer["Is5FoodMember"])
+             $('#ckIs5FoodMember').prop("checked", true);
+        else
+             $('#ckIs5FoodMember').prop("checked", false);
 
         //hien form
-        this.setButtonEventDialog(Enum.FormMode.Edit);
+        this.setButtonEventDialog(Enum.FormMode.Edit, customer['CustomerID']);
         $("#frmDialogDetail").show();
     }
 
     /**
      * Xoa khach hang khoi database
      * CreatedBy:NDHuy (28/07/2020)*/
-    deleteCustomer(index) {
+    deleteCustomer(customer) {
         var confirmDelete = confirm("Bạn chắc chắn muốn xóa?");
+        var me = this;
         if (confirmDelete) {
-            fakeData.splice(index, 1);
-            this.loadData();
+            try {
+                $.ajax({
+                    url: "/api/v1/customers/" + customer.CustomerID,
+                    method: "DELETE",
+                    data: {},
+                    dataType: "text",
+                    contentType: "application/json; charset=utf-8",
+                }).done(function (response) {
+                    //hien thi thong bao thanhcong/thatbai
+                    alert("Xóa thành công");
+                    me.loadData();
+                }).fail(function (response) {
+                    console.log(response);
+                });
+            } catch (e) {
+                console.log(e);
+            }
         }
     }
 
@@ -260,7 +309,7 @@ class CustomerJS {
      * @param {number} formMode
      * CreatedBy:NDHuy (28/07/2020)
      * */
-    setButtonEventDialog(formMode) {
+    setButtonEventDialog(formMode, CustomerID) {
      
         //xoa su kien khoi button btnSaveAndAdd
         $('#btnSaveAndAdd').unbind();
@@ -277,7 +326,7 @@ class CustomerJS {
             case Enum.FormMode.Edit:
                 $('#btnSave .btn-text').html("Cập nhật")
                 $('#btnSaveAndAdd').hide()
-                $('#btnSave').on('click', { formMode: Enum.FormMode.Edit }, this.saveData.bind(this));
+                $('#btnSave').on('click', { formMode: Enum.FormMode.Edit, customerID: CustomerID }, this.saveData.bind(this));
                 break;
             default:
         }
@@ -288,15 +337,37 @@ class CustomerJS {
      * CreatedBy: NDHuy (28/07/2020)
      * */
     resetFormDialog() {
-        $('#txtCustomerCode').val("");
-        $('#txtCustomerName').val("");
-        $('#dtBirthday').val("");
-        $('#txtMobile').val("");
-        $('#txtDebitAmount').val("");
-        $('#ckIs5FoodMember').removeAttr("checked");
+        $('#frmDialogDetail input').val("");
+        $('#frmDialogDetail textarea').val("");
+        $('#frmDialogDetail input[type="checkbox"]').prop("checked", false);
     }
 
+    /**
+     * Lấy khách hàng đang được chọn trong table
+     * CreatedBy:NDHuy (28/07/2020)
+     * */
+    getCustomerSelected() {
+        var customerID = $('table#tbListCustomer tbody tr.row-selected').data()['CustomerID'];
+        var customer = null;
+        try {
+            $.ajax({
+                url: "/api/v1/customers/" + customerID,
+                method: "GET",
+                async: false,
+                data: {},
+                dataType: "json",
+                contentType: "application/json",
 
+            }).done(function (response) {
+                customer = response;
+            }).fail(function (response) {
+                console.log("error");
+            })
+        } catch (e) {
+            console.log("error");
+        }
+        return customer;
+    }
 
 }
 
