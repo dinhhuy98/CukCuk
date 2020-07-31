@@ -35,3 +35,9 @@
     button .btn-text{
         margin-left:4px;
     }
+
+    .btn-view-email {
+        width: 16px;
+        height: 16px;
+        background-image: url('/content/images/viewEmail.png');
+    }

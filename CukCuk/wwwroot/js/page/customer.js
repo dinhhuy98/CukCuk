@@ -41,8 +41,8 @@ class CustomerJS {
                                 <td>`+ item['CustomerTaxCode'] + `</td>
                                 <td>`+ item['CustomerAddress'] + `</td>
                                 <td>`+ item['CustomerTel'] + `</td>
-                                <td>`+ item['CustomerEmail'] + `</td>
-                                <td>`+ item['Birthday'] + `</td>
+                                <td>`+ item['CustomerEmail']+ `</td>
+                                <td>`+ commonJS.formatDate(new Date(item['Birthday'])) + `</td>
                             </tr>`;
 
                     //tạo đối tương tr tương ứng với chuỗi customerInfoHTML

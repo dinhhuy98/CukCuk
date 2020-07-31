@@ -34,6 +34,9 @@
                     <option value="value">Tiếng Anh</option>
                 </select>
             </div>
+            <div class="ic-support mr-8p">
+                
+            </div>
             <div class="menu-account">
                 <div class="avatar"></div>
                 <div class="user-menu">Nguyen Dinh Huy</div>
@@ -70,8 +73,20 @@
         <!--Content-->
         <div class="content">
             <div class="content-header">
-                <div class="title-page-parent">Danh mục </div>
-                <div class="title-page-child">Khách hàng</div>
+                <div class="content-header-left">
+                    <div class="title-page-parent pb-6p mr-8p">Danh mục </div>
+                    <div class="flex-align-center mr-8p"><span style="color:#0973b9">&#10148;</span></div>
+                    <div class="title-page-child">Khách hàng</div>
+                </div>
+                <div class="content-header-right">
+                    <button id="btnReturnDefaultSetting" class="mr-8p">
+                        <div class="btn-text">Quay lại thiết lập ban đầu</div>
+                    </button>
+                    <button id="btnViewEmail">
+                        <div class="btn-view-email"></div>
+                        <div class="btn-text">Phản hồi</div>
+                    </button>
+                </div>
             </div>
             <div class="content-body">
                 <!--Toolbar-->
@@ -131,73 +146,74 @@
             </div>
             <div class="dialog-body">
                 <div class="row ">
-                    <div class="w-50 pr-20p">
+                    <div class="w-50 pr-20p flex-align-center">
                         <label>Mã khách hàng&nbsp;<span class="m-required">(*)</span></label>
                         <input type="text" id="txtCustomerCode" />
                     </div>
-                    <div class="w-50">
+                    <div class="w-50 flex-align-center">
                         <label>Tên khách hàng&nbsp;<span class="m-required">(*)</span></label>
                         <input type="text" id="txtCustomerName" />
                     </div>
                 </div>
                 <div class="row ">
-                    <div class="w-50 pr-20p">
+                    <div class="w-50 pr-20p flex-align-center">
                         <label>Mã thẻ thành viên</label>
                         <input type="text" id="txtMemberCardNo" />
                     </div>
+                    <div class="w-50 flex-align-center">
+                        <label>Là thành viên 5Food</label>
+                        <input type="checkbox" id="ckIs5FoodMember" class="m-0p"/>
+                    </div>
                 </div>
                 <div class="row ">
-                    <div class="w-50 pr-20p">
+                    <div class="w-50 pr-20p flex-align-center">
                         <label>Nhóm khách hàng</label>
                         <input type="text" id="txtCustomerGroup" />
                     </div>
                 </div>
                 <div class="row ">
-                    <div class="w-50 pr-20p">
+                    <div class="w-50 pr-20p flex-align-center">
                         <label>DT di động&nbsp;<span class="m-required">(*)</span></label>
                         <input type="text" id="txtCustomerTel" />
                     </div>
                 </div>
                 <div class="row ">
-                    <div class="w-50 pr-20p">
+                    <div class="w-50 pr-20p flex-align-center">
                         <label>Ngày sinh</label>
                         <input type="date" id="dtBirthday" />
                     </div>
+                    
                 </div>
 
                 <div class="row">
-                    <div class="w-100">
+                    <div class="w-100 flex-align-center">
                         <label>Tên công ty</label>
                         <input type="text" id="txtCompanyName" />
                     </div>
                 </div>
                 <div class="row ">
-                    <div class="w-50 pr-20p">
+                    <div class="w-50 pr-20p flex-align-center">
                         <label>Mã số thuế</label>
                         <input type="text" id="txtCustomerTaxCode" />
                     </div>
-                    <div class="w-50">
+                    <div class="w-50 flex-align-center">
                         <label>Email</label>
                         <input type="text" id="txtCustomerEmail" />
                     </div>
                 </div>
-                <div class="row">
-                    <div class="w-100">
+                <div class="row ">
+                    <div class="w-100 flex-align-center">
                         <label>Địa chỉ</label>
                         <input type="text" id="txtCustomerAddress" />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="w-100">
+                    <div class="w-100 flex-align-center">
                         <label>Ghi chú</label>
                         <textarea id="txtNote" name="note" rows="2" cols="6"></textarea>
                     </div>
                 </div>
-                <div class="row">
-                    <label>Là thành viên 5Food</label>
-                    <input type="checkbox" id="ckIs5FoodMember" />
-                </div>
-
+                
             </div>
             <div class="dialog-footer">
                 <div class="footer-left">
