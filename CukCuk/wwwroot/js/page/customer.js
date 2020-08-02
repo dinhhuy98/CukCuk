@@ -21,7 +21,9 @@ class CustomerJS {
      * */
     initEvent() {
         $('#btnClose').click(this.btnCloseOnClick);
+        debugger
         $('#btnCloseHeader').click(this.btnCloseHeaderOnClick);
+        debugger
         $('#btnSave').click(function () {
             alert('kkkk');
         });
