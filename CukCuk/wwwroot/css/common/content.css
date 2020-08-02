@@ -6,8 +6,60 @@
     
     .content .content-header{
         height:40px;
+        display:flex;
+        margin-bottom:8px;
+        justify-content:space-between;
+        align-items:center;
     }
 
+        .content .content-header .content-header-left{
+            display:flex;
+
+        }
+
+        .content .content-header .content-header-right {
+            display: flex;
+            height:70%;
+        }
+
     .content .content-body{
-        height:calc(100% - 40px);
+        height:calc(100% - 48px);
     }
+
+    .content .title-page-parent{
+        font-size:24px;
+      
+    }
+
+    .content .title-page-child {
+        font-size: 18px;
+        color: #0973b9;
+    }
+
+    .content-header-left .title-page-child{
+        display:flex;
+        align-items:center;
+    }
+
+    .content-header button {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        border: 1px solid #ccc;
+        outline: none;
+        border-radius: unset;
+        padding: 4px 12px;
+    }
+
+        .content-header button:hover {
+            background-color: #178ad6;
+            color: white;
+            cursor: pointer;
+        }
+
+        .content-header-left .icon-left-header {
+            width: 20px;
+            height: 20px;
+            background-image: url('/content/images/icon-left-header.png');
+            color:blue;
+        }

@@ -75,7 +75,7 @@
         width:200px;
         height:100%;
         line-height:55px;
-        margin-right:30px;
+      
     }
 
     .header .menu-account {
@@ -102,5 +102,12 @@
             color:white;
             font-weight:bold;
         }
-    
+
+    .header .ic-support {
+        background: url('/content/images/ic_support.svg') no-repeat -50px 0;
+        width: 55px;
+        height: 55px;
+        background-position: center center;
+        background-size: 100% 100%;
+    } 
     
