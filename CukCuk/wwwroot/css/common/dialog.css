@@ -80,17 +80,18 @@
 }
 
     .dialog-body .w-50 input[type="text"],input[type="date"] {
-        width:190px;
+        width:192px;
      
     }
 
 .dialog-body .w-100 input[type="text"], textarea {
-    width: 542px;
+    width: 544px;
 }
 
-.dialog-body input[type="text"]:focus, textarea:focus {
-    border: 1px solid #0072bc;
-}
+    .dialog-body input[type="text"]:focus, textarea:focus {
+        border: 1px solid #0072bc;
+        /*border: 1px solid red;*/
+    }
 
 .dialog .dialog-footer{
     display:flex;

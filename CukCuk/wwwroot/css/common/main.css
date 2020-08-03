@@ -7,6 +7,15 @@
 .bg-primary{
     background-color:#0973b9;
 }
+
+.bg-white{
+    background-color:white;
+}
+
+.bg-ghostwhite {
+    background-color:ghostwhite;
+}
+
 .align-center{
     text-align: center;
 }
@@ -37,4 +46,8 @@
 .flex-align-center{
     display:flex;
     align-items:center;
+}
+
+.input-invalid {
+    border: 1px solid red !important;
 }
