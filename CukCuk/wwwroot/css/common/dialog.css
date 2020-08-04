@@ -71,6 +71,21 @@
         width: 130px;
     }
 
+    .dialog-body .input-file {
+        padding: 4px 12px;
+        width: 80px !important;
+        border: 1px solid #ccc;
+        background-color: white;
+        display: flex;
+        align-items:center;
+        cursor: pointer;
+    }
+
+        .dialog-body .input-file:hover {
+            color:white;
+            background-color: #0072bc;
+        }
+
 
 .dialog-body input[type="text"], textarea, input[type="date"] {
     border-radius: unset;
@@ -115,21 +130,11 @@
         display:flex;
     }
 
-    .dialog .dialog-footer button {
-        display: flex;
-        align-items: center;
-        background-color: white;
-        border: 1px solid #ccc;
-        outline: none;
-        border-radius: unset;
-        padding: 4px 12px;
-    }
+.dialog .img-thumbnail{
+    width:100px;
+    height:100px;
+}
 
-        .dialog .dialog-footer button:hover {
-            background-color: #178ad6;
-            color: white;
-            cursor: pointer;
-        }
 
 .w-50 {
     width: 50%;

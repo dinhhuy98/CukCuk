@@ -1,7 +1,9 @@
 ﻿$(document).ready(function () {
     //load dữ liệu
     customerJS = new CustomerJS();
+
 })
+
 
 /**
  * Object JS quản lý các sự kiện cho trang danh mục khách hàng
@@ -12,6 +14,8 @@ class CustomerJS {
             this.initEvent();
             this.loadData();
             this.formValidateEvent();
+         
+
         } catch (e) {
             console.log(e);
         }
@@ -83,6 +87,8 @@ class CustomerJS {
         //Gán sự kiện cho các button đóng của form
         $('#btnClose').click(this.btnCloseOnClick);
         $('#btnCloseHeader').click(this.btnCloseHeaderOnClick);
+
+        $("#fileImage").on('change',this.showImageFromInput);
 
     }
 
@@ -362,6 +368,8 @@ class CustomerJS {
         $('#frmDialogDetail input').val("");
         $('#frmDialogDetail textarea').val("");
         $('#frmDialogDetail input[type="checkbox"]').prop("checked", false);
+
+        $('#frmDialogDetail input').removeClass("input-invalid");
     }
 
     /**
@@ -392,44 +400,35 @@ class CustomerJS {
     }
 
     /**
+     * Hiển thị ảnh xem trước khi upload file
+     * CreatedBy:NDHuy (04/08/2020)
+     * */
+    showImageFromInput() {
+        var file = $(this)[0].files[0];
+        var fileReader = new FileReader();
+        fileReader.onload = function (event) {
+            var imageUrl = event.target.result;
+            $(".img-thumbnail").attr("src", imageUrl);
+        };
+        fileReader.readAsDataURL(file);
+    }
+
+    /**
      * Kiểm tra dữ liệu người dùng nhập vào form
      * CreatedBy:NDHuy (03/08/2020)
      * */
     formValidateEvent() {
+        $("#txtCustomerCode").on("keyup", {}, this.checkCustomerCode);
+        $("#txtCustomerCode").on("blur", {}, this.checkCustomerCode);
 
-        /*$("#txtCustomerCode").on("keyup", { status: this.checkCustomerCode }, function () {
-
-
-        });
         $("#txtCustomerName").on("keyup", {}, this.checkCustomerName);
+        $("#txtCustomerName").on("blur", {}, this.checkCustomerName);
 
-        $("#txtCustomerTel").on("keyup", {}, function () {
-            var check = 0;
-            if (validate.IsEmpty($(this).val())) {
-                check = 1;
-            }
-            else if (!validate.isValidPhoneNumber($(this).val()))
-                check = 2;
+        $("#txtCustomerEmail").on("keyup", {}, this.checkCustomerEmail);
+        $("#txtCustomerEmail").on("blur", {}, this.checkCustomerEmail);
 
-            if (check == 1 || check == 2) {
-                $(this).addClass("input-invalid")
-            }
-            else $(this).removeClass("input-invalid")
-        });
-
-        $("#txtCustomerEmail").on("keyup", {}, function () {
-            var check = 0;
-            if (validate.IsEmpty($(this).val())) {
-                check = 1;
-            }
-            else if (!validate.isValidEmail($(this).val()))
-                check = 2;
-
-            if (check == 2) {
-                $(this).addClass("input-invalid")
-            }
-            else $(this).removeClass("input-invalid")
-        });*/
+        $("#txtCustomerTel").on("keyup", {}, this.checkCustomerTel);
+        $("#txtCustomerTel").on("blur", {}, this.checkCustomerTel);
     }
 
 
@@ -439,8 +438,11 @@ class CustomerJS {
      * */
     checkCustomerCode() {
         var value = $("#txtCustomerCode").val();
-        if (validate.isEmpty(value))
+        if (validate.isEmpty(value)) {
+            $("#txtCustomerCode").addClass("input-invalid");
             return Enum.Invalid.Empty;
+        }
+        $("#txtCustomerCode").removeClass("input-invalid");
         return Enum.Valid;
     }
 
@@ -450,8 +452,11 @@ class CustomerJS {
      * */
     checkCustomerName() {
         var value = $("#txtCustomerName").val();
-        if (validate.isEmpty(value))
+        if (validate.isEmpty(value)) {
+            $("#txtCustomerName").addClass("input-invalid");
             return Enum.Invalid.Empty;
+        }
+        $("#txtCustomerName").removeClass("input-invalid");
         return Enum.Valid;
     }
 
@@ -461,8 +466,16 @@ class CustomerJS {
      * */
     checkCustomerEmail() {
         var value = $("#txtCustomerEmail").val();
-        if (!validate.isValidEmail(value))
+        if (validate.isEmpty(value)) {
+            $("#txtCustomerEmail").addClass("input-invalid");
             return Enum.Invalid.Empty;
+        }
+        else if (!validate.isValidEmail(value)) {
+       
+            $("#txtCustomerEmail").addClass("input-invalid");
+            return Enum.Invalid.WrongFormat;
+        }
+        $("#txtCustomerEmail").removeClass("input-invalid");
         return Enum.Valid;
     }
 
@@ -473,10 +486,15 @@ class CustomerJS {
      * */
     checkCustomerTel() {
         var value = $("#txtCustomerTel").val();
-        if (validate.isEmpty(value))
+        if (validate.isEmpty(value)) {
+            $("#txtCustomerTel").addClass("input-invalid");
             return Enum.Invalid.Empty;
-        else if (!validate.isValidPhoneNumber)
+        }
+        else if (!validate.isValidPhoneNumber(value)) {
+            $("#txtCustomerTel").addClass("input-invalid");
             return Enum.Invalid.WrongFormat;
+        }
+        $("#txtCustomerTel").removeClass("input-invalid");
         return Enum.Valid;
     }
 }

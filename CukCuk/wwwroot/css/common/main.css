@@ -27,6 +27,10 @@
     color:red;
 }
 
+.mr-4p{
+    margin-right:4px;
+}
+
 .mr-8p{
     margin-right:8px;
 }
@@ -42,6 +46,7 @@
 .m-0p{
     margin:0px;
 }
+
 
 .flex-align-center{
     display:flex;

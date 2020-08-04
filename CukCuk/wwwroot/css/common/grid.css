@@ -18,6 +18,22 @@ table{
 
         table thead th{
             font-weight:normal;
+            max-width:15%;
+        }
+
+        table thead input {
+            width:100%;
+            border-radius: unset;
+            border: 1px solid #ccc;
+            padding: 4px;
+            outline: none;
+        }
+
+        table thead .col-title{
+            height:30px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
         }
 
     table tr td{
