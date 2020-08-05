@@ -12,7 +12,13 @@
         Male:1,
         Female:0,
         Other:2
-    }
+    },
+
+    Invalid: {
+        Empty: 1,
+        WrongFormat:2
+    },
+    Valid:0
 }
 
 var Resource = {

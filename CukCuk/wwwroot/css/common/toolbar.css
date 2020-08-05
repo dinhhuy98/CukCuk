@@ -7,19 +7,4 @@
     background:#ededed;
 }
 
-    .toolbar button {
-        display:flex;
-        align-items:center;
-        height:100%;
-        border-radius:unset;
-        border-style:solid;
-        border-width:1px;
-        border-color:transparent;
-        outline:none;
-    }
-        
-        .toolbar button:hover{
-            border-color:#1e32d0;
-            background-color:#ffffff;
-            cursor:pointer;
-        }
+   

@@ -1,29 +1,33 @@
 ﻿$(document).ready(function () {
-    //load du lieu
+    //load dữ liệu
     customerJS = new CustomerJS();
+
 })
 
+
 /**
- * Object JS quan ly cac su kien cho trang danh muc khach hang
+ * Object JS quản lý các sự kiện cho trang danh mục khách hàng
  * */
 class CustomerJS {
     constructor() {
         try {
             this.initEvent();
             this.loadData();
+            this.formValidateEvent();
+         
+
         } catch (e) {
             console.log(e);
         }
     }
     /**
-     * Load du lieu vao table customer
+     * Load dữ liệu vào table customer
      * CreatedBy: NDHuy (28/07/2020)
      * */
     loadData() {
         try {
             $('table#tbListCustomer tbody').empty();
-            //Lay du lieu ve
-           
+            //Gọi Ajax lấy dữ liệu về
             $.ajax({
                 url: "/api/v1/customers",
                 method: "GET",
@@ -32,9 +36,11 @@ class CustomerJS {
                 contentType:"application/json",
 
             }).done(function (response) {
-                //Doc du lieu va ren du lieu tung khach hang voi HTML
+                //Đọc dữ liệu và render dữ liệu từng khách hàng
                 $.each(response, function (index, item) {
-                    var customerInfoHTML = `<tr>
+                    var bg = index % 2 == 0 ? "bg-white " : "bg-ghostwhite ";
+                    var firstSelected = index == 0 ? "row-selected" : "";
+                    var customerInfoHTML = `<tr class="` + bg + firstSelected +`">
                                 <td>`+ item['CustomerCode'] + `</td>
                                 <td>`+ item['CustomerName'] + `</td>
                                 <td>`+ item['CompanyName'] + `</td>
@@ -42,13 +48,13 @@ class CustomerJS {
                                 <td>`+ item['CustomerAddress'] + `</td>
                                 <td>`+ item['CustomerTel'] + `</td>
                                 <td>`+ item['CustomerEmail']+ `</td>
-                                <td>`+ commonJS.formatDate(new Date(item['Birthday'])) + `</td>
+                              
                             </tr>`;
 
-                    //tạo đối tương tr tương ứng với chuỗi customerInfoHTML
+                    //Tạo đối tượng tr tương ứng với chuỗi customerInfoHTML
                     var jQueryObject = $('<tr></tr>').html(customerInfoHTML).children();
                     //thêm data cho tr
-                    jQueryObject.data("CustomerID", item['CustomerID']);
+                    jQueryObject.data("CustomerId", item['CustomerId']);
                     $('table#tbListCustomer tbody').append(jQueryObject);
                     //debugger;
                     //console.log(item);
@@ -64,28 +70,31 @@ class CustomerJS {
     }
 
     /**
-     * Thuc hien gan cac su kien cho cac thanh phan trong trang
+     * Thực hiện gán các sự kiện cho các thành phần trong trang
      * CreatedBy: NDHuy (28/07/2020)
      * */
     initEvent() {
-        //gan su kien click cho row trong table
+        //Gán sự kiện click cho row tron table
         $("table").on("click", "tbody tr", this.rowOnCLick);
 
-        //gan su kien cho cac button trong toolbar
+        //Gán sự kiện cho các button trong toolbar
         $('#btnAdd').on('click', { formMode: Enum.FormMode.Add }, this.toolbarItemOnClick.bind(this));
         $('#btnEdit').on('click', { formMode: Enum.FormMode.Edit }, this.toolbarItemOnClick.bind(this));
         $('#btnDelete').on('click', { formMode: Enum.FormMode.Delete }, this.toolbarItemOnClick.bind(this));
+        $('#btnDuplicate').on('click', { formMode: Enum.FormMode.Duplicate }, this.toolbarItemOnClick.bind(this));
         $('#btnRefresh').on('click', { formMode: Enum.FormMode.Refresh }, this.toolbarItemOnClick.bind(this));
 
-        //gán sự kiện cho các button đóng của form
+        //Gán sự kiện cho các button đóng của form
         $('#btnClose').click(this.btnCloseOnClick);
         $('#btnCloseHeader').click(this.btnCloseHeaderOnClick);
+
+        $("#fileImage").on('change',this.showImageFromInput);
 
     }
 
 
     /**
-     * Thuc hien gan cac su kien cho cac thanh phan trong toolbar
+     * Thực hiện gán các sự kiện cho các thành phần trong toolbar
      * CreatedBy:NDHuy (28/07/2020)
      * */
     toolbarItemOnClick(sender) {
@@ -105,6 +114,10 @@ class CustomerJS {
                     var customer = this.getCustomerSelected();
                     this.deleteCustomer(customer);
                     break;
+                case Enum.FormMode.Duplicate:
+                    var customer = this.getCustomerSelected();
+                    this.showAddCustomerForm(customer);
+                    break;
                 case Enum.FormMode.Refresh:
                     this.refreshTable();
                     break;
@@ -116,7 +129,7 @@ class CustomerJS {
     }
 
     /**
-     * Su kien khi click button huy bo trong footer cua dialog
+     * Sự kiện khi click button hủy bỏ trong footer của dialog
      * CreatedBy: NDHuy (28/07/2020)
      * */
     btnCloseOnClick() {
@@ -125,7 +138,7 @@ class CustomerJS {
     }
 
     /**
-     * Su kien khi click dong tren tieu de cua dialog
+     * Sự kiện khi click đóng trên tiêu đề của dialog
      * CreatedBy: NDHuy (28/07/2020)
      * */
     btnCloseHeaderOnClick() {
@@ -134,21 +147,21 @@ class CustomerJS {
     }
 
     /**
-     * Su kien click khi chon 1 dong trong table
+     * Sự kiệu khi click chọn 1 dòng trong table
      * CreateBy:NDHuy (28/07/2020)
      * */
     rowOnCLick() {
-        this.classList.add("row-selected"); //them class row-selected vao row duoc chon
-        //xoa row-selected khoi cac row con lai
+        this.classList.add("row-selected"); //thêm class row-selected vào row được chọn
+        //xóa class row-selected khỏi các row còn lại
         $(this).siblings().removeClass("row-selected");
     }
 
     /**
-     * Cất du lieu
+     * Cất dữ liệu
      * CreatedBy:NDHuy (28/07/2020)
      * */
     saveData(sender) {
-        //lay du lieu duoc nhap tu cac input
+        //Lấy dữ liệu được nhập từ các ô input
         var customer = {
             "CustomerCode": $('#txtCustomerCode').val(),
             "CustomerName": $('#txtCustomerName').val(),
@@ -164,11 +177,12 @@ class CustomerJS {
             "Is5FoodMember": $('#ckIs5FoodMember').prop("checked") ? true : false
         };
 
-        var json = JSON.stringify(customer);
-        //debugger;
-        //kiem tra kieu form
+        
+     
+        //Kiểm tra kiểu form
         var me = this;
         if (sender.data.formMode == Enum.FormMode.Add || sender.data.formMode == Enum.FormMode.SaveAndAdd) {
+            var json = JSON.stringify(customer);
             //gọi ajax gửi dữ liệu lên server
             
             try {
@@ -180,7 +194,6 @@ class CustomerJS {
                     dataType: "text",
                     contentType: "application/json; charset=utf-8",
                 }).done(function (response) {
-                    //hien thi thong bao thanhcong/thatbai
                     alert("Cất thanh cong");
                     me.loadData();
                 }).fail(function (response) {
@@ -197,16 +210,19 @@ class CustomerJS {
                 $('#frmDialogDetail').hide();
         }
         else if (sender.data.formMode == Enum.FormMode.Edit) {
+            customer["CustomerId"] = sender.data.customerId;
+            var json = JSON.stringify(customer);
+
             try {
                 $.ajax({
-                    url: "/api/v1/customers/" + sender.data.customerID,
+                    url: "/api/v1/customers/" + sender.data.customerId,
                     method: "PUT",
 
                     data: json,
                     dataType: "text",
                     contentType: "application/json; charset=utf-8",
                 }).done(function (response) {
-                    //hien thi thong bao thanhcong/thatbai
+                    //Hiển thị thông báo thành công/thất bại
                     alert("Cập nhật thành công");
                     me.loadData();
                     $('#frmDialogDetail').hide();
@@ -220,27 +236,15 @@ class CustomerJS {
             
         }
 
-        //load lai du lieu
-        //this.loadData();
     }
 
     /**
-     * Hien thi form them khach hang
+     * Hiển thị form thêm khách hàng
      * CreatedBy: NDHuy (28/07/2020)*/
-    showAddCustomerForm() {
-        this.resetFormDialog()
-        this.setButtonEventDialog(Enum.FormMode.Add);
-        $("#frmDialogDetail").show();
-    }
-
-    /**
-     * Hien thi form sua thong tin khach hang
-     * CreatedBy: NDHuy (28/07/2020)
-     * @param {any} data
-     */
-    showEditCustomerForm(customer) {
-        //Do du lieu ra form
-        $('#txtCustomerCode').val(customer['CustomerCode']),
+    showAddCustomerForm(customer) {
+        this.resetFormDialog();
+        if (customer != undefined) {
+            //$('#txtCustomerCode').val(customer['CustomerCode']),
             $('#txtCustomerName').val(customer['CustomerName']),
             $('#txtMemberCardNo').val(customer['MemberCardNo']),
             $('#txtCustomerGroup').val(customer['CustomerGroup']),
@@ -251,18 +255,42 @@ class CustomerJS {
             $('#txtCustomerEmail').val(customer['CustomerEmail']),
             $('#txtCustomerAddress').val(customer['CustomerAddress']),
             $('#txtNote').val(customer['Note']);
+        }
+        this.setButtonEventDialog(Enum.FormMode.Add);
+        $("#frmDialogDetail").show();
+    }
+
+    /**
+     * Hiển thị form sửa thông tin khách hàng
+     * CreatedBy: NDHuy (28/07/2020)
+     * @param {any} data
+     */
+    showEditCustomerForm(customer) {
+        
+        //Đổ dữ liệu ra form
+        $('#txtCustomerCode').val(customer['CustomerCode']),
+        $('#txtCustomerName').val(customer['CustomerName']),
+        $('#txtMemberCardNo').val(customer['MemberCardNo']),
+        $('#txtCustomerGroup').val(customer['CustomerGroup']),
+        $('#txtCustomerTel').val(customer['CustomerTel']),
+        $('#dtBirthday').val(commonJS.formatDate(new Date(customer['Birthday']))),
+        $('#txtCompanyName').val(customer['CompanyName']),
+        $('#txtCustomerTaxCode').val(customer['CustomerTaxCode']),
+        $('#txtCustomerEmail').val(customer['CustomerEmail']),
+        $('#txtCustomerAddress').val(customer['CustomerAddress']),
+        $('#txtNote').val(customer['Note']);
         if (customer["Is5FoodMember"])
              $('#ckIs5FoodMember').prop("checked", true);
         else
              $('#ckIs5FoodMember').prop("checked", false);
 
-        //hien form
-        this.setButtonEventDialog(Enum.FormMode.Edit, customer['CustomerID']);
+        //Hiển thị form
+        this.setButtonEventDialog(Enum.FormMode.Edit, customer['CustomerId']);
         $("#frmDialogDetail").show();
     }
 
     /**
-     * Xoa khach hang khoi database
+     * Xóa khách hàng
      * CreatedBy:NDHuy (28/07/2020)*/
     deleteCustomer(customer) {
         var confirmDelete = confirm("Bạn chắc chắn muốn xóa?");
@@ -270,7 +298,7 @@ class CustomerJS {
         if (confirmDelete) {
             try {
                 $.ajax({
-                    url: "/api/v1/customers/" + customer.CustomerID,
+                    url: "/api/v1/customers/" + customer.CustomerId,
                     method: "DELETE",
                     data: {},
                     dataType: "text",
@@ -289,14 +317,14 @@ class CustomerJS {
     }
 
     /**
-     * Cap nhat lai table
+     * Cập nhật lại table
      * CreatedBy:NDHuy (28/07/2020)*/
     refreshTable() {
         this.loadData();
     }
 
     /**
-     * Lay vi tri row duoc chon
+     * Lấy vị trí row được chọn
      * CreatedBy:NDHuy (28/07/2020)
      * */
     getIndexOfRowSelected() {
@@ -305,17 +333,17 @@ class CustomerJS {
     }
 
     /**
-     * thiet lap event cua button trong footer cua dialog theo chuc nang tuong ung
+     * Thiết lập event của button trong footer của dialog theo chức năng tương ứng
      * @param {number} formMode
      * CreatedBy:NDHuy (28/07/2020)
      * */
-    setButtonEventDialog(formMode, CustomerID) {
+    setButtonEventDialog(formMode, CustomerId) {
      
-        //xoa su kien khoi button btnSaveAndAdd
+        //Xóa sự kiện khỏi button btnSave và btnSaveAndAdd
         $('#btnSaveAndAdd').unbind();
         $('#btnSave').unbind();
 
-        //them su kien tuy theo chuc nang
+        //thêm sư kiện tùy theo chức năng
         switch (formMode) {
             case Enum.FormMode.Add:
                 $('#btnSave .btn-text').html("Cất")
@@ -326,20 +354,22 @@ class CustomerJS {
             case Enum.FormMode.Edit:
                 $('#btnSave .btn-text').html("Cập nhật")
                 $('#btnSaveAndAdd').hide()
-                $('#btnSave').on('click', { formMode: Enum.FormMode.Edit, customerID: CustomerID }, this.saveData.bind(this));
+                $('#btnSave').on('click', { formMode: Enum.FormMode.Edit, customerId: CustomerId }, this.saveData.bind(this));
                 break;
             default:
         }
     }
 
     /**
-     * Dua cac o input trong form ve gia tri rong
+     * Đưa các ô input về giá trị rỗng
      * CreatedBy: NDHuy (28/07/2020)
      * */
     resetFormDialog() {
         $('#frmDialogDetail input').val("");
         $('#frmDialogDetail textarea').val("");
         $('#frmDialogDetail input[type="checkbox"]').prop("checked", false);
+
+        $('#frmDialogDetail input').removeClass("input-invalid");
     }
 
     /**
@@ -347,11 +377,11 @@ class CustomerJS {
      * CreatedBy:NDHuy (28/07/2020)
      * */
     getCustomerSelected() {
-        var customerID = $('table#tbListCustomer tbody tr.row-selected').data()['CustomerID'];
+        var customerId = $('table#tbListCustomer tbody tr.row-selected').data()['CustomerId'];
         var customer = null;
         try {
             $.ajax({
-                url: "/api/v1/customers/" + customerID,
+                url: "/api/v1/customers/" + customerId,
                 method: "GET",
                 async: false,
                 data: {},
@@ -369,47 +399,121 @@ class CustomerJS {
         return customer;
     }
 
-}
+    /**
+     * Hiển thị ảnh xem trước khi upload file
+     * CreatedBy:NDHuy (04/08/2020)
+     * */
+    showImageFromInput() {
+        var file = $(this)[0].files[0];
+        var fileReader = new FileReader();
+        fileReader.onload = function (event) {
+            var imageUrl = event.target.result;
+            $(".img-thumbnail").attr("src", imageUrl);
+            $(".img-thumbnail").css("visibility","visible");
+        };
+        fileReader.readAsDataURL(file);
 
-var fakeData = [
-    {
-        CustomerCode: "KH0001",
-        CustomerName: "Nguyen Dinh Huy",
-        Birthday: new Date(1998, 31, 17),
-        PhoneNumber: "892374923",
-        DebitAmount: 1000000,
-        Is5FoodMember: false
-    },
-    {
-        CustomerCode: "KH0002",
-        CustomerName: "Nguyen Van A",
-        Birthday: new Date(1992, 9, 17),
-        PhoneNumber: "89237243",
-        DebitAmount: 10000000,
-        Is5FoodMember: false
-    },
-    {
-        CustomerCode: "KH0003",
-        CustomerName: "Nguyen Thi C",
-        Birthday: new Date(1998, 5, 1),
-        PhoneNumber: "8923712321",
-        DebitAmount: 5000000,
-        Is5FoodMember: true
-    },
-    {
-        CustomerCode: "KH0004",
-        CustomerName: "Tran Van E",
-        Birthday: new Date(1998, 1, 17),
-        PhoneNumber: "892376767",
-        DebitAmount: 1500000,
-        Is5FoodMember: false
-    },
-    {
-        CustomerCode: "KH0005",
-        CustomerName: "Nguyen Duc V",
-        Birthday: new Date(1991, 10, 1),
-        PhoneNumber: "8923744455",
-        DebitAmount: 2000000,
-        Is5FoodMember: true
+        var image = $("#fileImage").get(0).files;
+        debugger
+        var formData = new FormData();
+        formData.append('image', image[0]);
+        $.ajax({
+            url: '/api/v1/customers/ooo',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+
+        }).done(function (response) {
+            //hien thi thong bao thanhcong/thatbai
+            alert(response);
+        }).fail(function (response) {
+            console.log(response);
+        });
     }
-]
+
+    /**
+     * Kiểm tra dữ liệu người dùng nhập vào form
+     * CreatedBy:NDHuy (03/08/2020)
+     * */
+    formValidateEvent() {
+        $("#txtCustomerCode").on("keyup", {}, this.checkCustomerCode);
+        $("#txtCustomerCode").on("blur", {}, this.checkCustomerCode);
+
+        $("#txtCustomerName").on("keyup", {}, this.checkCustomerName);
+        $("#txtCustomerName").on("blur", {}, this.checkCustomerName);
+
+        $("#txtCustomerEmail").on("keyup", {}, this.checkCustomerEmail);
+        $("#txtCustomerEmail").on("blur", {}, this.checkCustomerEmail);
+
+        $("#txtCustomerTel").on("keyup", {}, this.checkCustomerTel);
+        $("#txtCustomerTel").on("blur", {}, this.checkCustomerTel);
+    }
+
+
+    /**
+     * Kiểm tra mã khách hàng
+     * CreatedBy:NDHuy (03/08/2020)
+     * */
+    checkCustomerCode() {
+        var value = $("#txtCustomerCode").val();
+        if (validate.isEmpty(value)) {
+            $("#txtCustomerCode").addClass("input-invalid");
+            return Enum.Invalid.Empty;
+        }
+        $("#txtCustomerCode").removeClass("input-invalid");
+        return Enum.Valid;
+    }
+
+    /**
+     * Kiểm tra tên khách hàng
+     * CreatedBy: NDHuy (03/08/2020)
+     * */
+    checkCustomerName() {
+        var value = $("#txtCustomerName").val();
+        if (validate.isEmpty(value)) {
+            $("#txtCustomerName").addClass("input-invalid");
+            return Enum.Invalid.Empty;
+        }
+        $("#txtCustomerName").removeClass("input-invalid");
+        return Enum.Valid;
+    }
+
+    /**
+     * Kiểm tra Email khách hàng
+     * CreatedBy: NDHuy (03/08/2020)
+     * */
+    checkCustomerEmail() {
+        var value = $("#txtCustomerEmail").val();
+        if (validate.isEmpty(value)) {
+            $("#txtCustomerEmail").addClass("input-invalid");
+            return Enum.Invalid.Empty;
+        }
+        else if (!validate.isValidEmail(value)) {
+       
+            $("#txtCustomerEmail").addClass("input-invalid");
+            return Enum.Invalid.WrongFormat;
+        }
+        $("#txtCustomerEmail").removeClass("input-invalid");
+        return Enum.Valid;
+    }
+
+
+    /**
+     * Kiểm tra số điện thoại khách hàng
+     * CreatedBy:NDHuy (03/08/2020)
+     * */
+    checkCustomerTel() {
+        var value = $("#txtCustomerTel").val();
+        if (validate.isEmpty(value)) {
+            $("#txtCustomerTel").addClass("input-invalid");
+            return Enum.Invalid.Empty;
+        }
+        else if (!validate.isValidPhoneNumber(value)) {
+            $("#txtCustomerTel").addClass("input-invalid");
+            return Enum.Invalid.WrongFormat;
+        }
+        $("#txtCustomerTel").removeClass("input-invalid");
+        return Enum.Valid;
+    }
+}

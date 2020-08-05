@@ -1,14 +1,20 @@
-﻿.grid{
-    width:100%;
-    height:calc(100% - 28px);
-    border:1px solid #ccc;
-    border-top:none;
+﻿.grid {
+    width: 100%;
+    position:relative;
+    height: calc(100% - 28px);
+    border: 1px solid #ccc;
+    border-top: none;
+    overflow: hidden;
+    
 }
 
-table{
-    border:none;
-    border-collapse:collapse;
-    border-color:#ccc;
+table {
+    max-height: 100%;
+    border: none;
+    border-collapse: collapse;
+    border-color: #ccc;
+    table-layout: fixed;
+
 }
 
     table thead{
@@ -20,16 +26,127 @@ table{
             font-weight:normal;
         }
 
+        table thead input {
+            width:100%;
+            border-radius: unset;
+            border: 1px solid #ccc;
+            padding: 4px;
+            outline: none;
+        }
+
+        table thead .col-title{
+            height:30px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
     table tr td{
+        max-width:20%;
         padding: 2px 4px;
         border:1px solid #ccc;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+
     }
 
-    table tbody tr:hover{
-        background-color:#bfd1fe;
-        cursor:pointer;
+    table tbody {
+        height:100%;
+        overflow:hidden;
     }
+
+        table tbody tr{
+            height:25px;
+        }
+
+
+        table tbody tr:hover{
+            background-color:#bfd1fe;
+            cursor:pointer;
+        }
 
     table tbody tr.row-selected{
         background-color:#a4befc;
+    }
+
+    table th{
+        max-width:20%;
+    }
+
+/*Pagination*/
+.pagination {
+    width: 100%;
+    height: 30px;
+    border: 1px solid #ccc;
+    background:white;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display:flex;
+    justify-content:space-between;
+}
+
+    .pagination button {
+        border-style: solid;
+        border-width: 1px;
+        border-color: transparent;
+        outline: none;
+        
+    }
+        .pagination button:hover {
+            border-color: #0973b9;
+            cursor: pointer;
+        }
+        
+    .pagination .p-left{
+        display:flex;
+        align-items:center;
+    }
+        .pagination .p-left .page-first {
+            background: url("/content/images/grid/page-first.png") no-repeat;
+            height: 28px;
+            width: 28px;
+            background-position: center center;
+        }
+
+        .pagination .p-left .page-prev {
+            background: url("/content/images/grid/page-prev.png") no-repeat;
+            height: 28px;
+            width: 28px;
+            background-position: center center;
+        }
+
+        .pagination .p-left .page-next {
+            background: url("/content/images/grid/page-next.png") no-repeat;
+            height: 28px;
+            width: 28px;
+            background-position: center center;
+        }
+
+        .pagination .p-left .page-last {
+            background: url("/content/images/grid/page-last.png") no-repeat;
+            height: 28px;
+            width: 28px;
+            background-position: center center;
+        }
+
+        .pagination .p-left .page-refresh {
+            background: url("/content/images/grid/refresh.png") no-repeat;
+            height: 28px;
+            width: 30px;
+            background-position: center center;
+        }
+
+        .pagination .p-left #txtPageCurrent {
+            height:24px;
+            width: 32px;
+            border: 1px solid #ccc;
+            outline:none;
+        }
+        
+    .pagination .p-right{
+        display:flex;
+        align-items:center;
+        padding-right:8px;
     }

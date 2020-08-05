@@ -7,6 +7,15 @@
 .bg-primary{
     background-color:#0973b9;
 }
+
+.bg-white{
+    background-color:white;
+}
+
+.bg-ghostwhite {
+    background-color:ghostwhite;
+}
+
 .align-center{
     text-align: center;
 }
@@ -18,9 +27,30 @@
     color:red;
 }
 
+.mr-4p{
+    margin-right:4px;
+}
+
+.mb-4p{
+    margin-bottom:4px;
+}
+
 .mr-8p{
     margin-right:8px;
 }
+
+.mr-12p {
+    margin-right: 12px;
+}
+
+.mr-18p {
+    margin-right: 18px;
+}
+
+.ml-15p{
+    margin-left:15px;
+}
+
 
 .pr-20p{
     padding-right:20px;
@@ -34,7 +64,12 @@
     margin:0px;
 }
 
+
 .flex-align-center{
     display:flex;
     align-items:center;
+}
+
+.input-invalid {
+    border: 1px solid red !important;
 }

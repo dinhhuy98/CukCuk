@@ -1,4 +1,4 @@
-﻿button .btn-icon{
+﻿.btn-icon{
     width:16px;
     height:16px;
     background-image:url('/content/images/IconSprite.png');
@@ -31,6 +31,9 @@
     button .btn-icon.btn-icon-help {
         background-position: 0px -1600px;
     }
+    .btn-icon.btn-icon-upload {
+        background-position: 0 -960px;
+    }
 
     button .btn-text{
         margin-left:4px;
@@ -40,4 +43,54 @@
         width: 16px;
         height: 16px;
         background-image: url('/content/images/viewEmail.png');
+    }
+
+.btn-default {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    border-radius: unset;
+    border-style: solid;
+    border-width: 1px;
+    border-color: transparent;
+    outline: none;
+}
+
+    .btn-default:hover {
+        border-color: #0973b9;
+        background-color: #ffffff;
+        cursor: pointer;
+    }
+
+
+.btn-secondary {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    outline: none;
+    border-radius: unset;
+    padding: 4px 12px;
+}
+
+    .btn-secondary:hover {
+        background-color: #178ad6;
+        color: white;
+        cursor: pointer;
+    }
+
+table thead button {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    outline: none;
+    border-radius: unset;
+    padding: 8px 10px 0px 10px;
+}
+
+    table thead button:hover {
+        background-color: #178ad6;
+        color: white;
+        cursor: pointer;
     }
