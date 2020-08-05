@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CukCuk.Model;
+using System.IO;
+using System.Reflection;
 
 namespace CukCuk.Controllers
 {
@@ -83,6 +85,22 @@ namespace CukCuk.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCustomer", new { id = customer.CustomerId }, customer);
+        }
+
+        [HttpPost("ooo")]
+        public async Task<IActionResult> ImageUpload(IFormFile image)
+        {
+            String ImageName = Path.GetFileName(image.FileName);
+            String contentType = image.ContentType;
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot","upload", ImageName);
+            using(System.IO.Stream stream = new FileStream(path, FileMode.Create))
+            {
+                await image.CopyToAsync(stream);
+            }
+
+            //var filePath = ""
+            return NoContent();
+
         }
 
         // DELETE: api/Customers1/5

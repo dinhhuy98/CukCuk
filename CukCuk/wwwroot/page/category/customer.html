@@ -131,7 +131,7 @@
                                         <input type="text" name="name" value="" />
                                     </div>
                                 </th>
-                                <th>
+                                <th width="15%">
                                     <div class="col-title">Tên công ty</div>
                                     <div class="flex-align-center">
                                         <button><span>*</span></button>
@@ -145,8 +145,8 @@
                                         <input type="text" name="name" value="" />
                                     </div>
                                 </th>
-                                <th>
-                                    <div class="col-title">Địa chỉ</div>
+                                <th width="20%">
+                                    <div class="col-title" >Địa chỉ</div>
                                     <div class="flex-align-center">
                                         <button><span>*</span></button>
                                         <input type="text" name="name" value="" />
@@ -166,19 +166,29 @@
                                         <input type="text" name="name" value="" />
                                     </div>
                                 </th>
-                                <th>
-                                    <div class="col-title">Ngày sinh</div>
-                                    <div class="flex-align-center">
-                                        <button><span>*</span></button>
-                                        <input type="text" name="name" value="" />
-                                    </div>
-                                </th>
+               
                             </tr>
 
                         </thead>
                         <tbody>
                         </tbody>
                     </table>
+                    <div class="pagination">
+                        <div class="p-left">
+                            <button class="page-first"></button>
+                            <button class="page-prev"></button>
+                            <div>Trang</div>
+                            <input type="text" name="name" value="1" id="txtPageCurrent" />
+                            <div >Trên</div>
+                            <div class="page-total">1</div>
+                            <button class="page-next"></button>
+                            <button class="page-last"></button>
+                            <button class="page-refresh"></button>
+                        </div>
+                        <div class="p-right">
+                            <div class="page-info">Hiển thị từ 1-22 trên 22 kết quả</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -193,81 +203,164 @@
                 <div id="btnCloseHeader" class="btn-close">x</div>
             </div>
             <div class="dialog-body">
-                <div class="row ">
-                    <div class="w-50 pr-20p flex-align-center">
-                        <label>Mã khách hàng&nbsp;<span class="m-required">(*)</span></label>
-                        <input type="text" id="txtCustomerCode" />
+                <div class="row">
+                    <div class="r-left w-50 mr-18p">
+                        <div class="row-item">
+                            <label>Mã khách hàng&nbsp;<span class="m-required">(*)</span></label>
+                            <input type="text" id="txtCustomerCode" />
+                        </div>
                     </div>
-                    <div class="w-50 flex-align-center">
-                        <label>Tên khách hàng&nbsp;<span class="m-required">(*)</span></label>
-                        <input type="text" id="txtCustomerName" />
+                    <div class="r-right w-50">
+                        <div class="row-item">
+                            <label>Tên khách hàng&nbsp;<span class="m-required">(*)</span></label>
+                            <input type="text" id="txtCustomerName" />
+                        </div>
                     </div>
-                </div>
-                <div class="row ">
-                    <div class="w-50 pr-20p flex-align-center">
-                        <label>Mã thẻ thành viên</label>
-                        <input type="text" id="txtMemberCardNo" />
-                    </div>
-                    <div class="w-50 flex-align-center">
-                        <label>Là thành viên 5Food</label>
-                        <input type="checkbox" id="ckIs5FoodMember" class="m-0p"/>
-                    </div>
-                </div>
-                <div class="row ">
-                    <div class="w-50 pr-20p flex-align-center">
-                        <label>Nhóm khách hàng</label>
-                        <input type="text" id="txtCustomerGroup" />
-                    </div>
-                    <div class="w-50 flex-align-center">
-                        <label>Ảnh: </label>
-                        <label for="fileImage" class="input-file"><div class="btn-icon btn-icon-upload mr-4p"></div>Chọn ảnh</label>
-                        <input type="file" id="fileImage" class="m-0p" style="display:none"/>
-                        <img src="#" alt="avatar" class="img-thumbnail"/>
-                    </div>
-                </div>
-                <div class="row ">
-                    <div class="w-50 pr-20p flex-align-center">
-                        <label>DT di động&nbsp;<span class="m-required">(*)</span></label>
-                        <input type="text" id="txtCustomerTel" />
-                    </div>
-                </div>
-                <div class="row ">
-                    <div class="w-50 pr-20p flex-align-center">
-                        <label>Ngày sinh</label>
-                        <input type="date" id="dtBirthday" />
-                    </div>
-                    
                 </div>
 
                 <div class="row">
-                    <div class="w-100 flex-align-center">
-                        <label>Tên công ty</label>
-                        <input type="text" id="txtCompanyName" />
+                    <div class="r-left w-50 mr-18p">
+                        <div class="row-item">
+                            <label>Mã thẻ thành viên</label>
+                            <input type="text" id="txtMemberCardNo" />
+                        </div>
+
+                    </div>
+                    <div class="r-right w-50 ">
+                        <div class="row-item f-start">
+                            <label>Là thành viên 5Food</label>
+                            <input type="checkbox" id="ckIs5FoodMember" class="ml-15p" />
+                        </div>
                     </div>
                 </div>
-                <div class="row ">
-                    <div class="w-50 pr-20p flex-align-center">
-                        <label>Mã số thuế</label>
-                        <input type="text" id="txtCustomerTaxCode" />
+
+                <div class="row">
+                    <div class="r-left w-50 mr-18p">
+                        <div class="row-item mb-4p">
+                            <label>Nhóm khách hàng</label>
+                            <input type="text" id="txtCustomerGroup" />
+                        </div>
+                        <div class="row-item mb-4p">
+                            <label>DT di động&nbsp;<span class="m-required">(*)</span></label>
+                            <input type="text" id="txtCustomerTel" />
+                        </div>
+                        <div class="row-item">
+                            <label>Ngày sinh</label>
+                            <input type="date" id="dtBirthday" />
+                        </div>
+
                     </div>
-                    <div class="w-50 flex-align-center">
-                        <label>Email</label>
-                        <input type="text" id="txtCustomerEmail" />
+                    <div class="r-right w-50">
+                        <div class="row-item upload-image">
+                            <label>Ảnh: </label>
+                            <label for="fileImage" class="input-file" style="margin-left:100px"><div class="btn-icon btn-icon-upload mr-4p"></div>Chọn ảnh</label>
+                            <input type="file" id="fileImage" class="m-0p" style="display:none" />
+                            <img src="#" alt="avatar" class="img-thumbnail" style="visibility:hidden"/>
+                        </div>
                     </div>
                 </div>
-                <div class="row ">
-                    <div class="w-100 flex-align-center">
-                        <label>Địa chỉ</label>
-                        <input type="text" id="txtCustomerAddress" />
+
+                <div class="row">
+                    <div class="r-left w-100">
+                        <div class="row-item">
+                            <label>Tên công ty</label>
+                            <input type="text" id="txtCompanyName" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="r-left w-50 mr-18p">
+                        <div class="row-item">
+                            <label>Mã số thuế</label>
+                            <input type="text" id="txtCustomerTaxCode" />
+                        </div>
+
+                    </div>
+                    <div class="r-right w-50">
+                        <div class="row-item">
+                            <label>Email</label>
+                            <input type="text" id="txtCustomerEmail" />
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="w-100 flex-align-center">
-                        <label>Ghi chú</label>
-                        <textarea id="txtNote" name="note" rows="2" cols="6"></textarea>
+                    <div class="r-left w-100">
+                        <div class="row-item">
+                            <label>Địa chỉ</label>
+                            <input type="text" id="txtCustomerAddress" />
+                        </div>
                     </div>
                 </div>
-                
+                <div class="row">
+                    <div class="r-left w-100">
+                        <div class="row-item">
+                            <label>Ghi chú</label>
+                            <textarea id="txtNote" name="note" rows="2" cols="6"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="row ">
+        <div class="w-50 pr-20p flex-align-center">
+
+        </div>
+        <div class="w-50 flex-align-center">
+
+        </div>
+    </div>
+    <div class="row ">
+        <div class="w-50 pr-20p flex-align-center">
+
+        </div>
+        <div class="w-50 flex-align-center">
+
+        </div>
+    </div>
+    <div class="row ">
+        <div class="w-50 pr-20p flex-align-center">
+
+        </div>
+        <div class="w-50 flex-align-center">
+            
+        </div>
+    </div>
+    <div class="row ">
+        <div class="w-50 pr-20p flex-align-center">
+
+        </div>
+    </div>
+    <div class="row ">
+        <div class="w-50 pr-20p flex-align-center">
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="w-100 flex-align-center">
+
+        </div>
+    </div>
+    <div class="row ">
+        <div class="w-50 pr-20p flex-align-center">
+
+        </div>
+        <div class="w-50 flex-align-center">
+
+        </div>
+    </div>
+    <div class="row ">
+        <div class="w-100 flex-align-center">
+            
+        </div>
+    </div>
+    <div class="row">
+        <div class="w-100 flex-align-center">
+            
+        </div>
+    </div>-->
+
             </div>
             <div class="dialog-footer">
                 <div class="footer-left">

@@ -48,7 +48,7 @@ class CustomerJS {
                                 <td>`+ item['CustomerAddress'] + `</td>
                                 <td>`+ item['CustomerTel'] + `</td>
                                 <td>`+ item['CustomerEmail']+ `</td>
-                                <td>`+ commonJS.formatDate(new Date(item['Birthday'])) + `</td>
+                              
                             </tr>`;
 
                     //Tạo đối tượng tr tương ứng với chuỗi customerInfoHTML
@@ -178,7 +178,7 @@ class CustomerJS {
         };
 
         
-        //debugger;
+     
         //Kiểm tra kiểu form
         var me = this;
         if (sender.data.formMode == Enum.FormMode.Add || sender.data.formMode == Enum.FormMode.SaveAndAdd) {
@@ -409,8 +409,27 @@ class CustomerJS {
         fileReader.onload = function (event) {
             var imageUrl = event.target.result;
             $(".img-thumbnail").attr("src", imageUrl);
+            $(".img-thumbnail").css("visibility","visible");
         };
         fileReader.readAsDataURL(file);
+
+        var image = $("#fileImage").get(0).files;
+        debugger
+        var formData = new FormData();
+        formData.append('image', image[0]);
+        $.ajax({
+            url: '/api/v1/customers/ooo',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+
+        }).done(function (response) {
+            //hien thi thong bao thanhcong/thatbai
+            alert(response);
+        }).fail(function (response) {
+            console.log(response);
+        });
     }
 
     /**

@@ -61,52 +61,76 @@
     display:flex;
     margin-bottom:4px;
 }
+    .dialog-body .row .row-item{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+    }
 
-    .dialog-body .row div {
+    .dialog-body .row .row-item.upload-image {
+        align-items: flex-start;
+    }
+
+    .dialog-body .row .row-item.f-start {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+
+
+    .dialog-body .w-50 input[type="text"], input[type="date"] {
+        margin-left: 15px;
+        width: 192px;
+    }
+
+    .dialog-body .w-100 input[type="text"], textarea {
+        width: 544px;
+    }
+
+    .dialog-body input[type="text"], textarea, input[type="date"] {
+        border-radius: unset;
+        border: 1px solid #ccc;
+        padding: 4px;
+        outline: none;
+    }
+
+        .dialog-body input[type="text"]:focus, textarea:focus {
+            border: 1px solid #0072bc;
+        }
+
+.dialog-body .input-file {
+    padding: 4px 12px;
+    width: 80px !important;
+    border: 1px solid #ccc;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+    .dialog-body .input-file:hover {
+        color: white;
+        background-color: #0072bc;
+    }
+
+    /*.dialog-body .row div {
         display: flex;
       
     }
 
-    .dialog-body .row label {
-        width: 130px;
-    }
+    
 
-    .dialog-body .input-file {
-        padding: 4px 12px;
-        width: 80px !important;
-        border: 1px solid #ccc;
-        background-color: white;
-        display: flex;
-        align-items:center;
-        cursor: pointer;
-    }
-
-        .dialog-body .input-file:hover {
-            color:white;
-            background-color: #0072bc;
-        }
+    
 
 
-.dialog-body input[type="text"], textarea, input[type="date"] {
-    border-radius: unset;
-    border: 1px solid #ccc;
-    padding: 4px;
-    outline: none;
-}
 
-    .dialog-body .w-50 input[type="text"],input[type="date"] {
-        width:192px;
-     
-    }
 
-.dialog-body .w-100 input[type="text"], textarea {
-    width: 544px;
-}
+    
 
-    .dialog-body input[type="text"]:focus, textarea:focus {
-        border: 1px solid #0072bc;
-        /*border: 1px solid red;*/
-    }
+
+
+    */
 
 .dialog .dialog-footer{
     display:flex;
@@ -131,8 +155,8 @@
     }
 
 .dialog .img-thumbnail{
-    width:100px;
-    height:100px;
+    width:88px;
+    height:88px;
 }
 
 

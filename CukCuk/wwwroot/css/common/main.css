@@ -31,9 +31,26 @@
     margin-right:4px;
 }
 
+.mb-4p{
+    margin-bottom:4px;
+}
+
 .mr-8p{
     margin-right:8px;
 }
+
+.mr-12p {
+    margin-right: 12px;
+}
+
+.mr-18p {
+    margin-right: 18px;
+}
+
+.ml-15p{
+    margin-left:15px;
+}
+
 
 .pr-20p{
     padding-right:20px;
