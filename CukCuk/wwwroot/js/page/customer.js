@@ -177,24 +177,34 @@ class CustomerJS {
             "Is5FoodMember": $('#ckIs5FoodMember').prop("checked") ? true : false
         };
 
+        //var fromData = this.createDataImage();
+        
+        
+        //return formData;
+
         
      
         //Kiểm tra kiểu form
         var me = this;
         if (sender.data.formMode == Enum.FormMode.Add || sender.data.formMode == Enum.FormMode.SaveAndAdd) {
-            var json = JSON.stringify(customer);
+            //var data = [customer, formData];
+       
+         
+            //var json = ;
             //gọi ajax gửi dữ liệu lên server
-            
+
+
             try {
                 $.ajax({
-                    url: "/api/v1/customers",
+                    url: "/api/v1/customers/",
                     method: "POST",
-                   
-                    data: json,
+
+                    data: JSON.stringify(customer),
                     dataType: "text",
-                    contentType: "application/json; charset=utf-8",
+                    contentType: "application/json;charset=utf-8",
                 }).done(function (response) {
-                    alert("Cất thanh cong");
+                    me.uploadImage(customer["CustomerCode"]);
+                    alert("Thêm mới thành công");
                     me.loadData();
                 }).fail(function (response) {
                     console.log(response);
@@ -210,6 +220,7 @@ class CustomerJS {
                 $('#frmDialogDetail').hide();
         }
         else if (sender.data.formMode == Enum.FormMode.Edit) {
+
             customer["CustomerId"] = sender.data.customerId;
             var json = JSON.stringify(customer);
 
@@ -222,8 +233,12 @@ class CustomerJS {
                     dataType: "text",
                     contentType: "application/json; charset=utf-8",
                 }).done(function (response) {
+                    if ($("#fileImage").get(0).files[0] != undefined) {
+                        me.uploadImage(customer.CustomerCode);
+                    }
                     //Hiển thị thông báo thành công/thất bại
                     alert("Cập nhật thành công");
+                    
                     me.loadData();
                     $('#frmDialogDetail').hide();
                     
@@ -243,6 +258,8 @@ class CustomerJS {
      * CreatedBy: NDHuy (28/07/2020)*/
     showAddCustomerForm(customer) {
         this.resetFormDialog();
+
+        //Thực hiện khi chức năng duplicate được sử dụng
         if (customer != undefined) {
             //$('#txtCustomerCode').val(customer['CustomerCode']),
             $('#txtCustomerName').val(customer['CustomerName']),
@@ -282,7 +299,18 @@ class CustomerJS {
         if (customer["Is5FoodMember"])
              $('#ckIs5FoodMember').prop("checked", true);
         else
-             $('#ckIs5FoodMember').prop("checked", false);
+            $('#ckIs5FoodMember').prop("checked", false);
+        $("#fileImage").val("");
+        $(".img-thumbnail").prop("src", "/upload/" + customer["CustomerCode"] + ".png")
+        $("#img-info").html("");
+        $(".img-thumbnail").css("visibility", "visible");
+        $("#frmDialogDetail .img-thumbnail").on("error",function () {
+            $("#img-info").html("Khách hàng chưa có ảnh");
+            $(".img-thumbnail").css("visibility", "hidden");
+        });
+
+
+
 
         //Hiển thị form
         this.setButtonEventDialog(Enum.FormMode.Edit, customer['CustomerId']);
@@ -368,7 +396,9 @@ class CustomerJS {
         $('#frmDialogDetail input').val("");
         $('#frmDialogDetail textarea').val("");
         $('#frmDialogDetail input[type="checkbox"]').prop("checked", false);
-
+        $(".img-thumbnail").prop("src", "#");
+        $(".img-thumbnail").css("visibility", "hidden");
+        $("#img-info").html("Khách hàng chưa có ảnh");
         $('#frmDialogDetail input').removeClass("input-invalid");
     }
 
@@ -409,16 +439,25 @@ class CustomerJS {
         fileReader.onload = function (event) {
             var imageUrl = event.target.result;
             $(".img-thumbnail").attr("src", imageUrl);
-            $(".img-thumbnail").css("visibility","visible");
+            $(".img-thumbnail").css("visibility", "visible");
+            $("#img-info").html(file.name);
         };
         fileReader.readAsDataURL(file);
 
+        
+    }
+
+    /**
+     * Đưa ảnh lên server
+     * CreatedBy:NDHuy (08/06/2020)
+     * */
+    uploadImage(imgname) {
         var image = $("#fileImage").get(0).files;
-        debugger
+        
         var formData = new FormData();
-        formData.append('image', image[0]);
+        formData.append('image', image[0]);  
         $.ajax({
-            url: '/api/v1/customers/ooo',
+            url: '/api/v1/customers/uploadimg/' + imgname,
             type: 'POST',
             data: formData,
             processData: false,
@@ -426,10 +465,22 @@ class CustomerJS {
 
         }).done(function (response) {
             //hien thi thong bao thanhcong/thatbai
-            alert(response);
+            //alert(response);
         }).fail(function (response) {
             console.log(response);
         });
+    }
+
+    /**
+     * Tạo object fromdata chứa dữ liệu ảnh upload lên của khách hàng
+     * CreatedBy: NDHuy (06/08/2020)
+     * */
+    createDataImage() {
+        var image = $("#fileImage").get(0).files;
+        debugger
+        var formData = new FormData();
+        formData.append('image', image[0]);
+        return formData;
     }
 
     /**

@@ -252,10 +252,17 @@
                     </div>
                     <div class="r-right w-50">
                         <div class="row-item upload-image">
-                            <label>Ảnh: </label>
-                            <label for="fileImage" class="input-file" style="margin-left:100px"><div class="btn-icon btn-icon-upload mr-4p"></div>Chọn ảnh</label>
-                            <input type="file" id="fileImage" class="m-0p" style="display:none" />
-                            <img src="#" alt="avatar" class="img-thumbnail" style="visibility:hidden"/>
+                            <div >
+                                <div style="display:flex">
+                                    <label>Ảnh: </label>
+                                    <label for="fileImage" class="input-file" style="margin-left:100px"><span class="btn-icon btn-icon-upload mr-4p"></span>Chọn ảnh</label>
+                                    <input type="file" id="fileImage" class="m-0p" style="display:none" />
+                                </div>
+                                <div id="img-info" style="width:100%;text-align:right">Khách hàng chưa có ảnh</div>
+                            </div>
+                            <div >
+                                <img src="#" alt="avatar" class="img-thumbnail" style="visibility:hidden" />
+                            </div>
                         </div>
                     </div>
                 </div>

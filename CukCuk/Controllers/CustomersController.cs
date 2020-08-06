@@ -24,9 +24,21 @@ namespace CukCuk.Controllers
 
         // GET: api/Customers1
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomer()
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomer([FromQuery] String page)
         {
-            return await _context.Customer.ToListAsync();
+            if (page!=null)
+                return await _context.Customer.ToListAsync();
+            else
+                return null;
+        }
+
+        [HttpGet("test")]
+        public String test([FromQuery] String page)
+        {
+            if(page==null)
+            return "fff";
+            return page;
+
         }
 
         // GET: api/Customers1/5
@@ -81,24 +93,23 @@ namespace CukCuk.Controllers
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
+
             _context.Customer.Add(customer);
             await _context.SaveChangesAsync();
-
+            
             return CreatedAtAction("GetCustomer", new { id = customer.CustomerId }, customer);
         }
 
-        [HttpPost("ooo")]
-        public async Task<IActionResult> ImageUpload(IFormFile image)
+        [HttpPost("uploadimg/{imgname}")]
+        public async Task<IActionResult> ImageUpload(IFormFile image,String imgname)
         {
-            String ImageName = Path.GetFileName(image.FileName);
-            String contentType = image.ContentType;
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot","upload", ImageName);
+            String[] arrTemp = image.FileName.Split('.');
+            imgname = imgname +"."+ arrTemp[arrTemp.Length - 1];
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot","upload", imgname);
             using(System.IO.Stream stream = new FileStream(path, FileMode.Create))
             {
                 await image.CopyToAsync(stream);
             }
-
-            //var filePath = ""
             return NoContent();
 
         }
