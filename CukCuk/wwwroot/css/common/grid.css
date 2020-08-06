@@ -4,8 +4,6 @@
     height: calc(100% - 28px);
     border: 1px solid #ccc;
     border-top: none;
-    overflow: hidden;
-    
 }
 
 table {
