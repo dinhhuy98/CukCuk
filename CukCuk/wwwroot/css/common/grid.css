@@ -4,8 +4,6 @@
     height: calc(100% - 28px);
     border: 1px solid #ccc;
     border-top: none;
-    overflow: hidden;
-    
 }
 
 table {
@@ -14,6 +12,7 @@ table {
     border-collapse: collapse;
     border-color: #ccc;
     table-layout: fixed;
+    overflow:hidden;
 
 }
 
@@ -22,8 +21,9 @@ table {
         background:#ededed;
     }
 
-        table thead th{
-            font-weight:normal;
+        table thead th {
+            font-weight: normal;
+
         }
 
         table thead input {

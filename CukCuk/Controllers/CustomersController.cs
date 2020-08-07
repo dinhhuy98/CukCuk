@@ -26,18 +26,21 @@ namespace CukCuk.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomer([FromQuery] String page)
         {
-            if (page!=null)
+            if(page==null)
                 return await _context.Customer.ToListAsync();
             else
-                return null;
+            {
+                var count = _context.Customer.Count();
+                var data = _context.Customer.OrderByDescending(n => n.CustomerId).Skip((Int32.Parse(page) - 1) * 40).Take(40).ToList();
+                return data ;
+            }
         }
 
-        [HttpGet("test")]
-        public String test([FromQuery] String page)
+        [HttpGet("totalrow")]
+        public int getTotalRow()
         {
-            if(page==null)
-            return "fff";
-            return page;
+            var count = _context.Customer.Count();
+            return count;
 
         }
 
@@ -134,5 +137,6 @@ namespace CukCuk.Controllers
         {
             return _context.Customer.Any(e => e.CustomerId == id);
         }
+
     }
 }

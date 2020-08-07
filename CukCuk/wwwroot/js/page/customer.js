@@ -1,7 +1,8 @@
 ﻿$(document).ready(function () {
     //load dữ liệu
     customerJS = new CustomerJS();
-
+    paginationCustomer = new PaginationCustomer(customerJS);
+   
 })
 
 
@@ -12,7 +13,7 @@ class CustomerJS {
     constructor() {
         try {
             this.initEvent();
-            this.loadData();
+            this.loadData(1);
             this.formValidateEvent();
          
 
@@ -20,22 +21,25 @@ class CustomerJS {
             console.log(e);
         }
     }
+
     /**
      * Load dữ liệu vào table customer
      * CreatedBy: NDHuy (28/07/2020)
      * */
-    loadData() {
+    loadData(page) {
+    
         try {
             $('table#tbListCustomer tbody').empty();
             //Gọi Ajax lấy dữ liệu về
             $.ajax({
-                url: "/api/v1/customers",
+                url: "/api/v1/customers?page="+page,
                 method: "GET",
                 data: {},
                 dataType: "json",
                 contentType:"application/json",
 
             }).done(function (response) {
+                //console.log(response);
                 //Đọc dữ liệu và render dữ liệu từng khách hàng
                 $.each(response, function (index, item) {
                     var bg = index % 2 == 0 ? "bg-white " : "bg-ghostwhite ";
@@ -50,6 +54,7 @@ class CustomerJS {
                                 <td>`+ item['CustomerEmail']+ `</td>
                               
                             </tr>`;
+              
 
                     //Tạo đối tượng tr tương ứng với chuỗi customerInfoHTML
                     var jQueryObject = $('<tr></tr>').html(customerInfoHTML).children();
@@ -59,6 +64,7 @@ class CustomerJS {
                     //debugger;
                     //console.log(item);
                 })
+             
                 console.log("load data successful");
             }).fail(function (response) {
                 console.log("error");
@@ -443,8 +449,6 @@ class CustomerJS {
             $("#img-info").html(file.name);
         };
         fileReader.readAsDataURL(file);
-
-        
     }
 
     /**
@@ -568,3 +572,4 @@ class CustomerJS {
         return Enum.Valid;
     }
 }
+
