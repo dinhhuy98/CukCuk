@@ -1,12 +1,12 @@
 ﻿
-class PaginationCustomer {
+class Pagination {
 
-    constructor(customerJS) {
-        this.customerJS = customerJS;
+    constructor(ObjectJS) {
+        this.ObjectJS = ObjectJS;
         this.pageFirst = 1;
         this.pageCurrent = 1;
         this.numberRowOnPage = 40;
-        this.totalPage = this.getTotalPage();
+        this.totalPage = this.getTotalPage(ObjectJS.controller);
         this.initEvent();
         this.updatePanigationBar();
     }
@@ -22,7 +22,7 @@ class PaginationCustomer {
         //Sự kiện khi click button trở về trang đầu tiên
         $("#pageFirst").on("click", function () {
             me.pageCurrent = 1;
-            me.customerJS.loadData(me.pageFirst);
+            me.ObjectJS.loadData(me.pageFirst);
             me.updatePanigationBar();
 
         });
@@ -32,7 +32,7 @@ class PaginationCustomer {
             var pageNext = me.pageCurrent + 1;
             if (pageNext <= me.totalPage) {
                 me.pageCurrent = pageNext;
-                me.customerJS.loadData(me.pageCurrent);
+                me.ObjectJS.loadData(me.pageCurrent);
                 me.updatePanigationBar();
             }
         })
@@ -42,7 +42,7 @@ class PaginationCustomer {
             debugger
             if (me.pageCurrent < me.totalPage) {
                 me.pageCurrent = me.totalPage;
-                me.customerJS.loadData(me.pageCurrent);
+                me.ObjectJS.loadData(me.pageCurrent);
             }
             me.updatePanigationBar();
             
@@ -56,7 +56,7 @@ class PaginationCustomer {
             }
             else {
                 me.pageCurrent = pagePrev;
-                me.customerJS.loadData(me.pageCurrent);
+                me.ObjectJS.loadData(me.pageCurrent);
             }
             me.updatePanigationBar();
         });
@@ -66,7 +66,7 @@ class PaginationCustomer {
             var page = $("#txtPageCurrent").val();
             if (page != me.pageCurrent && page >= 1 && page <= me.totalPage) {
                 me.pageCurrent = page;
-                me.customerJS.loadData(me.pageCurrent);
+                me.ObjectJS.loadData(me.pageCurrent);
                 me.updatePanigationBar();
             }
         });
@@ -79,7 +79,7 @@ class PaginationCustomer {
 
         //Sự kiện khi nhấn refresh
         $("#pageRefresh").on("click", function () {
-            me.customerJS.loadData(me.pageCurrent);
+            me.ObjectJS.loadData(me.pageCurrent);
             me.updatePanigationBar();
         })
     };
@@ -88,12 +88,12 @@ class PaginationCustomer {
      * Goi ajax lấy về tổng số bản ghi và tính số trang
      * CreatedBy: NDHuy (07/08/2020)
      * */
-    getTotalPage() {
+    getTotalPage(controller) {
         var me = this;
         var totalPage=0;
         try {
             $.ajax({
-                url: "/api/v1/customers/totalrow",
+                url: "/api/v1/" + controller+"/totalrow",
                 method: "GET",
                 async: false,
                 data: {},

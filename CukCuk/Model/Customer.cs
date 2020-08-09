@@ -5,11 +5,7 @@ namespace CukCuk.Model
 {
     public partial class Customer
     {
-        public Customer()
-        {
-            CustomerId = Guid.NewGuid();
-        }
-        public Guid? CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
         public string CustomerCode { get; set; }
         public string CustomerName { get; set; }
         public string MemberCardNo { get; set; }

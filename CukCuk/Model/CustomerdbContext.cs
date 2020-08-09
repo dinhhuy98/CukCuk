@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using CukCuk.Model;
 
 namespace CukCuk.Model
 {
@@ -116,5 +117,7 @@ namespace CukCuk.Model
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<CukCuk.Model.Employee> Employee { get; set; }
     }
 }

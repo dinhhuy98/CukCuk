@@ -131,16 +131,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: calc(100% - 160px);
+    width: calc(100% - 168px);
 }
 
 .dialog-body .form-upload-image {
     padding-left: 8px;
     width: 22%;
-    height: auto;
+    height: 142px;
+    position:relative;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
+
 }
 
 .form-upload-image .avatar-upload{
@@ -198,8 +200,48 @@
     height:85px;
 }
 
-.w-25{
-    width:25%;
+.dialog .upload-control{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:absolute;
+    width:142px;
+    height:40px;
+    bottom:0;
+    right:0;
+}
+
+    .dialog .upload-control button {
+        display: flex;
+        align-items: center;
+        height: 50%;
+        width: 35px;
+        border: 1px solid #ccc;
+        outline: none;
+        font-size:20px;
+        border-radius: unset;
+    }
+
+        .dialog .upload-control button:hover {
+            background-color: white;
+            border-color: #0973b9;
+            cursor:pointer;
+        }
+
+    .upload-control button.choose-file {
+        padding-bottom: 10px;
+        padding-left: 8px;
+    }
+
+    .upload-control button.delete-avatar {
+        color:red;
+        font-weight:bold;
+        padding-left: 10px;
+        padding-top: 2px
+    }
+
+.w-25 {
+    width: 25%;
 }
 
 .w-50 {
