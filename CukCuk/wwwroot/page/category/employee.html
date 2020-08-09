@@ -114,7 +114,7 @@
                 </div>
                 <!--Grid-->
                 <div class="grid">
-                    <table id="tbListCustomer" width="100%" border="1">
+                    <table id="tbListEmployee" width="100%" border="1">
                         <thead>
                             <tr>
                                 <th>
@@ -206,182 +206,184 @@
                         Thông tin chung
                     </div>
                 </div>
-                <div class="row">
-                    <div class="w-75 mr-8p">
+                <div class="row mb-0p">
+                    <div class="w-78">
                         <div class="row-item">
-                            <div class="input-title">
-                                <label>Mã Nhân viên&nbsp;<span class="m-required">(*)</span></label>
+                            <div class="left-item">
+                                <label>Mã hhân viên&nbsp;<span class="m-required">(*)</span></label>
                             </div>
-                            <input type="text" id="txtCustomerCode" />
+                            <div class="right-item">
+                                <input type="text" id="txtCustomerCode" />
+                            </div>
                         </div>
                         <div class="row-item">
-                            <div class="input-title">
+                            <div class="left-item">
                                 <label>Tên nhân viên&nbsp;<span class="m-required">(*)</span></label>
                             </div>
-                            <input type="text" id="txtCustomerCode" />
-                        </div>
-                        <div class="row-item">
-                            <div class="input-title">
-                                <label>Ngày sinh&nbsp;<span class="m-required">(*)</span></label>
+                            <div class="right-item">
+                                <input type="text" id="txtCustomerCode" />
                             </div>
-                            <input type="text" id="txtCustomerCode" />
                         </div>
                         <div class="row-item">
-                            <div class="input-title">
+                            <div class="left-item">
+                                <label>Ngày sinh</label>
+                            </div>
+
+                            <div class="right-item">
+                                <input class="short-input" type="date" id="txtCustomerCode" />
+                                <div class="short-row-item ml-8p">
+                                    <label for="gender">Giới tính</label>
+                                    <select class="short-input" name="cars" id="cars">
+                                        <option value="volvo">Volvo</option>
+                                        <option value="saab">Saab</option>
+                                        <option value="opel">Opel</option>
+                                        <option value="audi">Audi</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-item">
+                            <div class="left-item">
                                 <label>Email&nbsp;<span class="m-required">(*)</span></label>
                             </div>
-                            <input type="text" id="txtCustomerCode" />
+                            <div class="right-item">
+                                <input type="text" id="txtCustomerCode" />
+                            </div>
                         </div>
                         <div class="row-item">
-                            <div class="input-title">
+                            <div class="left-item">
                                 <label>ĐT di động&nbsp;<span class="m-required">(*)</span></label>
                             </div>
-                            <input type="text" id="txtCustomerCode" />
-                        </div>
-                        <div class="row-item">
-                            <div class="input-title">
-                                <label>Số CMT/HC&nbsp;<span class="m-required">(*)</span></label>
+                            <div class="right-item">
+                                <input type="text" id="txtCustomerCode" />
                             </div>
-                            <input type="text" id="txtCustomerCode" />
                         </div>
                         <div class="row-item">
-                            <div class="input-title">
-                                <label>Nơi cấp CMND&nbsp;<span class="m-required">(*)</span></label>
+                            <div class="left-item">
+                                <label>Số CMT/HC</label>
                             </div>
-                            <input type="text" id="txtCustomerCode" />
-                        </div>
 
-                    </div>
-                    <div class="w-25"></div>
-                </div>
-                <div class="row">
-                    <div class="r-left w-50 mr-18p">
-                        
-                    </div>
-                    <div class="r-right w-50">
-                        <div class="row-item">
-                            <label>Tên khách hàng&nbsp;<span class="m-required">(*)</span></label>
-                            <input type="text" id="txtCustomerName" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="r-left w-50 mr-18p">
-                        <div class="row-item">
-                            <label>Mã thẻ thành viên</label>
-                            <input type="text" id="txtMemberCardNo" />
-                        </div>
-
-                    </div>
-                    <div class="r-right w-50 ">
-                        <div class="row-item f-start">
-                            <label>Là thành viên 5Food</label>
-                            <input type="checkbox" id="ckIs5FoodMember" class="ml-15p" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="r-left w-50 mr-18p">
-                        <div class="row-item mb-4p">
-                            <label>Nhóm khách hàng</label>
-                            <input type="text" id="txtCustomerGroup" />
-                        </div>
-                        <div class="row-item mb-4p">
-                            <label>DT di động&nbsp;<span class="m-required">(*)</span></label>
-                            <input type="text" id="txtCustomerTel" />
-                        </div>
-                        <div class="row-item">
-                            <label>Ngày sinh</label>
-                            <input type="date" id="dtBirthday" />
-                        </div>
-
-                    </div>
-                    <div class="r-right w-50">
-                        <div class="row-item upload-image">
-                            <div>
-                                <div style="display:flex">
-                                    <label>Ảnh: </label>
-                                    <label for="fileImage" class="input-file" style="margin-left:100px"><span class="btn-icon btn-icon-upload mr-4p"></span>Chọn ảnh</label>
-                                    <input type="file" id="fileImage" class="m-0p" style="display:none" />
+                            <div class="right-item">
+                                <input class="short-input" type="text" id="txtCustomerCode" />
+                                <div class="short-row-item ml-8p">
+                                    <label for="gender">Ngày cấp</label>
+                                    <input class="short-input" type="date" id="txtCustomerCode" />
                                 </div>
-                                <div id="img-info" style="width:100%;text-align:right">Khách hàng chưa có ảnh</div>
-                            </div>
-                            <div>
-                                <img src="#" alt="avatar" class="img-thumbnail" style="visibility:hidden" />
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="r-left w-100">
-                        <div class="row-item">
-                            <label>Tên công ty</label>
-                            <input type="text" id="txtCompanyName" />
+
+                    </div>
+
+                    <div class="form-upload-image">
+                        <div class="avatar-upload">
+
+                        </div>
+                        <div class="image-info">
+                            Chỉ được upload tệp</br> .jpg .jpeg .png .gif
                         </div>
                     </div>
+
                 </div>
-
                 <div class="row">
-                    <div class="r-left w-50 mr-18p">
+                    <div class="w-100">
                         <div class="row-item">
-                            <label>Mã số thuế</label>
-                            <input type="text" id="txtCustomerTaxCode" />
-                        </div>
-
-                    </div>
-                    <div class="r-right w-50">
-                        <div class="row-item">
-                            <label>Email</label>
-                            <input type="text" id="txtCustomerEmail" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="r-left w-100">
-                        <div class="row-item">
-                            <label>Địa chỉ</label>
-                            <input type="text" id="txtCustomerAddress" />
+                            <div class="left-item">
+                                <label>Nơi cấp CMND</label>
+                            </div>
+                            <div class="right-item">
+                                <input type="text" id="txtCustomerCode" />
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="r-left w-100">
+                    <div class="w-100 form-title">
+                        Thông tin công việc
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="w-100">
                         <div class="row-item">
-                            <label>Ghi chú</label>
-                            <textarea id="txtNote" name="note" rows="2" cols="6"></textarea>
+                            <div class="left-item">
+                                <label>Vị trí</label>
+                            </div>
+                            <div class="right-item">
+                                <select class="w-100" name="cars" id="cars">
+                                    <option value="volvo">Volvo</option>
+                                    <option value="saab">Saab</option>
+                                    <option value="opel">Opel</option>
+                                    <option value="audi">Audi</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row-item">
+                            <div class="left-item">
+                                <label>Phòng ban</label>
+                            </div>
+                            <div class="right-item">
+                                <select class="w-100" name="cars" id="cars">
+                                    <option value="volvo">Volvo</option>
+                                    <option value="saab">Saab</option>
+                                    <option value="opel">Opel</option>
+                                    <option value="audi">Audi</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row-item">
+                            <div class="left-item">
+                                <label>Mã số thuế cá nhân</label>
+                            </div>
+                            <div class="right-item">
+                                <input class="short-input" type="text" id="txtCustomerCode" />
+                                <div class="short-row-item ml-8p">
+                                     <label for="gender">Mức lương</label>
+                                    <input class="medium-input" type="text" id="txtCustomerCode" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-item">
+                            <div class="left-item">
+                                <label>Ngày gia nhập</label>
+                            </div>
+                            <div class="right-item">
+                                <input class="short-input" type="text" id="txtCustomerCode" />
+                                <div class="short-row-item ml-8p">
+                                    <label for="gender">Ngày cấp</label>
+                                    <input class="medium-input" type="date" id="txtCustomerCode" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
+            </div>       
+
+ 
+                <div class="dialog-footer">
+                    <div class="footer-left">
+                        <button id="btnHelp" class="btn-secondary">
+                            <div class="btn-icon btn-icon-help"></div>
+                            <div class="btn-text">Giúp</div>
+                        </button>
+                    </div>
+                    <div class="footer-right">
+                        <button id="btnSave" class="mr-8p btn-secondary">
+                            <div class="btn-icon btn-icon-save"></div>
+                            <div class="btn-text">Cất</div>
+                        </button>
+                        <button id="btnSaveAndAdd" class="mr-8p btn-secondary">
+                            <div class="btn-icon btn-icon-save-add"></div>
+                            <div class="btn-text">Cất & Thêm</div>
+                        </button>
+                        <button id="btnClose" class="btn-secondary">
+                            <div class="btn-icon btn-icon-close"></div>
+                            <div class="btn-text">Hủy bỏ</div>
+                        </button>
+                    </div>
+
+                </div>
             </div>
-            <div class="dialog-footer">
-                <div class="footer-left">
-                    <button id="btnHelp" class="btn-secondary">
-                        <div class="btn-icon btn-icon-help"></div>
-                        <div class="btn-text">Giúp</div>
-                    </button>
-                </div>
-                <div class="footer-right">
-                    <button id="btnSave" class="mr-8p btn-secondary">
-                        <div class="btn-icon btn-icon-save"></div>
-                        <div class="btn-text">Cất</div>
-                    </button>
-                    <button id="btnSaveAndAdd" class="mr-8p btn-secondary">
-                        <div class="btn-icon btn-icon-save-add"></div>
-                        <div class="btn-text">Cất & Thêm</div>
-                    </button>
-                    <button id="btnClose" class="btn-secondary">
-                        <div class="btn-icon btn-icon-close"></div>
-                        <div class="btn-text">Hủy bỏ</div>
-                    </button>
-                </div>
-
-            </div>
-        </div>
     </div>
 
     <script src="/js/lib/jquery-3.5.1.min.js"></script>
