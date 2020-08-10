@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\js\lib\" />
+    <Folder Include="wwwroot\upload\employee\" />
   </ItemGroup>
 
   <ItemGroup>

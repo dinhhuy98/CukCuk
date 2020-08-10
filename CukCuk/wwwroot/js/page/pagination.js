@@ -117,14 +117,23 @@ class Pagination {
     /**
      * Cập nhật lại thông tin trên tab phân trang
      * */
-    updatePanigationBar() {
+     updatePanigationBar() {
         $("#txtPageCurrent").val(this.pageCurrent);
         $(".page-total").html(this.totalPage);
         var rowFirst = (this.pageCurrent - 1) * this.numberRowOnPage + 1;
         var rowLast = this.totalRow;
         if (rowFirst + this.numberRowOnPage - 1 < this.totalRow)
             rowLast = rowFirst + this.numberRowOnPage - 1;
-        debugger;
+  
         $(".page-info").html("Hiển thị từ " + rowFirst + "-" + rowLast + " trên " + this.totalRow+" kết quả")
+    }
+
+    /**
+     * Cập nhật trang hiện tại
+     * @param {any} page
+     * CreatedBy:NDHuy (10/08/2020)
+     */
+     updatePageCurrent(page) {
+        this.pageCurrent = page;
     }
 }

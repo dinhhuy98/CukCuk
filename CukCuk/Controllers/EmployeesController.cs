@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CukCuk.Model;
+using System.IO;
 
 namespace CukCuk.Controllers
 {
@@ -103,6 +104,20 @@ namespace CukCuk.Controllers
             return CreatedAtAction("GetEmployee", new { id = employee.EmployeeId }, employee);
         }
 
+        [HttpPost("uploadimg/{imgname}")]
+        public async Task<IActionResult> ImageUpload(IFormFile image, String imgname)
+        {
+            if(imgname== "avatardefault.jpg")
+                return NoContent();
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "upload","employee", imgname);
+            using (System.IO.Stream stream = new FileStream(path, FileMode.Create))
+            {
+                await image.CopyToAsync(stream);
+            }
+            return NoContent();
+
+        }
+
         // DELETE: api/Employees/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Employee>> DeleteEmployee(Guid id)
@@ -122,6 +137,16 @@ namespace CukCuk.Controllers
         private bool EmployeeExists(Guid id)
         {
             return _context.Employee.Any(e => e.EmployeeId == id);
+        }
+
+        [HttpGet("findemployeebycode")]
+        public Boolean findEmployeeByCode([FromQuery]String employeeCode)
+        {
+            Employee employee = _context.Employee.Where(s => s.EmployeeCode == employeeCode).FirstOrDefault();
+            if (employee != null)
+                return true;
+            else
+                return false;
         }
     }
 }
