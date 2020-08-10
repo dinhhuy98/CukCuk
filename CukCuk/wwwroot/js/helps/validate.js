@@ -41,6 +41,13 @@
     isNumber(value) {
         var reg = /^\d+$/;
         return reg.test(value);
+    },
+
+    isValidImage(fileName) {
+        if (!(/\.(gif|jpg|jpeg|png)$/i).test(fileName)) {
+            return false;
+        }
+        return true;
     }
 
 

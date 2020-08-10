@@ -15,8 +15,9 @@ class EmployeeJS {
             this.paginationEmployee = new Pagination(this);
             this.initEvent();
             this.formValidateEvent();
+            
         } catch (e) {
-            console(e);
+            console.log(e);
         }
     }
 
@@ -41,7 +42,7 @@ class EmployeeJS {
 
         //Hiển thị ảnh xem trước khi người dùng upload ảnh
         this.changeImage = false; //biến sử dụng để kiểm tra người dùng chọn ảnh chưa
-        $("#fileUpload").on('change', this.showImageFromInput.bind(this));
+        $("#fileUpload").on('change', this.showImagePreview.bind(this));
         $(".delete-avatar").on("click", {}, this.deleteAvatar.bind(this));
     }
 
@@ -311,11 +312,13 @@ class EmployeeJS {
 
         if (this.checkValidateInput() == false)
             return;
-      /*  if (this.checkEmployeeCodeExist(employee["EmployeeCode"])) {
+        var checkEmployeeCode = this.checkEmployeeCodeExist(employee["EmployeeCode"]);
+        if (checkEmployeeCode==true) {
             alert("Mã nhân viên đã tồn tại");
+            $("#txtEmployeeCode").addClass("input-invalid");
             return;
-        }*/
-        debugger;
+        }
+        $("#txtEmployeeCode").removeClass("input-invalid");
         //Kiểm tra kiểu form
         var me = this;
         if (sender.data.formMode == Enum.FormMode.Add || sender.data.formMode == Enum.FormMode.SaveAndAdd) {
@@ -416,7 +419,11 @@ class EmployeeJS {
      * Hiển thị ảnh xem trước khi upload ảnh
      * CreatedBy:NDHuy (10/08/2020)
      * */
-    showImageFromInput() {
+    showImagePreview() {
+        if (!validate.isValidImage($("#fileUpload")[0].files[0].name)) {
+            alert("Không hỗ trợ định dạng ảnh này")
+            return;
+        }
         this.changeImage = true;
         var file = $("#fileUpload")[0].files[0];
         var fileReader = new FileReader();
@@ -446,7 +453,7 @@ class EmployeeJS {
      * CreatedBy: NDHuy(10/08/2020)
      */
     createFileName(employeeName) {
-        if ($("#fileUpload").val() == "")
+        if ($("#fileUpload").val() == "" || !validate.isValidImage($("#fileUpload")[0].files[0].name))
             return "avatardefault.jpg";
         var arrString = $("#fileUpload").val().split(".");
         var typeFile = arrString[arrString.length - 1];
@@ -571,6 +578,28 @@ class EmployeeJS {
 
     }
 
+    checkEmployeeCodeExist(employeeCode) {
+        //Gọi Ajax lấy dữ liệu về
+        try {
+            var check = null;
+            $.ajax({
+                async: false,
+                url: "/api/v1/employees/findemployeebycode?employeeCode=" + employeeCode,
+                method: "GET",
+                data: {},
+                dataType: "text",
+                contentType: "application/json",
+            }).done(function (response) {
+                check = response;
+            }).fail(function (response) {
+                console.log(response);
+            });
+            return Boolean(check);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     /**
      * Kiểm tra mã nhân viên
      * CreatedBy:NDHuy (10/08/2020)
@@ -637,22 +666,5 @@ class EmployeeJS {
         return Enum.Valid;
     }
 
-    checkEmployeeCodeExist(employeeCode) {
-        //Gọi Ajax lấy dữ liệu về
-        $.ajax({
-            url: "/api/v1/employees/findemployeebycode?employeeCode=" + employeeCode,
-            method: "GET",
-            data: {},
-            dataType: "json",
-            contentType: "application/json",
-        }).done(function (response) {
-            if (response == true)
-                return true;
-            else
-                return false;
-        }).fail(function (response) {
-            return false
-        })
-
-    }
+    
 }

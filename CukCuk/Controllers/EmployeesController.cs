@@ -118,6 +118,18 @@ namespace CukCuk.Controllers
 
         }
 
+        /**
+         * Lấy ra EmployeeCode lớn nhất
+         */
+        [HttpGet("maxemployeecode")]
+        public String getMaxEmployeeCode()
+        {
+
+            var max = _context.Employee.Max(s=>s.EmployeeCode).ToString();
+            return max;
+
+        }
+
         // DELETE: api/Employees/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Employee>> DeleteEmployee(Guid id)
