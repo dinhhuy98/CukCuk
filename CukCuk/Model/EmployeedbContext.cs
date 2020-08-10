@@ -136,7 +136,7 @@ namespace CukCuk.Model
                     .HasColumnType("datetime")
                     .HasComment("Ngày tạo thông tin");
 
-                entity.Property(e => e.CustomerAvatar)
+                entity.Property(e => e.EmployeeAvatar)
                     .HasColumnType("varchar(255)")
                     .HasComment("đường dẫn ảnh đại diện")
                     .HasCharSet("utf8mb4")

@@ -17,14 +17,20 @@
      * Ham dinh dang ngay hien thi
      * @param {any} date
      * */
-    formatDate(date, charseparator) {
+    formatDate(date, charseparator, type) {
+        if (isNaN(date))
+            return null;
         var day = date.getDate();
         var month = date.getMonth() + 1;
         var year = date.getFullYear();
         month = (month < 10) ? "0" + month : month;
         day = (day < 10) ? "0" + day : day;
         //return day + "/" + month + "/" + year;
-        return year + charseparator + month + charseparator + day;
+        if(type==0)
+            return year + charseparator + month + charseparator + day;
+        else if (type == 1)
+            return day + charseparator + month + charseparator + year;
+        return null;
     },
 
 

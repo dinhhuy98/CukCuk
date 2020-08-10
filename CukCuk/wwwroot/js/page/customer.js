@@ -11,6 +11,7 @@
  * */
 class CustomerJS {
     constructor() {
+        this.controller = "customers";
         try {
             this.initEvent();
             this.loadData(1);

@@ -131,7 +131,7 @@
                                         <input type="text" name="name" value="" />
                                     </div>
                                 </th>
-                                <th width="15%">
+                                <th >
                                     <div class="col-title">Giới tính</div>
                                     <div class="flex-align-center">
                                         <button><span>*</span></button>
@@ -145,7 +145,7 @@
                                         <input type="text" name="name" value="" />
                                     </div>
                                 </th>
-                                <th width="20%">
+                                <th>
                                     <div class="col-title" style="text-align:center">Số điện thoại</div>
                                     <div class="flex-align-center">
                                         <button><span>*</span></button>
@@ -166,7 +166,7 @@
                                         <input type="text" name="name" value="" />
                                     </div>
                                 </th>
-                            <!--    <th>
+                                <th>
                                     <div class="col-title">Phòng ban</div>
                                     <div class="flex-align-center">
                                         <button><span>*</span></button>
@@ -186,7 +186,7 @@
                                         <button><span>*</span></button>
                                         <input type="text" name="name" value="" />
                                     </div>
-                                </th>-->
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -242,7 +242,7 @@
                                 <label for="txtEmployeeName">Tên nhân viên&nbsp;<span class="m-required">(*)</span></label>
                             </div>
                             <div class="right-item">
-                                <input type="text" id="txtEmployeeName" />
+                                <input type="text" id="txtEmployeeName" value="Nguyễn Đình Huy" />
                             </div>
                         </div>
                         <div class="row-item">
@@ -255,8 +255,8 @@
                                 <div class="short-row-item pl-8p">
                                     <label for="selectGender">Giới tính</label>
                                      <select class="short-input" id="selectGender">
-                                        <option value="0">Nam</option>
-                                        <option value="1">Nữ</option>
+                                        <option value="false">Nam</option>
+                                        <option value="true">Nữ</option>
                                     </select>
                                 </div>
                             </div>
@@ -266,7 +266,7 @@
                                 <label for="txtEmail">Email&nbsp;<span class="m-required">(*)</span></label>
                             </div>
                             <div class="right-item">
-                                <input type="text" id="txtEmail" />
+                                <input type="text" id="txtEmail" value="dinhhuy1798@gmail.com" />
                             </div>
                         </div>
                         <div class="row-item">
@@ -274,7 +274,7 @@
                                 <label for="txtPhoneNumber">ĐT di động&nbsp;<span class="m-required">(*)</span></label>
                             </div>
                             <div class="right-item">
-                                <input type="text" id="txtPhoneNumber" />
+                                <input type="text" id="txtPhoneNumber" value="74397559748" />
                             </div>
                         </div>
                         <div class="row-item">
@@ -283,7 +283,7 @@
                             </div>
 
                             <div class="right-item">
-                                <input class="short-input" type="text" id="txtIdentificationCard" />
+                                <input class="short-input" type="text" id="txtIdentificationCard" value="9754748758" />
                                 <div class="short-row-item ml-8p">
                                     <label for="dtDateOfIssue">Ngày cấp</label>
                                     <input class="short-input" type="date" id="dtDateOfIssue" />
@@ -297,8 +297,9 @@
                     <div class="form-upload-image">
                         <div class="avatar-upload">
                             <div class="upload-control">
-                                <button class="choose-file mr-8p">...</button>
+                                <label for="fileUpload"><span class="choose-file mr-8p">...</span></label>
                                 <button class="delete-avatar">&times;</button>
+                                <input type="file" id="fileUpload" style="display:none" />
                             </div>
                         </div>
                         <div class="image-info">
@@ -314,7 +315,7 @@
                                 <label for="txtPlaceOfIssue">Nơi cấp CMND</label>
                             </div>
                             <div class="right-item">
-                                <input type="text" id="txtPlaceOfIssue" />
+                                <input value="Bắc Ninh" type="text" id="txtPlaceOfIssue" />
                             </div>
                         </div>
                     </div>
@@ -364,10 +365,10 @@
                                 <label for="txtEmployeeTaxCode">Mã số thuế cá nhân</label>
                             </div>
                             <div class="right-item">
-                                <input class="short-input" type="text" id="txtEmployeeTaxCode" />
+                                <input class="short-input" type="text" id="txtEmployeeTaxCode" value="77392883" />
                                 <div class="short-row-item ml-8p">
                                      <label for="txtSalary">Mức lương</label>
-                                    <input class="medium-input" type="text" id="txtSalary" />
+                                    <input class="medium-input" type="text" id="txtSalary" value="300000000" />
                                 </div>
                             </div>
                         </div>
@@ -381,9 +382,9 @@
                                     <label for="selectStatusJob">Tình trạng</label>
                                     
                                     <select class="medium-input" name="cars" id="selectStatusJob">
-                                        <option value="volvo">Đã nghỉ việc</option>
-                                        <option value="saab">Đang làm việc</option>
-                                        <option value="opel">Đang thử việc</option>
+                                        <option value="Đã nghỉ việc">Đã nghỉ việc</option>
+                                        <option value="Đang làm việc">Đang làm việc</option>
+                                        <option value="Đang thử việc">Đang thử việc</option>
                                     </select>
                                 </div>
                             </div>

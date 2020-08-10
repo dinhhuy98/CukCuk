@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     employeeJS = new EmployeeJS();
-    paginationEmployee = new Pagination(employeeJS);
+    
 })
 
 /**
@@ -12,6 +12,7 @@ class EmployeeJS {
         this.controller = "employees";
         try {
             this.loadData(1);
+            this.paginationEmployee = new Pagination(this);
             this.initEvent();
         } catch (e) {
             console(e);
@@ -36,6 +37,10 @@ class EmployeeJS {
         //Gán sự kiện cho các button đóng của form
         $('#btnClose').click(this.btnCloseOnClick);
         $('#btnCloseHeader').click(this.btnCloseHeaderOnClick);
+
+        //Hiển thị ảnh xem trước khi người dùng upload ảnh
+        $("#fileUpload").on('change', this.showImageFromInput);
+        $(".delete-avatar").on("click", {}, this.deleteAvatar);
     }
 
     /**
@@ -62,20 +67,21 @@ class EmployeeJS {
                                 <td>`+ item['EmployeeCode'] + `</td>
                                 <td>`+ item['EmployeeName'] + `</td>
                                 <td>`+ (item['Gender']==true? "Nữ":"Nam") + `</td>
-                                <td>`+ commonJS.formatDate(new Date(item['Birthday']),"/") + `</td>
+                                <td>`+ commonJS.formatDate(new Date(item['Birthday']),"/",1) + `</td>
                                 <td>`+ item['PhoneNumber'] + `</td>
                                 <td>`+ item['Email'] + `</td>
                                 <td>`+ item['Position'] + `</td>
+                                <td>`+ item['Department'] + `</td>
+                                <td>`+ commonJS.formatMoney(item['Salary']) + `</td>
+                                <td>`+ item['StatusJob'] + `</td>
                                      
                             </tr>`;
-                    /*<td>`+ item['Department'] + `</td>
-                        <td>`+ commonJS.formatMoney(item['Salary']) + `</td>
-                        <td>`+ item['StatusJob'] + `</td> */
+                    /* */
 
                     //Tạo đối tượng tr tương ứng với chuỗi customerInfoHTML
                     var jQueryObject = $('<tr></tr>').html(employeeInfoHTML).children();
                     //thêm data cho tr
-                    jQueryObject.data("EmployeeId", item['CustomerId']);
+                    jQueryObject.data("EmployeeId", item['EmployeeId']);
                     $('table#tbListEmployee tbody').append(jQueryObject);
                     //debugger;
                     //console.log(item);
@@ -104,15 +110,15 @@ class EmployeeJS {
                     break;
                 case Enum.FormMode.Edit:
                     //goi ajax lấy khách hàng đang được chọn
-                    var customer = this.getCustomerSelected();
-                    this.showEditCustomerForm(customer);
+                    var employee = this.getEmployeeSelected();
+                    this.showEditEmployeeForm(employee);
                     break;
                 case Enum.FormMode.Delete:
-                    var customer = this.getCustomerSelected();
-                    this.deleteCustomer(customer);
+                    var employee = this.getEmployeeSelected();
+                    this.deleteEmployee(employee);
                     break;
                 case Enum.FormMode.Duplicate:
-                    var customer = this.getCustomerSelected();
+                    var employee = this.getEmployeeSelected();
                     this.showAddEmployeeForm(employee);
                     break;
                 case Enum.FormMode.Refresh:
@@ -129,12 +135,12 @@ class EmployeeJS {
     * Gọi ajax lấy thông tin nhân viên đang được chọn trong table
     * CreatedBy:NDHuy (09/08/2020)
     * */
-    getCustomerSelected() {
+    getEmployeeSelected() {
         var employeeId = $('table#tbListEmployee tbody tr.row-selected').data()['EmployeeId'];
         var employee = null;
         try {
             $.ajax({
-                url: "/api/v1/employee/" + employeeId,
+                url: "/api/v1/employees/" + employeeId,
                 method: "GET",
                 async: false,
                 data: {},
@@ -177,6 +183,66 @@ class EmployeeJS {
     }
 
     /**
+     * Hiển thị form sửa thông tin nhân viên
+     * CreatedBy: NDHuy (28/07/2020)
+     * @param {any} data
+     */
+    showEditEmployeeForm(employee) {
+
+        //Đổ dữ liệu ra form
+        $("#txtEmployeeCode").val(employee["EmployeeCode"]),
+        $("#dtBirthday").val(commonJS.formatDate(new Date(employee["Birthday"]),"-",0)),
+        $("#selectGender").val(employee["Gender"]==false? "false":"true"),
+        $("#txtEmail").val(employee["Email"]),
+        $("#txtPhoneNumber").val(employee["PhoneNumber"]),
+        $("#txtIdentificationCard").val(employee["IdentificationCard"]),
+        $("#dtDateOfIssue").val(commonJS.formatDate(new Date(employee["DateOfIssue"]), "-", 0)),
+        $("#txtPlaceOfIssue").val(employee["PlaceOfIssue"]),
+        $("#selectPosition").val(employee["Position"]),
+        $("#selectDepartment").val(employee["Department"]),
+        $("#txtEmployeeTaxCode").val(employee["EmployeeTaxCode"]),
+        $("#txtSalary").val(employee["Salary"]),
+        $("#dtJoinDate").val(commonJS.formatDate(new Date(employee["JoinDate"]),"-",0)),
+        $("#selectStatusJob").val(employee["StatusJob"]),
+        $("#txtEmployeeName").val(employee["EmployeeName"]),
+        $(".avatar-upload").css('background-image', 'url(/upload/' + employee["EmployeeAvatar"] + ')');
+
+        //Hiển thị form
+        this.setButtonEventDialog(Enum.FormMode.Edit, employee['EmployeeId']);
+        $("#frmDialogDetail").show();
+    }
+
+    /**
+     * Xóa nhân viên
+     * CreatedBy:NDHuy (28/07/2020)*/
+    deleteEmployee(employee) {
+        var confirmDelete = confirm("Bạn chắc chắn muốn xóa?");
+        var me = this;
+        if (confirmDelete) {
+            try {
+                $.ajax({
+                    url: "/api/v1/employees/" + employee.EmployeeId,
+                    method: "DELETE",
+                    data: {},
+                    dataType: "text",
+                    contentType: "application/json; charset=utf-8",
+                }).done(function (response) {
+                    //hien thi thong bao thanhcong/thatbai
+                    alert("Xóa thành công");
+                    me.loadData(1);
+                    me.paginationEmployee.updatePageCurrent(1);
+                    me.paginationEmployee.updatePanigationBar();
+                }).fail(function (response) {
+                    console.log(response);
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }
+
+
+    /**
     * Thiết lập event của button trong footer của dialog theo chức năng tương ứng
     * @param {number} formMode
     * CreatedBy:NDHuy (09/08/2020)
@@ -209,58 +275,52 @@ class EmployeeJS {
      * CreatedBy:NDHuy (09/08/2020)
      * */
     saveData(sender) {
+        var fileName = this.createFileName($("#txtEmployeeCode").val());
         //Lấy dữ liệu được nhập từ các ô input
-        var customer = {
-            "EmployeeId": "1c17f8a1-5347-6f6c-080c-87ae14180c33",
-            "EmployeeCode": "NV00999",
-            "Birthday": "2019-03-14T00:00:00",
-            "Gender": false,
-            "Email": "Bobo@nowhere.com",
-            "PhoneNumber": "037042482",
-            "IdentificationCard": "0566890159",
-            "DateOfIssue": "1998-03-29T00:00:00",
-            "PlaceOfIssue": "Port Pirie",
-            "Position": "Chánh văn phòng",
-            "Department": "Văn Phòng Hà Nội",
-            "EmployeeTaxCode": "1447339834",
-            "Salary": 13556291.0000,
-            "JoinDate": "1970-01-06T00:00:00",
-            "StatusJob": "Đang thử việc",
-            "CustomerAvatar": "employee/avatardefault.jpg",
-            "CreatedDate": "2020-08-11T00:53:05",
-            "ModifiedDate": "2020-08-10T00:00:06",
-            "EmployeeName": "Phan Lan Phương"
+        var employee = {
+            "EmployeeCode": $("#txtEmployeeCode").val(),
+            "Birthday": commonJS.formatDate(new Date($("#dtBirthday").val()),"-",0),
+            "Gender": $("#selectGender").val(),
+            "Email": $("#txtEmail").val(),
+            "PhoneNumber": $("#txtPhoneNumber").val(),
+            "IdentificationCard": $("#txtIdentificationCard").val(),
+            "DateOfIssue": commonJS.formatDate(new Date($("#dtDateOfIssue").val()), "-", 0),
+            "PlaceOfIssue": $("#txtPlaceOfIssue").val(),
+            "Position": $("#selectPosition").val(),
+            "Department": $("#selectDepartment").val(),
+            "EmployeeTaxCode": $("#txtEmployeeTaxCode").val(),
+            "Salary": parseInt($("#txtSalary").val()),
+            "JoinDate": commonJS.formatDate(new Date($("#dtJoinDate").val()), "-", 0),
+            "StatusJob": $("#selectStatusJob").val(),
+            "EmployeeAvatar": "employee/"+fileName ,
+            "CreatedDate": commonJS.formatDate(new Date(),"-",0),
+            "EmployeeName": $("#txtEmployeeName").val()
         };
+
+
         debugger;
-        //var fromData = this.createDataImage();
-
-
-        //return formData;
-
-
-
         //Kiểm tra kiểu form
         var me = this;
         if (sender.data.formMode == Enum.FormMode.Add || sender.data.formMode == Enum.FormMode.SaveAndAdd) {
-            //var data = [customer, formData];
 
-
-            //var json = ;
             //gọi ajax gửi dữ liệu lên server
 
 
             try {
                 $.ajax({
-                    url: "/api/v1/customers/",
+                    url: "/api/v1/employees/",
                     method: "POST",
 
-                    data: JSON.stringify(customer),
+                    data: JSON.stringify(employee),
                     dataType: "text",
                     contentType: "application/json;charset=utf-8",
                 }).done(function (response) {
-                    me.uploadImage(customer["CustomerCode"]);
+
+                    me.uploadImage(fileName);
                     alert("Thêm mới thành công");
-                    me.loadData();
+                    me.loadData(1);
+                    me.paginationEmployee.updatePageCurrent(1);
+                    me.paginationEmployee.updatePanigationBar();
                 }).fail(function (response) {
                     console.log(response);
                 });
@@ -314,8 +374,75 @@ class EmployeeJS {
      * */
     resetFormDialog() {
         $('#frmDialogDetail input').val("");
-       
         $('#frmDialogDetail input').removeClass("input-invalid");
+        $('#frmDialogDetail select option:first-child').attr('selected', true);
+        $(".avatar-upload").css('background-image', 'url("/content/images/avatardefault.png")');
+        $('.image-info').html("Chỉ được upload tệp<br/> .jpg .jpeg .png .gif")
+    }
+
+    /**
+     * Hiển thị ảnh xem trước khi upload ảnh
+     * CreatedBy:NDHuy (10/08/2020)
+     * */
+    showImageFromInput() {
+        var file = $(this)[0].files[0];
+        var fileReader = new FileReader();
+        fileReader.onload = function (event) {
+            var imageUrl = event.target.result;
+            $(".avatar-upload").css('background-image', 'url(' + imageUrl + ')');
+           // $("#img-info").html(file.name);
+        };
+        fileReader.readAsDataURL(file);
+        $('.image-info').html(file.name)
+    }
+
+    /**
+     * Xóa ảnh đã chọn để upload
+     * CreatedBy:NDHuy (10/08/2020)
+     * */
+    deleteAvatar() {
+        $(".avatar-upload").css('background-image', 'url("/content/images/avatardefault.png")');
+        $('#fileUpload').val("");
+        $('.image-info').html("Chỉ được upload tệp<br/> .jpg .jpeg .png .gif")
+    }
+
+    /**
+     * Tạo tên file dựa trên mã nhân viên
+     * @param {any} employeeName
+     * CreatedBy: NDHuy(10/08/2020)
+     */
+    createFileName(employeeName) {
+        if ($("#fileUpload").val() == "")
+            return "avatardefault.jpg";
+        var arrString = $("#fileUpload").val().split(".");
+        var typeFile = arrString[arrString.length - 1];
+        return employeeName + "." + typeFile;
+    }
+
+    /**
+    * Đưa ảnh lên server
+    * CreatedBy:NDHuy (10/08/2020)
+    * */
+    uploadImage(imgName) {
+        if (imgName == null)
+            imgName = "avatardefault.png";
+        var image = $("#fileUpload").get(0).files;
+
+        var formData = new FormData();
+        formData.append('image', image[0]);
+        $.ajax({
+            url: '/api/v1/employees/uploadimg/' + imgName,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+
+        }).done(function (response) {
+            //hien thi thong bao thanhcong/thatbai
+            //alert(response);
+        }).fail(function (response) {
+            console.log(response);
+        });
     }
 
     /**

@@ -20,7 +20,7 @@ namespace CukCuk.Model
         public decimal? Salary { get; set; }
         public DateTime? JoinDate { get; set; }
         public string StatusJob { get; set; }
-        public string CustomerAvatar { get; set; }
+        public string EmployeeAvatar { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public string EmployeeName { get; set; }
