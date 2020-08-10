@@ -114,46 +114,39 @@
                 </div>
                 <!--Grid-->
                 <div class="grid">
-                    <table id="tbListCustomer" width="100%" border="1">
+                    <table id="tbListEmployee" width="100%" >
                         <thead>
                             <tr>
                                 <th>
-                                    <div class="col-title">Mã khách hàng</div>
+                                    <div class="col-title">Mã nhân viên</div>
                                     <div class="flex-align-center">
                                         <button><span>*</span></button>
                                         <input type="text" name="name" value="" />
                                     </div>
                                 </th>
                                 <th>
-                                    <div class="col-title">Tên khách hàng</div>
+                                    <div class="col-title">Tên nhân viên</div>
                                     <div class="flex-align-center">
                                         <button><span>*</span></button>
                                         <input type="text" name="name" value="" />
                                     </div>
                                 </th>
                                 <th width="15%">
-                                    <div class="col-title">Tên công ty</div>
+                                    <div class="col-title">Giới tính</div>
                                     <div class="flex-align-center">
                                         <button><span>*</span></button>
                                         <input type="text" name="name" value="" />
                                     </div>
                                 </th>
                                 <th>
-                                    <div class="col-title">Mã số thuế</div>
+                                    <div class="col-title">Ngày sinh</div>
                                     <div class="flex-align-center">
                                         <button><span>*</span></button>
                                         <input type="text" name="name" value="" />
                                     </div>
                                 </th>
                                 <th width="20%">
-                                    <div class="col-title">Địa chỉ</div>
-                                    <div class="flex-align-center">
-                                        <button><span>*</span></button>
-                                        <input type="text" name="name" value="" />
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="col-title">Số điện thoại</div>
+                                    <div class="col-title" style="text-align:center">Số điện thoại</div>
                                     <div class="flex-align-center">
                                         <button><span>*</span></button>
                                         <input type="text" name="name" value="" />
@@ -166,6 +159,34 @@
                                         <input type="text" name="name" value="" />
                                     </div>
                                 </th>
+                                <th>
+                                    <div class="col-title">Vị trí</div>
+                                    <div class="flex-align-center">
+                                        <button><span>*</span></button>
+                                        <input type="text" name="name" value="" />
+                                    </div>
+                                </th>
+                            <!--    <th>
+                                    <div class="col-title">Phòng ban</div>
+                                    <div class="flex-align-center">
+                                        <button><span>*</span></button>
+                                        <input type="text" name="name" value="" />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="col-title">Mức lương</div>
+                                    <div class="flex-align-center">
+                                        <button><span>*</span></button>
+                                        <input type="text" name="name" value="" />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="col-title">Tình trạng công việc</div>
+                                    <div class="flex-align-center">
+                                        <button><span>*</span></button>
+                                        <input type="text" name="name" value="" />
+                                    </div>
+                                </th>-->
                             </tr>
                         </thead>
                         <tbody>
@@ -193,7 +214,7 @@
     </div>
 
     <!--Form dialog-->
-    <div id="frmDialogDetail" class="form-dialog" style="display:block">
+    <div id="frmDialogDetail" class="form-dialog" style="display:none">
         <div class="dialog-modal"></div>
         <div class="dialog">
             <div class="dialog-titlebar">
@@ -206,182 +227,197 @@
                         Thông tin chung
                     </div>
                 </div>
-                <div class="row">
-                    <div class="w-75 mr-8p">
+                <div class="row mb-0p">
+                    <div class="w-78">
                         <div class="row-item">
-                            <div class="input-title">
-                                <label>Mã Nhân viên&nbsp;<span class="m-required">(*)</span></label>
+                            <div class="left-item">
+                                <label for="txtEmployeeCode">Mã hhân viên&nbsp;<span class="m-required">(*)</span></label>
                             </div>
-                            <input type="text" id="txtCustomerCode" />
+                            <div class="right-item">
+                                <input type="text" id="txtEmployeeCode" />
+                            </div>
                         </div>
                         <div class="row-item">
-                            <div class="input-title">
-                                <label>Tên nhân viên&nbsp;<span class="m-required">(*)</span></label>
+                            <div class="left-item">
+                                <label for="txtEmployeeName">Tên nhân viên&nbsp;<span class="m-required">(*)</span></label>
                             </div>
-                            <input type="text" id="txtCustomerCode" />
+                            <div class="right-item">
+                                <input type="text" id="txtEmployeeName" />
+                            </div>
                         </div>
                         <div class="row-item">
-                            <div class="input-title">
-                                <label>Ngày sinh&nbsp;<span class="m-required">(*)</span></label>
+                            <div class="left-item">
+                                <label for="dtBirthday">Ngày sinh</label>
                             </div>
-                            <input type="text" id="txtCustomerCode" />
-                        </div>
-                        <div class="row-item">
-                            <div class="input-title">
-                                <label>Email&nbsp;<span class="m-required">(*)</span></label>
-                            </div>
-                            <input type="text" id="txtCustomerCode" />
-                        </div>
-                        <div class="row-item">
-                            <div class="input-title">
-                                <label>ĐT di động&nbsp;<span class="m-required">(*)</span></label>
-                            </div>
-                            <input type="text" id="txtCustomerCode" />
-                        </div>
-                        <div class="row-item">
-                            <div class="input-title">
-                                <label>Số CMT/HC&nbsp;<span class="m-required">(*)</span></label>
-                            </div>
-                            <input type="text" id="txtCustomerCode" />
-                        </div>
-                        <div class="row-item">
-                            <div class="input-title">
-                                <label>Nơi cấp CMND&nbsp;<span class="m-required">(*)</span></label>
-                            </div>
-                            <input type="text" id="txtCustomerCode" />
-                        </div>
 
-                    </div>
-                    <div class="w-25"></div>
-                </div>
-                <div class="row">
-                    <div class="r-left w-50 mr-18p">
-                        
-                    </div>
-                    <div class="r-right w-50">
-                        <div class="row-item">
-                            <label>Tên khách hàng&nbsp;<span class="m-required">(*)</span></label>
-                            <input type="text" id="txtCustomerName" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="r-left w-50 mr-18p">
-                        <div class="row-item">
-                            <label>Mã thẻ thành viên</label>
-                            <input type="text" id="txtMemberCardNo" />
-                        </div>
-
-                    </div>
-                    <div class="r-right w-50 ">
-                        <div class="row-item f-start">
-                            <label>Là thành viên 5Food</label>
-                            <input type="checkbox" id="ckIs5FoodMember" class="ml-15p" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="r-left w-50 mr-18p">
-                        <div class="row-item mb-4p">
-                            <label>Nhóm khách hàng</label>
-                            <input type="text" id="txtCustomerGroup" />
-                        </div>
-                        <div class="row-item mb-4p">
-                            <label>DT di động&nbsp;<span class="m-required">(*)</span></label>
-                            <input type="text" id="txtCustomerTel" />
-                        </div>
-                        <div class="row-item">
-                            <label>Ngày sinh</label>
-                            <input type="date" id="dtBirthday" />
-                        </div>
-
-                    </div>
-                    <div class="r-right w-50">
-                        <div class="row-item upload-image">
-                            <div>
-                                <div style="display:flex">
-                                    <label>Ảnh: </label>
-                                    <label for="fileImage" class="input-file" style="margin-left:100px"><span class="btn-icon btn-icon-upload mr-4p"></span>Chọn ảnh</label>
-                                    <input type="file" id="fileImage" class="m-0p" style="display:none" />
+                            <div class="right-item">
+                                <input class="short-input" type="date" id="dtBirthday" />
+                                <div class="short-row-item pl-8p">
+                                    <label for="selectGender">Giới tính</label>
+                                     <select class="short-input" id="selectGender">
+                                        <option value="0">Nam</option>
+                                        <option value="1">Nữ</option>
+                                    </select>
                                 </div>
-                                <div id="img-info" style="width:100%;text-align:right">Khách hàng chưa có ảnh</div>
-                            </div>
-                            <div>
-                                <img src="#" alt="avatar" class="img-thumbnail" style="visibility:hidden" />
                             </div>
                         </div>
-                    </div>
-                </div>
+                        <div class="row-item">
+                            <div class="left-item">
+                                <label for="txtEmail">Email&nbsp;<span class="m-required">(*)</span></label>
+                            </div>
+                            <div class="right-item">
+                                <input type="text" id="txtEmail" />
+                            </div>
+                        </div>
+                        <div class="row-item">
+                            <div class="left-item">
+                                <label for="txtPhoneNumber">ĐT di động&nbsp;<span class="m-required">(*)</span></label>
+                            </div>
+                            <div class="right-item">
+                                <input type="text" id="txtPhoneNumber" />
+                            </div>
+                        </div>
+                        <div class="row-item">
+                            <div class="left-item">
+                                <label for="txtIdentificationCard">Số CMT/HC</label>
+                            </div>
 
+                            <div class="right-item">
+                                <input class="short-input" type="text" id="txtIdentificationCard" />
+                                <div class="short-row-item ml-8p">
+                                    <label for="dtDateOfIssue">Ngày cấp</label>
+                                    <input class="short-input" type="date" id="dtDateOfIssue" />
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-upload-image">
+                        <div class="avatar-upload">
+                            <div class="upload-control">
+                                <button class="choose-file mr-8p">...</button>
+                                <button class="delete-avatar">&times;</button>
+                            </div>
+                        </div>
+                        <div class="image-info">
+                            Chỉ được upload tệp<br/> .jpg .jpeg .png .gif
+                        </div>
+                    </div>
+
+                </div>
                 <div class="row">
-                    <div class="r-left w-100">
+                    <div class="w-100">
                         <div class="row-item">
-                            <label>Tên công ty</label>
-                            <input type="text" id="txtCompanyName" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="r-left w-50 mr-18p">
-                        <div class="row-item">
-                            <label>Mã số thuế</label>
-                            <input type="text" id="txtCustomerTaxCode" />
-                        </div>
-
-                    </div>
-                    <div class="r-right w-50">
-                        <div class="row-item">
-                            <label>Email</label>
-                            <input type="text" id="txtCustomerEmail" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="r-left w-100">
-                        <div class="row-item">
-                            <label>Địa chỉ</label>
-                            <input type="text" id="txtCustomerAddress" />
+                            <div class="left-item">
+                                <label for="txtPlaceOfIssue">Nơi cấp CMND</label>
+                            </div>
+                            <div class="right-item">
+                                <input type="text" id="txtPlaceOfIssue" />
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="r-left w-100">
+                    <div class="w-100 form-title">
+                        Thông tin công việc
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="w-100">
                         <div class="row-item">
-                            <label>Ghi chú</label>
-                            <textarea id="txtNote" name="note" rows="2" cols="6"></textarea>
+                            <div class="left-item">
+                                <label for="selectPosition">Vị trí</label>
+                            </div>
+                            <div class="right-item">
+                                <select class="w-100"  id="selectPosition">
+                                    <option value="Nhân viên">Nhân viên</option>
+                                    <option value="Phó tổng giám đốc">Phó tổng giám đốc</option>
+                                    <option value="Chánh văn phòng">Chánh văn phòng</option>
+                                    <option value="Trưởng phòng">Trưởng phòng</option>
+                                    <option value="Tổng giám đốc">Tổng giám đốc</option>
+                                    <option value="Giám đốc khối">Giám đốc khối</option>
+                                    <option value="Quản lý nghiệp vụ">Quản lý nghiệp vụ</option>
+                                    <option value="Quản lý dự án">Quản lý dự án</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row-item">
+                            <div class="left-item">
+                                <label for="selectDepartment">Phòng ban</label>
+                            </div>
+                            <div class="right-item">
+                                <select class="w-100" name="cars" id="selectDepartment">
+                                    <option value="Khối sản xuất">Khối sản xuất</option>
+                                    <option value="Văn phòng TP Hồ Chí Minh">Văn phòng TP Hồ Chí Minh</option>
+                                    <option value="Phòng nghiên cứu">Phòng nghiên cứu</option>
+                                    <option value="Văn phòng Đà Nẵng">Văn phòng Đà Nẵng</option>
+                                    <option value="Viện đào tạo và nghiên cứu công nghệ">Viện đào tạo và nghiên cứu công nghệ</option>
+                                    <option value="Phòng đào tạo">Phòng đào tạo</option>
+                                    <option value="Văn phòng Hà Nội">Văn phòng Hà Nội</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row-item">
+                            <div class="left-item">
+                                <label for="txtEmployeeTaxCode">Mã số thuế cá nhân</label>
+                            </div>
+                            <div class="right-item">
+                                <input class="short-input" type="text" id="txtEmployeeTaxCode" />
+                                <div class="short-row-item ml-8p">
+                                     <label for="txtSalary">Mức lương</label>
+                                    <input class="medium-input" type="text" id="txtSalary" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-item">
+                            <div class="left-item">
+                                <label for="dtJoinDate">Ngày gia nhập</label>
+                            </div>
+                            <div class="right-item">
+                                <input class="short-input" type="date" id="dtJoinDate" />
+                                <div class="short-row-item ml-8p">
+                                    <label for="selectStatusJob">Tình trạng</label>
+                                    
+                                    <select class="medium-input" name="cars" id="selectStatusJob">
+                                        <option value="volvo">Đã nghỉ việc</option>
+                                        <option value="saab">Đang làm việc</option>
+                                        <option value="opel">Đang thử việc</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
+            </div>       
+
+ 
+                <div class="dialog-footer">
+                    <div class="footer-left">
+                        <button id="btnHelp" class="btn-secondary">
+                            <div class="btn-icon btn-icon-help"></div>
+                            <div class="btn-text">Giúp</div>
+                        </button>
+                    </div>
+                    <div class="footer-right">
+                        <button id="btnSave" class="mr-8p btn-secondary">
+                            <div class="btn-icon btn-icon-save"></div>
+                            <div class="btn-text">Cất</div>
+                        </button>
+                        <button id="btnSaveAndAdd" class="mr-8p btn-secondary">
+                            <div class="btn-icon btn-icon-save-add"></div>
+                            <div class="btn-text">Cất & Thêm</div>
+                        </button>
+                        <button id="btnClose" class="btn-secondary">
+                            <div class="btn-icon btn-icon-close"></div>
+                            <div class="btn-text">Hủy bỏ</div>
+                        </button>
+                    </div>
+
+                </div>
             </div>
-            <div class="dialog-footer">
-                <div class="footer-left">
-                    <button id="btnHelp" class="btn-secondary">
-                        <div class="btn-icon btn-icon-help"></div>
-                        <div class="btn-text">Giúp</div>
-                    </button>
-                </div>
-                <div class="footer-right">
-                    <button id="btnSave" class="mr-8p btn-secondary">
-                        <div class="btn-icon btn-icon-save"></div>
-                        <div class="btn-text">Cất</div>
-                    </button>
-                    <button id="btnSaveAndAdd" class="mr-8p btn-secondary">
-                        <div class="btn-icon btn-icon-save-add"></div>
-                        <div class="btn-text">Cất & Thêm</div>
-                    </button>
-                    <button id="btnClose" class="btn-secondary">
-                        <div class="btn-icon btn-icon-close"></div>
-                        <div class="btn-text">Hủy bỏ</div>
-                    </button>
-                </div>
-
-            </div>
-        </div>
     </div>
 
     <script src="/js/lib/jquery-3.5.1.min.js"></script>

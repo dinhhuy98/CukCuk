@@ -27,6 +27,10 @@
     color:red;
 }
 
+.mb-0p{
+    margin-bottom:0px !important;
+}
+
 .mr-4p{
     margin-right:4px;
 }
@@ -37,6 +41,14 @@
 
 .mr-8p{
     margin-right:8px;
+}
+
+.ml-8p{
+    margin-left:8px;
+}
+
+.mb-8p{
+    margin-bottom:8px;
 }
 
 .mr-12p {
@@ -51,6 +63,9 @@
     margin-left:15px;
 }
 
+.pl-8p{
+    padding-left:8px;
+}
 
 .pr-20p{
     padding-right:20px;

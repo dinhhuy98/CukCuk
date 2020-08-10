@@ -64,16 +64,14 @@
     font-weight:bold;
     border-bottom: 1px solid #ccc;
     padding-bottom:4px;
-    margin-bottom:8px;
 }
 
 .dialog-body .row{
     display:flex;
-    margin-bottom:4px;
+    margin-bottom:8px;
 }
     .dialog-body .row .row-item{
         display:flex;
-        justify-content:space-between;
         align-items:center;
         margin-bottom:4px;
     }
@@ -89,30 +87,76 @@
         align-items: center;
     }
 
-    .dialog-body .row-item .input-title{
+    .dialog-body .row-item .left-item{
         width:135px;
         text-align:left;
+
     }
 
 
-    .dialog-body input[type="text"], input[type="date"] {
+
+    .dialog-body .row-item .right-item {
         width: calc(100% - 135px);
+        display:flex;
+        align-items:center;
     }
 
-    .dialog-body .w-100 input[type="text"], textarea {
-        width: 544px;
-    }
+.right-item input {
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
 
-    .dialog-body input[type="text"], textarea, input[type="date"] {
+    .dialog-body input, textarea,select {
         border-radius: unset;
         border: 1px solid #ccc;
+        height:28px;
         padding: 4px;
         outline: none;
     }
 
-        .dialog-body input[type="text"]:focus, textarea:focus {
+        .dialog-body input:focus, textarea:focus,select:focus {
             border: 1px solid #0072bc;
         }
+
+        .dialog-body .row-item .short-input{
+             width:160px;
+        }
+
+        .dialog-body .row-item .medium-input{
+            width:310px;
+        }
+.dialog-body .right-item .short-row-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: calc(100% - 168px);
+}
+
+.dialog-body .form-upload-image {
+    padding-left: 8px;
+    width: 22%;
+    height: 142px;
+    position:relative;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+
+}
+
+.form-upload-image .avatar-upload{
+    width:100%;
+    height:142px;
+    background-color:red;
+    background:url("/content/images/avatardefault.png") no-repeat center;
+    background-size:100% 100%;
+}
+
+.form-upload-image .image-info {
+    text-align:center;
+}
+
 
 .dialog-body .input-file {
     padding: 4px 12px;
@@ -156,16 +200,65 @@
     height:85px;
 }
 
-.w-25{
-    width:25%;
+.dialog .upload-control{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:absolute;
+    width:142px;
+    height:40px;
+    bottom:0;
+    right:0;
+}
+
+    .dialog .upload-control button {
+        display: flex;
+        align-items: center;
+        height: 50%;
+        width: 35px;
+        border: 1px solid #ccc;
+        outline: none;
+        font-size:20px;
+        border-radius: unset;
+    }
+
+        .dialog .upload-control button:hover {
+            background-color: white;
+            border-color: #0973b9;
+            cursor:pointer;
+        }
+
+    .upload-control button.choose-file {
+        padding-bottom: 10px;
+        padding-left: 8px;
+    }
+
+    .upload-control button.delete-avatar {
+        color:red;
+        font-weight:bold;
+        padding-left: 10px;
+        padding-top: 2px
+    }
+
+.w-25 {
+    width: 25%;
 }
 
 .w-50 {
     width: 50%;
 }
 
-.w-75{
-    width:75%;
+.w-45{
+    width:45%;
+}
+
+.w-55{
+    width:55%;
+}
+
+
+.w-78{
+    width:78%;
 }
 
 .w-100 {
