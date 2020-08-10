@@ -222,10 +222,10 @@
         border-radius: unset;
     }
 
-        .dialog .upload-control button:hover,.choose-file:hover {
+        .dialog .upload-control button:hover, .choose-file:hover, button:focus, .choose-file:focus {
             background-color: white;
             border-color: #0973b9;
-            cursor:pointer;
+            cursor: pointer;
         }
 
     .upload-control .choose-file {

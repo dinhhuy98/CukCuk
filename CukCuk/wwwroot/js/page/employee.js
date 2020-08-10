@@ -14,6 +14,7 @@ class EmployeeJS {
             this.loadData(1);
             this.paginationEmployee = new Pagination(this);
             this.initEvent();
+            this.formValidateEvent();
         } catch (e) {
             console(e);
         }
@@ -39,8 +40,9 @@ class EmployeeJS {
         $('#btnCloseHeader').click(this.btnCloseHeaderOnClick);
 
         //Hiển thị ảnh xem trước khi người dùng upload ảnh
-        $("#fileUpload").on('change', this.showImageFromInput);
-        $(".delete-avatar").on("click", {}, this.deleteAvatar);
+        this.changeImage = false; //biến sử dụng để kiểm tra người dùng chọn ảnh chưa
+        $("#fileUpload").on('change', this.showImageFromInput.bind(this));
+        $(".delete-avatar").on("click", {}, this.deleteAvatar.bind(this));
     }
 
     /**
@@ -167,19 +169,26 @@ class EmployeeJS {
         //Thực hiện khi chức năng duplicate được sử dụng
         if (employee != undefined) {
             //$('#txtCustomerCode').val(customer['CustomerCode']),
-            $('#txtCustomerName').val(customer['CustomerName']),
-                $('#txtMemberCardNo').val(customer['MemberCardNo']),
-                $('#txtCustomerGroup').val(customer['CustomerGroup']),
-                $('#txtCustomerTel').val(customer['CustomerTel']),
-                $('#dtBirthday').val(commonJS.formatDate(new Date(customer['Birthday']))),
-                $('#txtCompanyName').val(customer['CompanyName']),
-                $('#txtCustomerTaxCode').val(customer['CustomerTaxCode']),
-                $('#txtCustomerEmail').val(customer['CustomerEmail']),
-                $('#txtCustomerAddress').val(customer['CustomerAddress']),
-                $('#txtNote').val(customer['Note']);
+                $("#dtBirthday").val(commonJS.formatDate(new Date(employee["Birthday"]), "-", 0)),
+                $("#selectGender").val(employee["Gender"] == false ? "false" : "true"),
+                $("#txtEmail").val(employee["Email"]),
+                $("#txtPhoneNumber").val(employee["PhoneNumber"]),
+                $("#txtIdentificationCard").val(employee["IdentificationCard"]),
+                $("#dtDateOfIssue").val(commonJS.formatDate(new Date(employee["DateOfIssue"]), "-", 0)),
+                $("#txtPlaceOfIssue").val(employee["PlaceOfIssue"]),
+                $("#selectPosition").val(employee["Position"]),
+                $("#selectDepartment").val(employee["Department"]),
+                $("#txtEmployeeTaxCode").val(employee["EmployeeTaxCode"]),
+                $("#txtSalary").val(employee["Salary"]),
+                $("#dtJoinDate").val(commonJS.formatDate(new Date(employee["JoinDate"]), "-", 0)),
+                $("#selectStatusJob").val(employee["StatusJob"]),
+                $("#txtEmployeeName").val(employee["EmployeeName"])
+/*                $(".avatar-upload").css('background-image', 'url(/upload/' + employee["EmployeeAvatar"] + ')');*/
+
         }
-        this.setButtonEventDialog(Enum.FormMode.Add);
+        this.setButtonEventDialog(Enum.FormMode.Add,employee);
         $("#frmDialogDetail").show();
+        $("#txtEmployeeCode").focus();
     }
 
     /**
@@ -208,8 +217,10 @@ class EmployeeJS {
         $(".avatar-upload").css('background-image', 'url(/upload/' + employee["EmployeeAvatar"] + ')');
 
         //Hiển thị form
-        this.setButtonEventDialog(Enum.FormMode.Edit, employee['EmployeeId']);
+        this.setButtonEventDialog(Enum.FormMode.Edit, employee);
+       
         $("#frmDialogDetail").show();
+        $("#txtEmployeeCode").focus();
     }
 
     /**
@@ -247,7 +258,7 @@ class EmployeeJS {
     * @param {number} formMode
     * CreatedBy:NDHuy (09/08/2020)
     * */
-    setButtonEventDialog(formMode, EmployeeId) {
+    setButtonEventDialog(formMode, employee) {
 
         //Xóa sự kiện khỏi button btnSave và btnSaveAndAdd
         $('#btnSaveAndAdd').unbind();
@@ -259,12 +270,12 @@ class EmployeeJS {
                 $('#btnSave .btn-text').html("Cất")
                 $('#btnSaveAndAdd').show()
                 $('#btnSave').on('click', { formMode: Enum.FormMode.Add }, this.saveData.bind(this));
-                $('#btnSaveAndAdd').on('click', { formMode: Enum.FormMode.SaveAndAdd }, this.saveData.bind(this));
+                $('#btnSaveAndAdd').on('click', { formMode: Enum.FormMode.SaveAndAdd, employee }, this.saveData.bind(this));
                 break;
             case Enum.FormMode.Edit:
                 $('#btnSave .btn-text').html("Cập nhật")
                 $('#btnSaveAndAdd').hide()
-                $('#btnSave').on('click', { formMode: Enum.FormMode.Edit, employeeId: EmployeeId }, this.saveData.bind(this));
+                $('#btnSave').on('click', { formMode: Enum.FormMode.Edit, employee }, this.saveData.bind(this));
                 break;
             default:
         }
@@ -295,9 +306,15 @@ class EmployeeJS {
             "EmployeeAvatar": "employee/"+fileName ,
             "CreatedDate": commonJS.formatDate(new Date(),"-",0),
             "EmployeeName": $("#txtEmployeeName").val()
+
         };
 
-
+        if (this.checkValidateInput() == false)
+            return;
+      /*  if (this.checkEmployeeCodeExist(employee["EmployeeCode"])) {
+            alert("Mã nhân viên đã tồn tại");
+            return;
+        }*/
         debugger;
         //Kiểm tra kiểu form
         var me = this;
@@ -310,7 +327,7 @@ class EmployeeJS {
                 $.ajax({
                     url: "/api/v1/employees/",
                     method: "POST",
-
+                   
                     data: JSON.stringify(employee),
                     dataType: "text",
                     contentType: "application/json;charset=utf-8",
@@ -321,6 +338,11 @@ class EmployeeJS {
                     me.loadData(1);
                     me.paginationEmployee.updatePageCurrent(1);
                     me.paginationEmployee.updatePanigationBar();
+                    if (sender.data.formMode == Enum.FormMode.SaveAndAdd) {
+                        me.resetFormDialog();
+                    }
+                    else
+                        $('#frmDialogDetail').hide();
                 }).fail(function (response) {
                     console.log(response);
                 });
@@ -328,33 +350,36 @@ class EmployeeJS {
                 console.log(e);
             }
 
-            if (sender.data.formMode == Enum.FormMode.SaveAndAdd) {
-                this.resetFormDialog();
-            }
-            else
-                $('#frmDialogDetail').hide();
+            
         }
         else if (sender.data.formMode == Enum.FormMode.Edit) {
-
-            customer["CustomerId"] = sender.data.customerId;
-            var json = JSON.stringify(customer);
-
+            if (this.changeImage == false) {
+                employee["EmployeeAvatar"] = sender.data.employee["EmployeeAvatar"]
+            }
+            employee["EmployeeId"] = sender.data.employee["EmployeeId"];
+            employee["CreatedDate"] = sender.data.employee["CreatedDate"];
+            employee["ModifiedDate"] = commonJS.formatDate(new Date(), "-", 0);
+            var json = JSON.stringify(employee);
+            debugger;
             try {
                 $.ajax({
-                    url: "/api/v1/customers/" + sender.data.customerId,
+                    url: "/api/v1/employees/" + sender.data.employee["EmployeeId"],
                     method: "PUT",
 
                     data: json,
                     dataType: "text",
                     contentType: "application/json; charset=utf-8",
                 }).done(function (response) {
-                    if ($("#fileImage").get(0).files[0] != undefined) {
-                        me.uploadImage(customer.CustomerCode);
+                    if ($("#fileUpload").get(0).files[0] != undefined) {
+                        me.uploadImage(fileName);
                     }
                     //Hiển thị thông báo thành công/thất bại
                     alert("Cập nhật thành công");
-
-                    me.loadData();
+                    me.loadData(1);
+                    me.paginationEmployee.updatePageCurrent(1);
+                    me.paginationEmployee.updatePanigationBar();
+                    
+                    
                     $('#frmDialogDetail').hide();
 
                 }).fail(function (response) {
@@ -380,12 +405,20 @@ class EmployeeJS {
         $('.image-info').html("Chỉ được upload tệp<br/> .jpg .jpeg .png .gif")
     }
 
+    checkChangeAvatar() {
+        if ($(".avatar-upload").css("background-image") != 'url("https://localhost:44339/upload/employee/avatardefault.jpg")') {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Hiển thị ảnh xem trước khi upload ảnh
      * CreatedBy:NDHuy (10/08/2020)
      * */
     showImageFromInput() {
-        var file = $(this)[0].files[0];
+        this.changeImage = true;
+        var file = $("#fileUpload")[0].files[0];
         var fileReader = new FileReader();
         fileReader.onload = function (event) {
             var imageUrl = event.target.result;
@@ -401,6 +434,7 @@ class EmployeeJS {
      * CreatedBy:NDHuy (10/08/2020)
      * */
     deleteAvatar() {
+        this.changeImage = true;
         $(".avatar-upload").css('background-image', 'url("/content/images/avatardefault.png")');
         $('#fileUpload').val("");
         $('.image-info').html("Chỉ được upload tệp<br/> .jpg .jpeg .png .gif")
@@ -430,10 +464,12 @@ class EmployeeJS {
 
         var formData = new FormData();
         formData.append('image', image[0]);
+        debugger
         $.ajax({
             url: '/api/v1/employees/uploadimg/' + imgName,
             type: 'POST',
             data: formData,
+            sync: false,
             processData: false,
             contentType: false,
 
@@ -471,6 +507,152 @@ class EmployeeJS {
      * */
     btnCloseHeaderOnClick() {
         $('#frmDialogDetail').hide();
+
+    }
+
+    /**
+    * Sự kiện kiểm tra dữ liệu người dùng nhập vào form
+    * CreatedBy:NDHuy (03/08/2020)
+    * */
+    formValidateEvent() {
+        $("#txtEmployeeCode").on("keyup", {}, this.checkEmployeeCode);
+        $("#txtEmployeeCode").on("blur", {}, this.checkEmployeeCode);
+
+        $("#txtEmployeeName").on("keyup", {}, this.checkEmployeeName);
+        $("#txtEmployeeName").on("blur", {}, this.checkEmployeeName);
+
+        $("#txtEmail").on("keyup", {}, this.checkEmployeeEmail);
+        $("#txtEmail").on("blur", {}, this.checkEmployeeEmail);
+
+        $("#txtPhoneNumber").on("keyup", {}, this.checkPhoneNumber);
+        $("#txtPhoneNumber").on("blur", {}, this.checkPhoneNumber);
+    }
+
+    /**
+     * Kiểm tra dữ liệu người dùng nhập vào form
+     * CreatedBy: NDHuy(10/08/2020)
+     * */
+    checkValidateInput() {
+        var checkEmployeeCode = this.checkEmployeeCode();
+        var checkEmployeeName = this.checkEmployeeName();
+        var checkEmployeeEmail = this.checkEmployeeEmail();
+        var checkPhoneNumber = this.checkPhoneNumber();
+        switch (checkEmployeeCode) {
+            case Enum.Invalid.Empty:
+                alert("Mã nhân viên không được trống!");
+                return false;
+        }
+
+        switch (checkEmployeeName) {
+            case Enum.Invalid.Empty:
+                alert("Tên nhân viên không được trống!");
+                return false;
+        }
+
+        switch (checkEmployeeEmail) {
+            case Enum.Invalid.Empty:
+                alert("Email khách hàng không được trống!");
+                return false;
+            case Enum.Invalid.WrongFormat:
+                alert("Sai định dạng email");
+                return false;
+        }
+
+        switch (checkPhoneNumber) {
+            case Enum.Invalid.Empty:
+                alert("Số điện thoại không được trống!");
+                return false;
+            case Enum.Invalid.WrongFormat:
+                alert("Sai định dạng số điện thoại");
+                return false;
+        }
+
+        return true;
+
+    }
+
+    /**
+     * Kiểm tra mã nhân viên
+     * CreatedBy:NDHuy (10/08/2020)
+     * */
+    checkEmployeeCode() {
+        var value = $("#txtEmployeeCode").val();
+        if (validate.isEmpty(value)) {
+            $("#txtEmployeeCode").addClass("input-invalid");
+            return Enum.Invalid.Empty;
+        }
+        $("#txtEmployeeCode").removeClass("input-invalid");
+        return Enum.Valid;
+    }
+
+    /**
+     * Kiểm tra tên nhân viên
+     * CreatedBy: NDHuy (10/08/2020)
+     * */
+    checkEmployeeName() {
+        var value = $("#txtEmployeeName").val();
+        if (validate.isEmpty(value)) {
+            $("#txtEmployeeName").addClass("input-invalid");
+            return Enum.Invalid.Empty;
+        }
+        $("#txtEmployeeName").removeClass("input-invalid");
+        return Enum.Valid;
+    }
+
+    /**
+     * Kiểm tra Email nhân viên
+     * CreatedBy: NDHuy (10/08/2020)
+     * */
+    checkEmployeeEmail() {
+        var value = $("#txtEmail").val();
+        if (validate.isEmpty(value)) {
+            $("#txtEmail").addClass("input-invalid");
+            return Enum.Invalid.Empty;
+        }
+        else if (!validate.isValidEmail(value)) {
+
+            $("#txtEmail").addClass("input-invalid");
+            return Enum.Invalid.WrongFormat;
+        }
+        $("#txtEmail").removeClass("input-invalid");
+        return Enum.Valid;
+    }
+
+
+    /**
+     * Kiểm tra số điện thoại nhân viên
+     * CreatedBy:NDHuy (10/08/2020)
+     * */
+    checkPhoneNumber() {
+        var value = $("#txtPhoneNumber").val();
+        if (validate.isEmpty(value)) {
+            $("#txtPhoneNumber").addClass("input-invalid");
+            return Enum.Invalid.Empty;
+        }
+        else if (!validate.isValidPhoneNumber(value)) {
+            $("#txtPhoneNumber").addClass("input-invalid");
+            return Enum.Invalid.WrongFormat;
+        }
+        $("#txtPhoneNumber").removeClass("input-invalid");
+        return Enum.Valid;
+    }
+
+    checkEmployeeCodeExist(employeeCode) {
+        //Gọi Ajax lấy dữ liệu về
+        $.ajax({
+            url: "/api/v1/employees/findemployeebycode?employeeCode=" + employeeCode,
+            method: "GET",
+            data: {},
+            dataType: "json",
+            contentType: "application/json",
+        }).done(function (response) {
+            if (response == true)
+                return true;
+            else
+                return false;
+        }).fail(function (response) {
+            return false
+        })
 
     }
 }

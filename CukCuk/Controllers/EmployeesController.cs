@@ -138,5 +138,15 @@ namespace CukCuk.Controllers
         {
             return _context.Employee.Any(e => e.EmployeeId == id);
         }
+
+        [HttpGet("findemployeebycode")]
+        public Boolean findEmployeeByCode([FromQuery]String employeeCode)
+        {
+            Employee employee = _context.Employee.Where(s => s.EmployeeCode == employeeCode).FirstOrDefault();
+            if (employee != null)
+                return true;
+            else
+                return false;
+        }
     }
 }
