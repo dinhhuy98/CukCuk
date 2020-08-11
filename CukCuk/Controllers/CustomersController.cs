@@ -44,6 +44,10 @@ namespace CukCuk.Controllers
 
         }
 
+
+
+      
+
         // GET: api/Customers1/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(Guid id)

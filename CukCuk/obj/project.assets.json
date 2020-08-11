@@ -8772,19 +8772,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\NDHuy\\.nuget\\packages\\": {}
+    "C:\\Users\\DELL\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\NDHuy\\Documents\\CukCuk\\CukCuk\\CukCuk\\CukCuk.csproj",
+      "projectUniqueName": "C:\\Users\\DELL\\source\\repos\\MISA.CukCuk\\CukCuk\\CukCuk.csproj",
       "projectName": "CukCuk",
-      "projectPath": "C:\\Users\\NDHuy\\Documents\\CukCuk\\CukCuk\\CukCuk\\CukCuk.csproj",
-      "packagesPath": "C:\\Users\\NDHuy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\NDHuy\\Documents\\CukCuk\\CukCuk\\CukCuk\\obj\\",
+      "projectPath": "C:\\Users\\DELL\\source\\repos\\MISA.CukCuk\\CukCuk\\CukCuk.csproj",
+      "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\DELL\\source\\repos\\MISA.CukCuk\\CukCuk\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\NDHuy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
