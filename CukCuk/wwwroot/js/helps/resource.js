@@ -18,7 +18,15 @@
         Empty: 1,
         WrongFormat:2
     },
-    Valid:0
+    Valid: 0,
+
+    Popup: {
+        Info: 1,
+        Warning: 2,
+        Error: 3,
+        Confirm: 4,
+
+    }
 }
 
 var Resource = {

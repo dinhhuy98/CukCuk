@@ -2,68 +2,81 @@
     position:absolute;
 }
 
-.dialog-modal{
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
-    background-color:#000000;
-    opacity:.4;
-}
-
-.dialog{
-    position:fixed;
-    display:flex;
-    flex-direction:column;
-    width:700px;
-    /*height:380px;*/
-    background-color:#ffffff;
-    top:calc(50% - 300px);
-    left:calc(50% - 300px);
-    border-radius: 5px;
-    border: 5px solid #0072bc;
-}
-
-    .dialog .dialog-titlebar{
-        color:#ffffff;
-        width:100%;
-        background-color:#0072bc;
-        height: 30px;
+    .form-dialog .dialog-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #000000;
+        opacity: .4;
     }
+
+    .form-dialog .dialog {
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        width: 700px;
+        /*height:380px;*/
+        background-color: #ffffff;
+        top: calc(50% - 300px);
+        left: calc(50% - 300px);
+        border-radius: 5px;
+        border: 5px solid #0072bc;
+    }
+
+/*Dialog*/
+.dialog .dialog-titlebar{
+    color:#ffffff;
+    width:100%;
+    background-color:#0072bc;
+    height: 30px;
+}
         
-        .dialog .dialog-titlebar .title{
-            float:left;
-            line-height: 25px;
-            padding-left: 4px;
-        }
-
-        .dialog .dialog-titlebar .btn-close{
-            position:absolute;
-            top:5px;
-            right: 5px;
-            text-align: center;
-            width:16px;
-            height: 16px;
-            float:right;
-            line-height: 15px;
-            font-weight: 500;
-            border-radius:50%;
-            background-color:#ffffff;
-            color: #0072bc;
-            font-size:18px;
-            cursor:pointer;
-        }
-
-    .dialog .dialog-body{
-        padding: 8px;
+    .dialog .dialog-titlebar .title{
+        float:left;
+        line-height: 25px;
+        padding-left: 4px;
     }
 
+    .dialog .dialog-titlebar .btn-close{
+        position:absolute;
+        top:5px;
+        right: 5px;
+        text-align: center;
+        width:16px;
+        height: 16px;
+        float:right;
+        line-height: 15px;
+        font-weight: 500;
+        border-radius:50%;
+        background-color:#ffffff;
+        color: #0072bc;
+        font-size:18px;
+        cursor:pointer;
+    }
 
+.dialog .dialog-body{
+    padding: 8px;
+}
+
+/*Dialog body*/
 .dialog-body .form-title{
     font-weight:bold;
     border-bottom: 1px solid #ccc;
     padding-bottom:4px;
+}
+
+.dialog-body input, textarea, select {
+    border-radius: unset;
+    border: 1px solid #ccc;
+    height: 28px;
+    padding: 4px;
+    outline: none;
+}
+
+.dialog-body input:focus, textarea:focus, select:focus {
+    border: 1px solid #0072bc;
 }
 
 .dialog-body .row{
@@ -76,49 +89,27 @@
         margin-bottom:4px;
     }
 
+/*row item*/
 
-    .dialog-body .row .row-item.upload-image {
-        align-items: flex-start;
-    }
+.row-item .left-item{
+    width:135px;
+    text-align:left;
 
-    .dialog-body .row .row-item.f-start {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-    }
-
-    .dialog-body .row-item .left-item{
-        width:135px;
-        text-align:left;
-
-    }
-
-
-
-    .dialog-body .row-item .right-item {
-        width: calc(100% - 135px);
-        display:flex;
-        align-items:center;
-    }
-
-.right-item input {
-    width: 100%;
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
 }
 
-    .dialog-body input, textarea,select {
-        border-radius: unset;
-        border: 1px solid #ccc;
-        height:28px;
-        padding: 4px;
-        outline: none;
-    }
+.row-item .right-item {
+    width: calc(100% - 135px);
+    display:flex;
+    align-items:center;
+}
 
-        .dialog-body input:focus, textarea:focus,select:focus {
-            border: 1px solid #0072bc;
-        }
+
+    .row-item .right-item input {
+        width: 100%;
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+    }
 
         .dialog-body .row-item .short-input{
              width:160px;
@@ -222,48 +213,34 @@
         border-radius: unset;
     }
 
+    .upload-control .choose-file {
+        width: 24px;
+        height: 8px;
+        background-color: #efefef;
+        padding-bottom: 10px;
+        padding-left: 8px;
+    }
+
+    .upload-control button.delete-avatar {
+        color: red;
+        font-weight: bold;
+        padding-left: 10px;
+        padding-top: 2px
+    }
+
         .dialog .upload-control button:hover, .choose-file:hover, button:focus, .choose-file:focus {
             background-color: white;
             border-color: #0973b9;
             cursor: pointer;
         }
 
-    .upload-control .choose-file {
-        width: 24px;
-        height:8px;
-        background-color:#efefef;
-        padding-bottom: 10px;
-        padding-left: 8px;
-    }
-
-    .upload-control button.delete-avatar {
-        color:red;
-        font-weight:bold;
-        padding-left: 10px;
-        padding-top: 2px
-    }
-
-.w-25 {
-    width: 25%;
+.suffix {
+    position: absolute;
+    right: 6px;
+    bottom:7px;
 }
 
-.w-50 {
-    width: 50%;
-}
+    
 
-.w-45{
-    width:45%;
-}
+    
 
-.w-55{
-    width:55%;
-}
-
-
-.w-78{
-    width:78%;
-}
-
-.w-100 {
-    width: 100%;
-}

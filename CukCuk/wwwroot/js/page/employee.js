@@ -13,8 +13,11 @@ class EmployeeJS {
         try {
             this.loadData(1);
             this.paginationEmployee = new Pagination(this);
+            this.popup = new PopupJS();
+            this.popup.hidePopup();
             this.initEvent();
             this.formValidateEvent();
+            
             
         } catch (e) {
             console.log(e);
@@ -44,6 +47,8 @@ class EmployeeJS {
         this.changeImage = false; //biến sử dụng để kiểm tra người dùng chọn ảnh chưa
         $("#fileUpload").on('change', this.showImagePreview.bind(this));
         $(".delete-avatar").on("click", {}, this.deleteAvatar.bind(this));
+
+        //$("#txtSalary").on("keyup", this.formatSalary);
     }
 
     /**
@@ -70,12 +75,12 @@ class EmployeeJS {
                                 <td>`+ item['EmployeeCode'] + `</td>
                                 <td>`+ item['EmployeeName'] + `</td>
                                 <td>`+ (item['Gender']==true? "Nữ":"Nam") + `</td>
-                                <td>`+ commonJS.formatDate(new Date(item['Birthday']),"/",1) + `</td>
-                                <td>`+ item['PhoneNumber'] + `</td>
+                                <td style="text-align:center">`+ commonJS.formatDate(new Date(item['Birthday']),"/",1) + `</td>
+                                <td style="text-align:center">`+ item['PhoneNumber'] + `</td>
                                 <td>`+ item['Email'] + `</td>
                                 <td>`+ item['Position'] + `</td>
                                 <td>`+ item['Department'] + `</td>
-                                <td>`+ commonJS.formatMoney(item['Salary']) + `</td>
+                                <td style="text-align:right">`+ commonJS.formatMoney(item['Salary']) + `</td>
                                 <td>`+ item['StatusJob'] + `</td>
                                      
                             </tr>`;
@@ -118,7 +123,7 @@ class EmployeeJS {
                     break;
                 case Enum.FormMode.Delete:
                     var employee = this.getEmployeeSelected();
-                    this.deleteEmployee(employee);
+                    this.confirmDeleteEmployee(employee);
                     break;
                 case Enum.FormMode.Duplicate:
                     var employee = this.getEmployeeSelected();
@@ -187,6 +192,9 @@ class EmployeeJS {
 /*                $(".avatar-upload").css('background-image', 'url(/upload/' + employee["EmployeeAvatar"] + ')');*/
 
         }
+        //Tự động hiển thị mã nhân viên theo tiêu chí "NV"+Mã nhân viên lớn nhất trong hệ thống
+        var maxEmployeeCode = this.getMaxEmployeeCode();
+        $("#txtEmployeeCode").val(this.addOneToEmployeeCode(maxEmployeeCode));
         this.setButtonEventDialog(Enum.FormMode.Add,employee);
         $("#frmDialogDetail").show();
         $("#txtEmployeeCode").focus();
@@ -225,22 +233,32 @@ class EmployeeJS {
     }
 
     /**
+     * Hiển thị popup xác nhân xóa nhân viên
+     * @param {any} employee
+     * CreatedBy: NDHuy (11/08/2020)
+     */
+    confirmDeleteEmployee(employee) {
+        var message = "Bạn có chắc chắn muốn xóa nhân viên " + employee["EmployeeCode"] + " - " + employee["EmployeeName"] + "?";
+        this.popup.showPopup(Enum.Popup.Confirm, message);
+        this.popup.btnNo.on("click", this.popup.hidePopup);
+        this.popup.btnYes.on("click", { EmployeeId: employee["EmployeeId"] },this.deleteEmployee.bind(this));
+    }
+
+    /**
      * Xóa nhân viên
      * CreatedBy:NDHuy (28/07/2020)*/
-    deleteEmployee(employee) {
-        var confirmDelete = confirm("Bạn chắc chắn muốn xóa?");
+    deleteEmployee(sender) {
+        debugger
         var me = this;
-        if (confirmDelete) {
             try {
                 $.ajax({
-                    url: "/api/v1/employees/" + employee.EmployeeId,
+                    url: "/api/v1/employees/" + sender.data.EmployeeId,
                     method: "DELETE",
                     data: {},
                     dataType: "text",
                     contentType: "application/json; charset=utf-8",
                 }).done(function (response) {
-                    //hien thi thong bao thanhcong/thatbai
-                    alert("Xóa thành công");
+                    me.popup.hidePopup();
                     me.loadData(1);
                     me.paginationEmployee.updatePageCurrent(1);
                     me.paginationEmployee.updatePanigationBar();
@@ -250,7 +268,6 @@ class EmployeeJS {
             } catch (e) {
                 console.log(e);
             }
-        }
     }
 
 
@@ -313,8 +330,9 @@ class EmployeeJS {
         if (this.checkValidateInput() == false)
             return;
         var checkEmployeeCode = this.checkEmployeeCodeExist(employee["EmployeeCode"]);
-        if (checkEmployeeCode==true) {
-            alert("Mã nhân viên đã tồn tại");
+        debugger;
+        if (checkEmployeeCode == true && employee["EmployeeCode"] != sender.data.employee.EmployeeCode) {
+            this.popup.showPopup(Enum.Popup.Warning, "Mã nhân viên đã tồn tại, vui lòng nhập lại!");
             $("#txtEmployeeCode").addClass("input-invalid");
             return;
         }
@@ -337,7 +355,7 @@ class EmployeeJS {
                 }).done(function (response) {
 
                     me.uploadImage(fileName);
-                    alert("Thêm mới thành công");
+                    me.popup.showPopup(Enum.Popup.Info, "Thêm mới thành công!");
                     me.loadData(1);
                     me.paginationEmployee.updatePageCurrent(1);
                     me.paginationEmployee.updatePanigationBar();
@@ -377,7 +395,7 @@ class EmployeeJS {
                         me.uploadImage(fileName);
                     }
                     //Hiển thị thông báo thành công/thất bại
-                    alert("Cập nhật thành công");
+                    me.popup.showPopup(Enum.Popup.Info, "Cập nhật thành công!");
                     me.loadData(1);
                     me.paginationEmployee.updatePageCurrent(1);
                     me.paginationEmployee.updatePanigationBar();
@@ -546,31 +564,31 @@ class EmployeeJS {
         var checkPhoneNumber = this.checkPhoneNumber();
         switch (checkEmployeeCode) {
             case Enum.Invalid.Empty:
-                alert("Mã nhân viên không được trống!");
+                this.popup.showPopup(Enum.Popup.Warning,"Mã nhân viên không được trống!");
                 return false;
         }
 
         switch (checkEmployeeName) {
             case Enum.Invalid.Empty:
-                alert("Tên nhân viên không được trống!");
+                this.popup.showPopup(Enum.Popup.Warning, "Tên nhân viên không được trống!");
                 return false;
         }
 
         switch (checkEmployeeEmail) {
             case Enum.Invalid.Empty:
-                alert("Email khách hàng không được trống!");
+                this.popup.showPopup(Enum.Popup.Warning, "Email không được trống!");
                 return false;
             case Enum.Invalid.WrongFormat:
-                alert("Sai định dạng email");
+                this.popup.showPopup(Enum.Popup.Warning, "Sai định dạng Email!");
                 return false;
         }
 
         switch (checkPhoneNumber) {
             case Enum.Invalid.Empty:
-                alert("Số điện thoại không được trống!");
+                this.popup.showPopup(Enum.Popup.Warning, "Số điện thoại không được trống!");
                 return false;
             case Enum.Invalid.WrongFormat:
-                alert("Sai định dạng số điện thoại");
+                this.popup.showPopup(Enum.Popup.Warning, "Sai định dạng số điện thoại!");
                 return false;
         }
 
@@ -578,6 +596,11 @@ class EmployeeJS {
 
     }
 
+    /**
+     * Kiểm tra mã nhân viên có tồn tại trong database?
+     * @param {any} employeeCode
+     * CreatedBy: NDHuy (11/08/2020)
+     */
     checkEmployeeCodeExist(employeeCode) {
         //Gọi Ajax lấy dữ liệu về
         try {
@@ -590,10 +613,11 @@ class EmployeeJS {
                 dataType: "text",
                 contentType: "application/json",
             }).done(function (response) {
-                check = response;
+                check = response=="false"? false:true;
             }).fail(function (response) {
                 console.log(response);
             });
+            debugger;
             return Boolean(check);
         } catch (e) {
             console.log(e);
@@ -666,5 +690,58 @@ class EmployeeJS {
         return Enum.Valid;
     }
 
+    /**
+     * Gọi Ajax trả về mã nhân viên lớn nhất
+     * */
+    getMaxEmployeeCode() {
+        var result = null;
+        try {
+            $.ajax({
+                async: false,
+                url: "/api/v1/employees/maxemployeecode",
+                method: "GET",
+                data: {},
+                dataType: "text",
+                contentType: "application/json",
+            }).done(function (response) {
+                result = response;
+            }).fail(function (response) {
+                console.log(response);
+            });
+        } catch (e) {
+            console.log(e);
+        }
+        return result;
+    }
+
+    /**
+     * Tạo mã nhân viên mới lớn hơn 1 từ mã nhân viên truyền vào
+     * @param {any} employeeCode
+     * CreatedBy: NDHuy(11/08/2020)
+     */
+    addOneToEmployeeCode(employeeCode) {
+        var code = employeeCode.substr(2, employeeCode.length - 2);
+        var arr = code.split("");
+        var k = 1;
+        for (var i = arr.length - 1; i >= 0; i--) {
+            var n = parseInt(arr[i])+k;
+            if (n >= 10) {
+                k = 1;
+                n = 0;
+            }
+            else
+                k = 0;
+            arr[i] = n;
+        }
+        return "NV"+arr.join("");
+    }
+
+    /**
+     * Tự động format mức lương khi nhập
+     * */
+    formatSalary() {
+        var formatValue = commonJS.formatMoney($(this).val());
+        $(this).val(formatValue);
+    }
     
 }

@@ -79,6 +79,31 @@
     margin:0px;
 }
 
+.w-25 {
+    width: 25%;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.w-45 {
+    width: 45%;
+}
+
+.w-55 {
+    width: 55%;
+}
+
+
+.w-78 {
+    width: 78%;
+}
+
+.w-100 {
+    width: 100%;
+}
+
 
 .flex-align-center{
     display:flex;
