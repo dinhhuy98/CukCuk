@@ -11,12 +11,14 @@ class EmployeeJS {
     constructor() {
         this.controller = "employees";
         try {
+            this.listRowSelected = []; //Mảng chứa EmployeeId của các row được chọn
             this.loadData(1);
             this.paginationEmployee = new Pagination(this);
             this.popup = new PopupJS();
             this.popup.hidePopup();
             this.initEvent();
             this.formValidateEvent();
+
             
             
         } catch (e) {
@@ -29,8 +31,8 @@ class EmployeeJS {
      * CreatedBy: NDHuy (08/08/2020)
      * */
     initEvent() {
-        //Gán sự kiện click cho row trong table
-        $("#tbListEmployee").on("click", "tbody tr", this.rowOnClick)
+        
+       // $("#tbListEmployee").on("click", "tbody tr", this.rowOnClick)
 
         //Gán sự kiện cho các button trong toolbar
         $('#btnAdd').on('click', { formMode: Enum.FormMode.Add }, this.toolbarItemOnClick.bind(this));
@@ -48,7 +50,56 @@ class EmployeeJS {
         $("#fileUpload").on('change', this.showImagePreview.bind(this));
         $(".delete-avatar").on("click", {}, this.deleteAvatar.bind(this));
 
-        //$("#txtSalary").on("keyup", this.formatSalary);
+        $("#txtSalary").on("keyup", this.formatSalary);
+
+        //Gán sự kiện click cho row trong table
+        $("#tbListEmployee").on("click", "tbody tr", {me:this}, this.rowOnClick)
+    }
+
+
+    /**
+     * Sự kiện click chọn 1 bản ghi trên table hoặc giữ ctrl chọn nhiều bản ghi
+     * @param {any} sender
+     * CreatedBy: NDHuy (12/08/2020)
+     */
+    rowOnClick(sender) {
+        //Kiểm tra người dùng có đang nhấn phím ctrl
+        if (event.ctrlKey) {
+            if ($(this).hasClass("row-selected")) {
+                sender.data.me.listRowSelected =
+                    sender.data.me.listRowSelected.filter(item => item != $(this).data()['EmployeeId']);
+                $(this).removeClass("row-selected")
+            }
+            else {
+                this.classList.add("row-selected");
+                sender.data.me.listRowSelected.push($(this).data()['EmployeeId']);
+            }
+        }
+        else {
+            this.classList.add("row-selected");
+            $(this).siblings().removeClass("row-selected");
+            sender.data.me.listRowSelected.splice(0, sender.data.me.listRowSelected.length);//xóa tất cả các phần tử của mảng
+            sender.data.me.listRowSelected.push($(this).data()['EmployeeId']);
+        }
+
+        //Nếu chọn nhiều thì disable button edit và duplicate
+        if (sender.data.me.listRowSelected.length != 1) {
+            $('#btnEdit').attr("disabled", true);
+            $('#btnDuplicate').attr("disabled", true);
+        }
+        else {
+            $('#btnEdit').attr("disabled", false);
+            $('#btnDuplicate').attr("disabled", false);
+        }
+
+        //Nếu mảng rỗng thì disable button delete
+        if (sender.data.me.listRowSelected.length == 0) {
+            $('#btnDelete').attr("disabled", true);
+        }
+        else
+            $('#btnDelete').attr("disabled", false);
+
+        console.log(sender.data.me.listRowSelected);
     }
 
     /**
@@ -56,6 +107,7 @@ class EmployeeJS {
      * CreatedBy: NDHuy (08/08/2020)
      * */
     loadData(page) {
+        var me = this;
         try {
             $("table#tbListEmployee tbody").empty();
             //Gọi Ajax lấy dữ liệu về
@@ -70,7 +122,12 @@ class EmployeeJS {
                 //đọc dữ liệu và render dữ liệu từng nhân viên
                 $.each(response, function (index, item) {
                     var bg = index % 2 == 0 ? "bg-white " : "bg-ghostwhite ";
-                    var firstSelected = index == 0 ? "row-selected" : "";
+                    var firstSelected = "";
+                    //Mặc định bản ghi đầu tiên được chọn
+                    if (index == 0) {
+                        me.listRowSelected.push(item['EmployeeId']);
+                        firstSelected = "row-selected";
+                    }
                     var employeeInfoHTML = `<tr class="` + bg + firstSelected + `">
                                 <td>`+ item['EmployeeCode'] + `</td>
                                 <td>`+ item['EmployeeName'] + `</td>
@@ -94,7 +151,8 @@ class EmployeeJS {
                     //debugger;
                     //console.log(item);
                 })
-
+                $('#btnEdit').attr("disabled", false);
+                $('#btnDuplicate').attr("disabled", false);
                 console.log("load data successful");
             }).fail(function (response) {
                 console.log(response);
@@ -122,15 +180,14 @@ class EmployeeJS {
                     this.showEditEmployeeForm(employee);
                     break;
                 case Enum.FormMode.Delete:
-                    var employee = this.getEmployeeSelected();
-                    this.confirmDeleteEmployee(employee);
+                    this.confirmDeleteEmployee();
                     break;
                 case Enum.FormMode.Duplicate:
                     var employee = this.getEmployeeSelected();
                     this.showAddEmployeeForm(employee);
                     break;
                 case Enum.FormMode.Refresh:
-                    this.refreshTable();
+                    this.loadData(1);
                     break;
                 default:
             }
@@ -174,7 +231,7 @@ class EmployeeJS {
 
         //Thực hiện khi chức năng duplicate được sử dụng
         if (employee != undefined) {
-            //$('#txtCustomerCode').val(customer['CustomerCode']),
+            //Đổ dữ liệu ra form
                 $("#dtBirthday").val(commonJS.formatDate(new Date(employee["Birthday"]), "-", 0)),
                 $("#selectGender").val(employee["Gender"] == false ? "false" : "true"),
                 $("#txtEmail").val(employee["Email"]),
@@ -185,7 +242,7 @@ class EmployeeJS {
                 $("#selectPosition").val(employee["Position"]),
                 $("#selectDepartment").val(employee["Department"]),
                 $("#txtEmployeeTaxCode").val(employee["EmployeeTaxCode"]),
-                $("#txtSalary").val(employee["Salary"]),
+                $("#txtSalary").val(commonJS.formatMoney(employee["Salary"])),
                 $("#dtJoinDate").val(commonJS.formatDate(new Date(employee["JoinDate"]), "-", 0)),
                 $("#selectStatusJob").val(employee["StatusJob"]),
                 $("#txtEmployeeName").val(employee["EmployeeName"])
@@ -218,8 +275,8 @@ class EmployeeJS {
         $("#txtPlaceOfIssue").val(employee["PlaceOfIssue"]),
         $("#selectPosition").val(employee["Position"]),
         $("#selectDepartment").val(employee["Department"]),
-        $("#txtEmployeeTaxCode").val(employee["EmployeeTaxCode"]),
-        $("#txtSalary").val(employee["Salary"]),
+            $("#txtEmployeeTaxCode").val(employee["EmployeeTaxCode"]),
+            $("#txtSalary").val(commonJS.formatMoney(employee["Salary"])),
         $("#dtJoinDate").val(commonJS.formatDate(new Date(employee["JoinDate"]),"-",0)),
         $("#selectStatusJob").val(employee["StatusJob"]),
         $("#txtEmployeeName").val(employee["EmployeeName"]),
@@ -233,33 +290,44 @@ class EmployeeJS {
     }
 
     /**
-     * Hiển thị popup xác nhân xóa nhân viên
+     * Hiển thị popup xác nhận xóa nhân viên
      * @param {any} employee
      * CreatedBy: NDHuy (11/08/2020)
      */
-    confirmDeleteEmployee(employee) {
-        var message = "Bạn có chắc chắn muốn xóa nhân viên " + employee["EmployeeCode"] + " - " + employee["EmployeeName"] + "?";
+    confirmDeleteEmployee() {
+        //Kiểm tra người dùng có chọn xóa nhiều nhân viên hay không
+        if (this.listRowSelected.length == 1) {
+            var employee = this.getEmployeeById(this.listRowSelected[0]);
+            var message = "Bạn có chắc chắn muốn xóa nhân viên " + employee["EmployeeCode"] + " - " + employee["EmployeeName"] + "?";
+        }
+        else {
+            var message = "Bạn có chắc chắn muốn xóa những bản ghi vừa chọn?";
+        }
+        //Hiển thị popup và gán sự kiện cho button "Có" và "Không"
         this.popup.showPopup(Enum.Popup.Confirm, message);
         this.popup.btnNo.on("click", this.popup.hidePopup);
-        this.popup.btnYes.on("click", { EmployeeId: employee["EmployeeId"] },this.deleteEmployee.bind(this));
+        this.popup.btnYes.on("click", { },this.deleteEmployee.bind(this));
     }
 
     /**
      * Xóa nhân viên
-     * CreatedBy:NDHuy (28/07/2020)*/
-    deleteEmployee(sender) {
+     * CreatedBy:NDHuy (28/07/2020)
+     * */
+    deleteEmployee() {
         debugger
         var me = this;
+        var listEmployeeId = JSON.stringify(me.listRowSelected);
             try {
                 $.ajax({
-                    url: "/api/v1/employees/" + sender.data.EmployeeId,
+                    url: "/api/v1/employees/",
                     method: "DELETE",
-                    data: {},
+                    data: listEmployeeId,
                     dataType: "text",
                     contentType: "application/json; charset=utf-8",
                 }).done(function (response) {
                     me.popup.hidePopup();
                     me.loadData(1);
+                    me.listRowSelected.splice(0, me.listRowSelected.length);//Xóa hết các phần tử của mảng listRowSelected
                     me.paginationEmployee.updatePageCurrent(1);
                     me.paginationEmployee.updatePanigationBar();
                 }).fail(function (response) {
@@ -318,7 +386,7 @@ class EmployeeJS {
             "Position": $("#selectPosition").val(),
             "Department": $("#selectDepartment").val(),
             "EmployeeTaxCode": $("#txtEmployeeTaxCode").val(),
-            "Salary": parseInt($("#txtSalary").val()),
+            "Salary": parseInt(commonJS.removeDot($("#txtSalary").val())),
             "JoinDate": commonJS.formatDate(new Date($("#dtJoinDate").val()), "-", 0),
             "StatusJob": $("#selectStatusJob").val(),
             "EmployeeAvatar": "employee/"+fileName ,
@@ -329,8 +397,9 @@ class EmployeeJS {
 
         if (this.checkValidateInput() == false)
             return;
+
+        //Kiểm tra trùng EmployeeCode
         var checkEmployeeCode = this.checkEmployeeCodeExist(employee["EmployeeCode"]);
-        debugger;
         if (checkEmployeeCode == true && employee["EmployeeCode"] != sender.data.employee.EmployeeCode) {
             this.popup.showPopup(Enum.Popup.Warning, "Mã nhân viên đã tồn tại, vui lòng nhập lại!");
             $("#txtEmployeeCode").addClass("input-invalid");
@@ -338,6 +407,7 @@ class EmployeeJS {
         }
         $("#txtEmployeeCode").removeClass("input-invalid");
         //Kiểm tra kiểu form
+        debugger
         var me = this;
         if (sender.data.formMode == Enum.FormMode.Add || sender.data.formMode == Enum.FormMode.SaveAndAdd) {
 
@@ -416,7 +486,7 @@ class EmployeeJS {
 
     /**
      * Đưa các ô input về giá trị rỗng
-     * CreatedBy: NDHuy (28/07/2020)
+     * CreatedBy: NDHuy (08/08/2020)
      * */
     resetFormDialog() {
         $('#frmDialogDetail input').val("");
@@ -426,6 +496,10 @@ class EmployeeJS {
         $('.image-info').html("Chỉ được upload tệp<br/> .jpg .jpeg .png .gif")
     }
 
+    /**
+     * Kiểm tra xem người dùng có thay đổi ảnh avatar
+     * CreatedBy: NDHuy (09/08/2020)
+     * */
     checkChangeAvatar() {
         if ($(".avatar-upload").css("background-image") != 'url("https://localhost:44339/upload/employee/avatardefault.jpg")') {
             return true;
@@ -439,7 +513,7 @@ class EmployeeJS {
      * */
     showImagePreview() {
         if (!validate.isValidImage($("#fileUpload")[0].files[0].name)) {
-            alert("Không hỗ trợ định dạng ảnh này")
+            this.popup.showPopup(Enum.Popup.Warning, "Không hỗ trợ định dạng ảnh này");
             return;
         }
         this.changeImage = true;
@@ -467,7 +541,7 @@ class EmployeeJS {
 
     /**
      * Tạo tên file dựa trên mã nhân viên
-     * @param {any} employeeName
+     * @param {any} employeeName: Tên nhân viên
      * CreatedBy: NDHuy(10/08/2020)
      */
     createFileName(employeeName) {
@@ -499,8 +573,7 @@ class EmployeeJS {
             contentType: false,
 
         }).done(function (response) {
-            //hien thi thong bao thanhcong/thatbai
-            //alert(response);
+            console.log(response);
         }).fail(function (response) {
             console.log(response);
         });
@@ -509,13 +582,13 @@ class EmployeeJS {
     /**
      * Sự kiện khi click chọn 1 dòng trong table
      * CreatedBy: NDHuy (09/08/2020)
-     * */
+     * *//*
     rowOnClick() {
         //Thêm class row-selected cho row được chọn
         this.classList.add("row-selected");
         //Xóa class row-selected khỏi các row còn lại
         $(this).siblings().removeClass("row-selected");
-    }
+    }*/
 
     /**
      * Sự kiện khi click button hủy bỏ trong footer của dialog
@@ -715,6 +788,32 @@ class EmployeeJS {
     }
 
     /**
+     * Lấy ra nhân viên dựa trên id
+     * @param {any} employeeId
+     */
+    getEmployeeById(employeeId) {
+        var employee = null;
+        try {
+            $.ajax({
+                url: "/api/v1/employees/" + employeeId,
+                method: "GET",
+                async: false,
+                data: {},
+                dataType: "json",
+                contentType: "application/json",
+
+            }).done(function (response) {
+                employee = response;
+            }).fail(function (response) {
+                console.log("error");
+            })
+        } catch (e) {
+            console.log("error");
+        }
+        return employee;
+    }
+
+    /**
      * Tạo mã nhân viên mới lớn hơn 1 từ mã nhân viên truyền vào
      * @param {any} employeeCode
      * CreatedBy: NDHuy(11/08/2020)
@@ -740,7 +839,7 @@ class EmployeeJS {
      * Tự động format mức lương khi nhập
      * */
     formatSalary() {
-        var formatValue = commonJS.formatMoney($(this).val());
+        var formatValue = commonJS.formatMoney(commonJS.removeDot($(this).val()));
         $(this).val(formatValue);
     }
     

@@ -79,6 +79,10 @@
     border: 1px solid #0072bc;
 }
 
+.dialog-body input[type="date"]{
+    padding-left:30px;
+}
+
 .dialog-body .row{
     display:flex;
     margin-bottom:8px;

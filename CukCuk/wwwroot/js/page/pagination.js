@@ -116,6 +116,7 @@ class Pagination {
 
     /**
      * Cập nhật lại thông tin trên tab phân trang
+     * CreatedBy: NDHuy (07/08/2020)
      * */
      updatePanigationBar() {
         $("#txtPageCurrent").val(this.pageCurrent);

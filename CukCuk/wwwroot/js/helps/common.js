@@ -41,5 +41,13 @@
      * */
     formatMoney(money) {
         return money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+    },
+
+    /**
+     * Loại bỏ dấu "." khỏi chuỗi
+     * CreatedBy: NDHuy (12/08/2020)
+     * */
+    removeDot(str) {
+        return str.split(".").join("");
     }
 }

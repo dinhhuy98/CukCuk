@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CukCuk.Model;
 using System.IO;
+using System.Collections;
 
 namespace CukCuk.Controllers
 {
@@ -16,10 +17,12 @@ namespace CukCuk.Controllers
     {
         private readonly CustomerdbContext _context;
 
+        
         public EmployeesController(CustomerdbContext context)
         {
             _context = context;
         }
+
 
         // GET: api/Employees
         [HttpGet]
@@ -34,10 +37,13 @@ namespace CukCuk.Controllers
             }
         }
 
-        /**
-         * Lấy tổng số bản ghi trong bảng Employee
-         * CreatedBy: NDHuy (09/08/2020)
-         */
+        
+        
+        /// <summary>
+        /// Lấy tổng số bản ghi trong bảng Employee
+        /// CreatedBy: NDHuy (09/08/2020)
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("totalrow")]
         public int getTotalRow()
         {
@@ -102,8 +108,16 @@ namespace CukCuk.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetEmployee", new { id = employee.EmployeeId }, employee);
+
         }
 
+        /// <summary>
+        /// Upload ảnh truyền từ client vào folder upload
+        /// CreatedBy: NDHuy (10/08/2020)
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="imgname"></param>
+        /// <returns></returns>
         [HttpPost("uploadimg/{imgname}")]
         public async Task<IActionResult> ImageUpload(IFormFile image, String imgname)
         {
@@ -118,9 +132,11 @@ namespace CukCuk.Controllers
 
         }
 
-        /**
-         * Lấy ra EmployeeCode lớn nhất
-         */
+        /// <summary>
+        /// Trả về EmployeeCode lớn nhất
+        /// CreatedBy: NDHuy (11/08/2020)
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("maxemployeecode")]
         public String getMaxEmployeeCode()
         {
@@ -151,6 +167,12 @@ namespace CukCuk.Controllers
             return _context.Employee.Any(e => e.EmployeeId == id);
         }
 
+        /// <summary>
+        /// Check nhân viên có tồn tại dựa trên tham số employeeCode
+        /// CreatedBy: NDHuy (11/08/2020)
+        /// </summary>
+        /// <param name="employeeCode"></param>
+        /// <returns></returns>
         [HttpGet("findemployeebycode")]
         public Boolean findEmployeeByCode([FromQuery]String employeeCode)
         {
@@ -159,6 +181,30 @@ namespace CukCuk.Controllers
                 return true;
             else
                 return false;
+        }
+
+        /// <summary>
+        /// Xóa nhiều nhân viên dựa trên danh sách EmployeeId truyền vào
+        /// CreatedBy: NDHuy (12/08/2020)
+        /// </summary>
+        /// <param name="listEmployeeId"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<IActionResult> deleteMultipleEmployee([FromBody]ArrayList listEmployeeId)
+        {
+
+            foreach(String id in listEmployeeId)
+            {
+                Guid idInGuid = Guid.Parse(id);
+                var employee = await _context.Employee.FindAsync(idInGuid);
+                if (employee != null)
+                {
+                    _context.Employee.Remove(employee);
+                    await _context.SaveChangesAsync();
+                }
+  
+            }
+            return NoContent();
         }
     }
 }
